@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc/client";
-import { AccentColorPreview } from "@/components/admin/accent-color-preview";
+import {
+  ThemeConfigurator,
+  type ThemeMode,
+} from "@/components/admin/theme-configurator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +16,7 @@ import { Loader2, Save } from "lucide-react";
 const DEFAULT_ACCENT = "#2563eb";
 
 export default function SiteConfigPage() {
+  const [theme, setTheme] = useState<ThemeMode>("system");
   const [accentColor, setAccentColor] = useState(DEFAULT_ACCENT);
   const [heroTagline, setHeroTagline] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
@@ -24,6 +28,7 @@ export default function SiteConfigPage() {
   // Seed form from fetched data
   useEffect(() => {
     if (config) {
+      setTheme((config.theme as ThemeMode) ?? "system");
       setAccentColor(config.accentColor ?? DEFAULT_ACCENT);
       setHeroTagline(config.heroTagline ?? "");
       setMetaDescription(config.metaDescription ?? "");
@@ -47,6 +52,7 @@ export default function SiteConfigPage() {
 
   const handleSave = () => {
     updateMutation.mutate({
+      theme,
       accentColor,
       heroTagline,
       metaDescription,
@@ -109,44 +115,12 @@ export default function SiteConfigPage() {
       </div>
 
       {/* Theme Settings Section */}
-      <section className="space-y-6 rounded-lg border border-border p-6">
-        <h2 className="text-xl font-semibold text-foreground">Theme Settings</h2>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Accent Color Input */}
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="accent-color">Accent Color</Label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="color"
-                  id="accent-color-picker"
-                  value={accentColor}
-                  onChange={(e) => setAccentColor(e.target.value)}
-                  className="h-9 w-12 cursor-pointer rounded-md border border-input bg-transparent p-0.5"
-                  aria-label="Pick accent color"
-                />
-                <Input
-                  id="accent-color"
-                  type="text"
-                  value={accentColor}
-                  onChange={(e) => setAccentColor(e.target.value)}
-                  placeholder="#2563eb"
-                  className="max-w-[10rem] font-mono"
-                  aria-describedby="accent-color-help"
-                />
-              </div>
-              <p id="accent-color-help" className="text-xs text-muted-foreground">
-                Choose a hex color for your site&apos;s accent. Used for buttons,
-                links, and interactive elements.
-              </p>
-            </div>
-          </div>
-
-          {/* Live Preview */}
-          <AccentColorPreview hexColor={accentColor} />
-        </div>
-      </section>
+      <ThemeConfigurator
+        theme={theme}
+        accentColor={accentColor}
+        onThemeChange={setTheme}
+        onAccentColorChange={setAccentColor}
+      />
 
       {/* Content Section */}
       <section className="space-y-6 rounded-lg border border-border p-6">

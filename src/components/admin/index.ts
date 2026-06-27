@@ -6,4 +6,19 @@ export type { ProjectTableItem } from "./project-table";
 
 export { ProjectForm } from "./project-form";
 
+export { ExperienceTable, SortableExperienceItem, formatDateRange } from "./experience-table";
+export type { ExperienceItem } from "./experience-table";
+
+export { ExperienceForm } from "./experience-form";
+export type { ExperienceFormProps } from "./experience-form";
+
 export { AccentColorPreview } from "./accent-color-preview";
+
+export { ThemeConfigurator } from "./theme-configurator";
+export type { ThemeConfiguratorProps, ThemeMode } from "./theme-configurator";
+
+export { CertificationTable, getExpiryStatus } from "./certification-table";
+export type { CertificationTableItem } from "./certification-table";
+
+export { CertificationForm } from "./certification-form";
+export type { CertificationFormProps, CertFormData } from "./certification-form";

@@ -54,7 +54,7 @@ export function ProjectTable({
     <>
       {/* Desktop table view */}
       <div className="hidden md:block overflow-x-auto rounded-lg border border-border">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm" aria-label="Projects">
           <thead>
             <tr className="border-b border-border bg-muted/50">
               <th className="px-4 py-3 text-left font-medium text-muted-foreground">

@@ -149,7 +149,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {serverError && (
-        <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
+        <div role="alert" className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
           {serverError}
         </div>
       )}
@@ -166,8 +166,11 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           onChange={(e) => setTitle(e.target.value)}
           className={inputClasses}
           placeholder="My Awesome Project"
+          aria-required="true"
+          aria-invalid={errors.title ? true : undefined}
+          aria-describedby={errors.title ? "title-error" : undefined}
         />
-        {errors.title && <p className={errorClasses}>{errors.title}</p>}
+        {errors.title && <p id="title-error" role="alert" className={errorClasses}>{errors.title}</p>}
       </div>
 
       {/* Slug */}
@@ -182,11 +185,13 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           onChange={(e) => handleSlugChange(e.target.value)}
           className={inputClasses}
           placeholder="my-awesome-project"
+          aria-invalid={errors.slug ? true : undefined}
+          aria-describedby={errors.slug ? "slug-error slug-help" : "slug-help"}
         />
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+        <p id="slug-help" className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           Auto-generated from title. Edit manually to override.
         </p>
-        {errors.slug && <p className={errorClasses}>{errors.slug}</p>}
+        {errors.slug && <p id="slug-error" role="alert" className={errorClasses}>{errors.slug}</p>}
       </div>
 
       {/* Description */}
@@ -201,9 +206,12 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           className={inputClasses}
           rows={2}
           placeholder="A short description of the project"
+          aria-required="true"
+          aria-invalid={errors.description ? true : undefined}
+          aria-describedby={errors.description ? "description-error" : undefined}
         />
         {errors.description && (
-          <p className={errorClasses}>{errors.description}</p>
+          <p id="description-error" role="alert" className={errorClasses}>{errors.description}</p>
         )}
       </div>
 
@@ -219,9 +227,11 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           className={inputClasses}
           rows={5}
           placeholder="Detailed description with markdown support"
+          aria-invalid={errors.longDescription ? true : undefined}
+          aria-describedby={errors.longDescription ? "longDescription-error" : undefined}
         />
         {errors.longDescription && (
-          <p className={errorClasses}>{errors.longDescription}</p>
+          <p id="longDescription-error" role="alert" className={errorClasses}>{errors.longDescription}</p>
         )}
       </div>
 
@@ -237,12 +247,16 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           onChange={(e) => setTechStack(e.target.value)}
           className={inputClasses}
           placeholder="React, TypeScript, Node.js"
+          aria-describedby={
+            errors.techStack ? "techStack-error techStack-help" : "techStack-help"
+          }
+          aria-invalid={errors.techStack ? true : undefined}
         />
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+        <p id="techStack-help" className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           Comma-separated list of technologies
         </p>
         {errors.techStack && (
-          <p className={errorClasses}>{errors.techStack}</p>
+          <p id="techStack-error" role="alert" className={errorClasses}>{errors.techStack}</p>
         )}
       </div>
 
@@ -258,6 +272,9 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
             setCategory(e.target.value as (typeof projectCategories)[number])
           }
           className={inputClasses}
+          aria-required="true"
+          aria-invalid={errors.category ? true : undefined}
+          aria-describedby={errors.category ? "category-error" : undefined}
         >
           {projectCategories.map((cat) => (
             <option key={cat} value={cat}>
@@ -266,7 +283,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           ))}
         </select>
         {errors.category && (
-          <p className={errorClasses}>{errors.category}</p>
+          <p id="category-error" role="alert" className={errorClasses}>{errors.category}</p>
         )}
       </div>
 
@@ -282,9 +299,11 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           onChange={(e) => setGithubUrl(e.target.value)}
           className={inputClasses}
           placeholder="https://github.com/user/repo"
+          aria-invalid={errors.githubUrl ? true : undefined}
+          aria-describedby={errors.githubUrl ? "githubUrl-error" : undefined}
         />
         {errors.githubUrl && (
-          <p className={errorClasses}>{errors.githubUrl}</p>
+          <p id="githubUrl-error" role="alert" className={errorClasses}>{errors.githubUrl}</p>
         )}
       </div>
 
@@ -300,8 +319,10 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           onChange={(e) => setLiveUrl(e.target.value)}
           className={inputClasses}
           placeholder="https://myproject.com"
+          aria-invalid={errors.liveUrl ? true : undefined}
+          aria-describedby={errors.liveUrl ? "liveUrl-error" : undefined}
         />
-        {errors.liveUrl && <p className={errorClasses}>{errors.liveUrl}</p>}
+        {errors.liveUrl && <p id="liveUrl-error" role="alert" className={errorClasses}>{errors.liveUrl}</p>}
       </div>
 
       {/* Thumbnail URL */}
@@ -316,9 +337,11 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
           onChange={(e) => setThumbnailUrl(e.target.value)}
           className={inputClasses}
           placeholder="https://cdn.example.com/thumb.jpg"
+          aria-invalid={errors.thumbnailUrl ? true : undefined}
+          aria-describedby={errors.thumbnailUrl ? "thumbnailUrl-error" : undefined}
         />
         {errors.thumbnailUrl && (
-          <p className={errorClasses}>{errors.thumbnailUrl}</p>
+          <p id="thumbnailUrl-error" role="alert" className={errorClasses}>{errors.thumbnailUrl}</p>
         )}
       </div>
 
@@ -350,6 +373,8 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
               setStatus(e.target.value as (typeof projectStatuses)[number])
             }
             className={inputClasses}
+            aria-invalid={errors.status ? true : undefined}
+            aria-describedby={errors.status ? "status-error" : undefined}
           >
             {projectStatuses.map((s) => (
               <option key={s} value={s}>
@@ -358,7 +383,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
             ))}
           </select>
           {errors.status && (
-            <p className={errorClasses}>{errors.status}</p>
+            <p id="status-error" role="alert" className={errorClasses}>{errors.status}</p>
           )}
         </div>
       </div>

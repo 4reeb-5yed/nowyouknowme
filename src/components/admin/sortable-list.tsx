@@ -28,6 +28,8 @@ interface SortableListProps<T extends { id: string }> {
   items: T[];
   onReorder: (items: { id: string; displayOrder: number }[]) => void;
   renderItem: (item: T, dragHandleProps: DragHandleProps) => React.ReactNode;
+  /** Accessible label describing the reorderable list for assistive tech. */
+  ariaLabel?: string;
 }
 
 export interface DragHandleProps {
@@ -68,6 +70,7 @@ function SortableItem<T extends { id: string }>({
     <div
       ref={setNodeRef}
       style={style}
+      role="listitem"
       className={cn(
         "relative rounded-lg border border-border bg-background transition-shadow",
         isDragging && "z-50 shadow-lg opacity-50"
@@ -82,6 +85,7 @@ export function SortableList<T extends { id: string }>({
   items,
   onReorder,
   renderItem,
+  ariaLabel,
 }: SortableListProps<T>) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -142,7 +146,7 @@ export function SortableList<T extends { id: string }>({
         items={items.map((item) => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="flex flex-col gap-2" role="list">
+        <div className="flex flex-col gap-2" role="list" aria-label={ariaLabel}>
           {items.map((item) => (
             <SortableItem
               key={item.id}

@@ -33,8 +33,14 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
+            // 'unsafe-inline' is required in script-src so the next-themes
+            // bootstrap <script> can run synchronously before first paint and
+            // apply the persisted/system theme without a flash of unstyled
+            // content (Requirement 7.5). A nonce-based policy would be stricter
+            // but forces dynamic rendering, which disables the ISR strategy the
+            // public pages rely on (Requirements 7.1, 17.2).
             value:
-              "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self'; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+              "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self'; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
           },
           {
             key: "X-Content-Type-Options",

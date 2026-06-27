@@ -33,7 +33,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             alt={`Project thumbnail for ${project.title}`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-cover transition-transform motion-safe:group-hover:scale-105"
             loading="lazy"
             placeholder="blur"
             blurDataURL={PLACEHOLDER_BLUR}

@@ -198,6 +198,7 @@ export default function SocialLinksPage() {
         <SortableList
           items={linkList}
           onReorder={handleReorder}
+          ariaLabel="Social links, drag to reorder"
           renderItem={(item, dragHandleProps) => (
             <SortableLinkItem
               item={item}
@@ -278,7 +279,7 @@ function SortableLinkItem({
           size="sm"
           onClick={() => onToggleVisibility(item)}
           disabled={isToggling}
-          aria-label={item.isVisible ? "Hide link" : "Show link"}
+          aria-label={item.isVisible ? `Hide ${item.platform} link` : `Show ${item.platform} link`}
           title={item.isVisible ? "Hide link" : "Show link"}
         >
           {item.isVisible ? (
@@ -292,7 +293,7 @@ function SortableLinkItem({
           variant="ghost"
           size="sm"
           onClick={() => onEdit(item)}
-          aria-label="Edit link"
+          aria-label={`Edit ${item.platform} link`}
         >
           <Pencil className="size-4" aria-hidden="true" />
         </Button>
@@ -301,7 +302,7 @@ function SortableLinkItem({
           variant="ghost"
           size="sm"
           onClick={() => onDelete(item.id)}
-          aria-label="Delete link"
+          aria-label={`Delete ${item.platform} link`}
         >
           <Trash2 className="size-4 text-destructive" aria-hidden="true" />
         </Button>
@@ -408,9 +409,12 @@ function SocialLinkFormModal({
               placeholder="e.g. GitHub, LinkedIn, Twitter"
               className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               maxLength={100}
+              aria-required="true"
+              aria-invalid={errors.platform ? true : undefined}
+              aria-describedby={errors.platform ? "platform-error" : undefined}
             />
             {errors.platform && (
-              <p className="mt-1 text-xs text-destructive">{errors.platform}</p>
+              <p id="platform-error" role="alert" className="mt-1 text-xs text-destructive">{errors.platform}</p>
             )}
           </div>
 
@@ -429,9 +433,12 @@ function SocialLinkFormModal({
               placeholder="https://github.com/username"
               className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               maxLength={500}
+              aria-required="true"
+              aria-invalid={errors.url ? true : undefined}
+              aria-describedby={errors.url ? "url-error" : undefined}
             />
             {errors.url && (
-              <p className="mt-1 text-xs text-destructive">{errors.url}</p>
+              <p id="url-error" role="alert" className="mt-1 text-xs text-destructive">{errors.url}</p>
             )}
           </div>
 

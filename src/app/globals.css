@@ -225,4 +225,15 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /*
+     Essential feedback animations remain enabled. A loading/submit spinner
+     communicates ongoing progress (it is functional feedback, not decorative
+     motion), so it is exempt from the neutralization above. All non-essential
+     animations and transitions remain disabled per Requirement 11.6.
+  */
+  .animate-spin {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
 }

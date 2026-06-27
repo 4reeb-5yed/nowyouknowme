@@ -2,180 +2,315 @@
 
 ## Overview
 
-This implementation plan covers the full-stack portfolio web application with a public-facing site and CMS dashboard. The app uses Next.js 14 (App Router), Tailwind CSS with shadcn/ui, tRPC for the API layer, Drizzle ORM with PostgreSQL, NextAuth.js for authentication, and Cloudflare R2 for file storage. Tasks are organized into phases progressing from scaffolding through feature implementation, polish, and deployment.
+This updated implementation plan focuses on remaining gaps identified after the initial build. The core application (Next.js 14 App Router, tRPC, Drizzle ORM, PostgreSQL, NextAuth.js v5, Cloudflare R2, Tailwind + shadcn/ui) is functional. Remaining work covers: testing infrastructure and property-based tests, extracting inline admin components into reusable modules, adding missing admin UI components specified in the design, and final integration hardening.
 
 ## Tasks
 
-### Phase 1: Scaffold, DB Schema, Auth, Empty CMS Shell
+- [x] 1. Set up testing infrastructure
+  - [x] 1.1 Install Vitest, fast-check, @testing-library/react, and jsdom as dev dependencies with pinned versions
+    - Install: vitest, @vitejs/plugin-react, fast-check, @testing-library/react, @testing-library/jest-dom, jsdom
+    - Create vitest.config.ts with path aliases matching tsconfig, jsdom environment, and setup files
+    - Add `"test": "vitest --run"` and `"test:watch": "vitest"` scripts to package.json
+    - _Requirements: 16.3_
 
-- [x] 1.1 Initialize Next.js 14 project with App Router, TypeScript strict mode, Tailwind CSS, and ESLint configuration
-- [x] 1.2 Install and configure core dependencies: tRPC v11, Drizzle ORM, NextAuth.js v5, Zod, next-themes, shadcn/ui
-- [x] 1.3 Set up directory structure following the design document (app/, components/, server/, lib/, types/, styles/, config/)
-- [x] 1.4 Configure Tailwind CSS with design tokens (CSS custom properties for theme colors, spacing, typography)
-- [x] 1.5 Create Drizzle ORM configuration and database connection module (src/server/db/index.ts)
-- [x] 1.6 Define all database schemas: User, Project, Section, Social_Link, Resume, Site_Config (src/server/db/schema/)
-- [x] 1.7 Define Experience and Certification database schemas (src/server/db/schema/experience.ts, src/server/db/schema/certification.ts)
-  - Experience schema: id, company_name, role_title, start_date, end_date (nullable), description, tech_stack (JSON), display_order, is_visible, created_at, updated_at
-  - Certification schema: id, certification_name, issuing_organization, issue_date, expiry_date (nullable), credential_id, credential_url, display_order, is_visible, created_at, updated_at
-  - _Requirements: 15.8, 15.9, 18.1, 19.1_
-- [x] 1.8 Define future stub schemas: Post, Subscriber, Testimonial (src/server/db/schema/)
-- [x] 1.9 Generate and run initial database migration to create all tables with constraints and enums
-- [x] 1.10 Configure NextAuth.js v5 with Credentials provider, JWT session strategy, and single-user model (src/lib/auth.ts)
-- [x] 1.11 Create auth middleware to protect all /admin/* routes (src/middleware.ts)
-- [x] 1.12 Create the NextAuth route handler (src/app/api/auth/[...nextauth]/route.ts)
-- [x] 1.13 Create login page with email/password form, client-side validation, and generic error messaging (src/app/admin/login/page.tsx)
-- [x] 1.14 Create seed script to insert the Owner account with hashed password (scripts/seed.ts)
-- [x] 1.15 Set up tRPC initialization with auth context, create root router, and HTTP handler route (src/server/api/)
-- [x] 1.16 Create the CMS Dashboard layout shell with sidebar navigation, auth check, and placeholder pages (src/app/admin/)
-- [x] 1.17 Create root layout with theme provider (next-themes), font preloading, and analytics component slot (src/app/layout.tsx)
-- [x] 1.18 Configure environment variables schema with Zod validation (src/config/env.ts)
-- [x] 1.19 Configure security headers in next.config.js (CSP, HSTS, X-Frame-Options, etc.)
-- [x] 1.20 Create shared utility functions: cn(), slugify(), formatDate() (src/lib/utils.ts)
-- [x] 1.21 Set up CSS theme tokens for light/dark mode and accent color custom properties (src/styles/globals.css, src/styles/themes.css)
+  - [x] 1.2 Create test setup file and shared test utilities
+    - Create tests/setup.ts with @testing-library/jest-dom matchers
+    - Create tests/utils/ with mock factories for DB records (project, experience, certification, etc.)
+    - Create tests/utils/trpc-test-helpers.ts with helper to create test tRPC callers with mocked context
+    - _Requirements: 16.1, 16.4_
 
-### Phase 2: Projects CRUD in CMS + Public Projects Page + Detail Page
+- [x] 2. Validate and harden Zod validation schemas with property tests
+  - [x] 2.1 Write unit tests for project validator schema
+    - Test valid project creation input acceptance
+    - Test slug regex enforcement (a-z, 0-9, hyphens only)
+    - Test enum constraint on category field
+    - Test required field rejection when missing
+    - _Requirements: 2.7, 2.9_
 
-- [x] 2.1 Create Zod validation schemas for Project create/update operations (src/lib/validators/project.ts)
-- [x] 2.2 Create project service layer with CRUD operations, slug generation, and reorder logic (src/server/services/project.service.ts)
-- [x] 2.3 Create tRPC projects router with all procedures: list, getBySlug, listAll, create, update, delete, reorder (src/server/api/routers/projects.ts)
-- [x] 2.4 Create Project form component with all fields, client-side validation, and slug auto-generation (src/components/admin/project-form.tsx)
-- [x] 2.5 Create Projects table component with columns for title, category, status, display_order, and action buttons (src/components/admin/project-table.tsx)
-- [x] 2.6 Implement drag-and-drop reordering for projects using @dnd-kit (src/components/admin/sortable-list.tsx)
-- [x] 2.7 Create CMS Projects page integrating table, form modal, reorder, and publish/draft toggle (src/app/admin/projects/page.tsx)
-- [x] 2.8 Create public ProjectCard component with thumbnail, title, category badge, description, and featured indicator (src/components/public/project-card.tsx)
-- [x] 2.9 Create public ProjectGrid component with category filter tabs (src/components/public/project-grid.tsx)
-- [x] 2.10 Create public Projects listing page with ISR, category filtering, and grid layout (src/app/(public)/projects/page.tsx)
-- [x] 2.11 Create public Project detail page with full content, tech stack tags, links, and ISR (src/app/(public)/projects/[slug]/page.tsx)
-- [x] 2.12 Add dynamic metadata generation for project listing and detail pages (title, description, OG tags)
-- [x] 2.13 Handle 404 for non-existent or draft project slugs with notFound() (src/app/(public)/projects/[slug]/page.tsx)
+  - [x] 2.2 Write property test for input validation round-trip (Property 6)
+    - **Property 6: Input Validation Round-Trip**
+    - Generate arbitrary valid inputs conforming to project schema, verify both client and server schemas accept them identically
+    - **Validates: Requirements 2.7, 8.4, 18.8, 19.8**
 
-### Phase 3: About, Hero, Social Links, Resume, Experience, Certifications — CMS Editors + Public Rendering
+  - [x] 2.3 Write unit tests for experience validator schema
+    - Test valid experience creation acceptance
+    - Test start_date must be before end_date when end_date is provided
+    - Test null end_date is valid (current position)
+    - _Requirements: 18.8, 18.9_
 
-- [x] 3.1 Create Zod validation schemas for Section content updates and Social Link operations (src/lib/validators/)
-- [x] 3.2 Create Zod validation schemas for Experience entries (src/lib/validators/experience.ts)
-  - Validate company_name, role_title, start_date, end_date, description, tech_stack, is_visible
-  - Enforce start_date must be before end_date when end_date is provided
-  - _Requirements: 18.8, 18.9_
-- [x] 3.3 Create Zod validation schemas for Certification entries (src/lib/validators/certification.ts)
-  - Validate certification_name, issuing_organization, issue_date, expiry_date, credential_id, credential_url, is_visible
-  - Enforce expiry_date must be after issue_date when expiry_date is provided
-  - Validate credential_url as a valid URL format when provided
-  - _Requirements: 19.8, 19.9_
-- [x] 3.4 Create content service layer for Section CRUD with sanitization (src/server/services/content.service.ts)
-- [x] 3.5 Create social link service layer with CRUD and reorder (src/server/services/social-link.service.ts)
-- [x] 3.6 Create resume service layer with upload, activation, and deactivation logic (src/server/services/resume.service.ts)
-- [x] 3.7 Create experience service layer with CRUD and reorder (src/server/services/experience.service.ts)
-  - Implement listVisible (ordered most recent first), listAll, create, update, delete, reorder
-  - _Requirements: 18.1, 18.2, 18.3, 18.4, 18.5_
-- [x] 3.8 Create certification service layer with CRUD and reorder (src/server/services/certification.service.ts)
-  - Implement listVisible (ordered by display_order), listAll, create, update, delete, reorder
-  - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.5_
-- [x] 3.9 Create tRPC content router: getSection, updateSection (src/server/api/routers/content.ts)
-- [x] 3.10 Create tRPC social links router: listVisible, listAll, create, update, delete, reorder (src/server/api/routers/social-links.ts)
-- [x] 3.11 Create tRPC resume router: getActive, listAll, setActive (src/server/api/routers/resume.ts)
-- [x] 3.12 Create tRPC experience router: listVisible, listAll, create, update, delete, reorder (src/server/api/routers/experience.ts)
-  - Public procedure: listVisible returns visible entries sorted most recent first
-  - Protected procedures: listAll, create, update, delete, reorder require auth
-  - _Requirements: 18.1, 18.2, 18.3, 18.4, 18.5, 18.6_
-- [x] 3.13 Create tRPC certifications router: listVisible, listAll, create, update, delete, reorder (src/server/api/routers/certifications.ts)
-  - Public procedure: listVisible returns visible entries in display_order
-  - Protected procedures: listAll, create, update, delete, reorder require auth
-  - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.5, 19.6_
-- [x] 3.14 Create CMS content editor page for About section and Hero tagline with rich text support (src/app/admin/content/page.tsx)
-- [x] 3.15 Create CMS social links manager with add/remove/reorder/toggle visibility (src/app/admin/social-links/page.tsx)
-- [x] 3.16 Create CMS resume manager with upload, current file display, and replace functionality (src/app/admin/resume/page.tsx)
-- [x] 3.17 Create CMS experience manager page with table, form, reorder, and visibility toggle (src/app/admin/experience/page.tsx)
-  - Table columns: company_name, role_title, date range, visibility status, action buttons
-  - Form with all fields, client-side Zod validation, drag-and-drop reorder
-  - _Requirements: 18.1, 18.2, 18.3, 18.4, 18.5, 18.10_
-- [x] 3.18 Create CMS certifications manager page with table, form, reorder, and visibility toggle (src/app/admin/certifications/page.tsx)
-  - Table columns: certification_name, issuing_organization, issue_date, expiry status, visibility status, action buttons
-  - Form with all fields, client-side Zod validation, drag-and-drop reorder
-  - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.5, 19.10_
-- [x] 3.19 Create upload service for file validation and R2 storage (src/server/services/upload.service.ts)
-- [x] 3.20 Create file upload API route with MIME type validation and size limits (src/app/api/upload/route.ts)
-- [x] 3.21 Create Zod validation schema for resume uploads (src/lib/validators/resume.ts)
-- [x] 3.22 Create public Hero component rendering the hero tagline from Site_Config (src/components/public/hero.tsx)
-- [x] 3.23 Create public About page rendering the About section content with ISR (src/app/(public)/about/page.tsx)
-- [x] 3.24 Create public SocialLinks component rendering visible links in order (src/components/public/social-links.tsx)
-- [x] 3.25 Create public ResumeButton component with conditional rendering based on active resume (src/components/public/resume-button.tsx)
-- [x] 3.26 Create public experience timeline component (src/components/public/experience-timeline.tsx)
-  - Display entries chronologically with most recent first
-  - Show "Present" for entries with null end_date
-  - Show tech_stack tags and description for each entry
-  - _Requirements: 18.6, 18.7_
-- [x] 3.27 Create public certification card component (src/components/public/certification-card.tsx)
-  - Display certification_name, issuing_organization, issue_date, expiry info
-  - Render credential_url as verifiable link opening in new tab when available
-  - _Requirements: 19.6, 19.7_
-- [x] 3.28 Create public Experience page with timeline layout and ISR (src/app/(public)/experience/page.tsx)
-  - Fetch visible experiences via tRPC, render using experience-timeline component
-  - Include dynamic metadata generation
-  - _Requirements: 18.6, 18.7_
-- [x] 3.29 Create public Certifications page with card layout and ISR (src/app/(public)/certifications/page.tsx)
-  - Fetch visible certifications via tRPC, render using certification-card component
-  - Include dynamic metadata generation
-  - _Requirements: 19.6, 19.7_
-- [x] 3.30 Create public Homepage composing Hero, About preview, and Featured projects (src/app/(public)/page.tsx)
-- [x] 3.31 Add input sanitization for rich text content to prevent stored XSS (src/lib/sanitize.ts)
+  - [x] 2.4 Write property test for date range invariant (Property 11)
+    - **Property 11: Date Range Invariant**
+    - Generate arbitrary date pairs, verify the validator rejects entries where start_date > end_date for Experience, and where expiry_date < issue_date for Certifications
+    - **Validates: Requirements 18.9, 19.9**
 
-### Phase 4: Contact Form, Skills Section, SEO Metadata, Sitemap
+  - [x] 2.5 Write unit tests for certification validator schema
+    - Test valid certification creation acceptance
+    - Test expiry_date must be after issue_date when expiry_date is provided
+    - Test credential_url format validation
+    - Test nullable fields (credential_id, credential_url, expiry_date)
+    - _Requirements: 19.8, 19.9_
 
-- [x] 4.1 Create Zod validation schema for contact form submissions (src/lib/validators/contact.ts)
-- [x] 4.2 Create email service using Resend for contact form delivery (src/server/services/email.service.ts)
-- [x] 4.3 Create contact form API route with server validation and rate limiting (src/app/api/contact/route.ts)
-- [x] 4.4 Create public ContactForm component with client-side validation, error display, and success state (src/components/public/contact-form.tsx)
-- [x] 4.5 Create public Contact page with form and social links (src/app/(public)/contact/page.tsx)
-- [x] 4.6 Create public SkillsDisplay component with domain grouping and filter functionality (src/components/public/skills-display.tsx)
-- [x] 4.7 Add Skills section to CMS content editor for managing skills by domain (src/app/admin/content/page.tsx)
-- [x] 4.8 Create dynamic sitemap.ts generating URLs for all published projects and static pages (src/app/sitemap.ts)
-- [x] 4.9 Create robots.ts allowing public pages and disallowing /admin/* routes (src/app/robots.ts)
-- [x] 4.10 Create site-config service layer for reading and updating Site_Config (src/server/services/site-config.service.ts)
-- [x] 4.11 Create tRPC site-config router: get, update (src/server/api/routers/site-config.ts)
-- [x] 4.12 Implement dynamic metadata generation for all public pages using Site_Config values (generateMetadata in each page)
-- [x] 4.13 Add OpenGraph and Twitter Card meta tags to all public pages
-- [x] 4.14 Add JSON-LD structured data to homepage and project detail pages
-- [x] 4.15 Implement rate limiting utility for API routes (src/lib/rate-limit.ts)
+  - [x] 2.6 Write unit tests for contact form validator schema
+    - Test valid submission acceptance
+    - Test email format validation
+    - Test required fields (name, email, message) rejection when missing
+    - _Requirements: 8.2, 8.4_
 
-### Phase 5: Theme Configurator, Layout Variants, Design Polish
+- [x] 3. Checkpoint - Ensure all validation tests pass
+  - Ensure all tests pass, ask the user if questions arise.
 
-- [x] 5.1 Create CMS Site Config page with theme settings, accent color picker, SEO metadata fields, and OG image (src/app/admin/site-config/page.tsx)
-- [x] 5.2 Create Zod validation schema for site-config updates (src/lib/validators/site-config.ts)
-- [x] 5.3 Implement live accent color preview in the theme configurator before save
-- [x] 5.4 Create theme-toggle component for public site (light/dark/system) with localStorage persistence (src/components/public/theme-toggle.tsx)
-- [x] 5.5 Implement CSS custom property injection from Site_Config at the root layout level for runtime theming
-- [x] 5.6 Ensure accent color contrast checking — validate minimum 4.5:1 ratio against background in configurator
-- [x] 5.7 Apply prefers-reduced-motion media query to disable all non-essential animations
-- [x] 5.8 Polish all public page layouts: consistent spacing, typography scale, responsive breakpoints
-- [x] 5.9 Polish CMS Dashboard layout: consistent form styling, loading states, toast notifications
-- [x] 5.10 Add transition animations for page navigations and component state changes (motion-safe only)
-- [x] 5.11 Implement error boundaries and fallback UI for all major page sections
-- [x] 5.12 Create CMS Dashboard home page with quick stats (project count, last update, etc.) (src/app/admin/dashboard/page.tsx)
+- [x] 4. Service layer tests and property tests
+  - [x] 4.1 Write unit tests for project service (create, update, delete, reorder)
+    - Test project creation persists all fields correctly
+    - Test slug uniqueness enforcement on create/update
+    - Test status transitions (draft → published, published → draft)
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-### Phase 6: Performance Audit, A11y Audit, Lighthouse Pass, Production Deployment
+  - [x] 4.2 Write property test for project slug uniqueness (Property 1)
+    - **Property 1: Project Slug Uniqueness**
+    - Generate arbitrary slug strings, verify that creating two projects with the same slug always results in a constraint violation
+    - **Validates: Requirements 15.2**
 
-- [x] 6.1 Configure Next.js Image component for all images with proper sizing, lazy loading, and responsive srcset
-- [x] 6.2 Implement font preloading strategy with font-display swap to prevent FOUT/FOIT
-- [x] 6.3 Audit and fix all images for missing or inadequate alt text
-- [x] 6.4 Audit and fix heading hierarchy (h1-h6) on all pages for logical document structure
-- [x] 6.5 Audit and fix all interactive elements for keyboard accessibility (tab order, focus indicators, enter/space activation)
-- [x] 6.6 Verify WCAG 2.1 AA color contrast compliance across all theme variants and accent colors
-- [x] 6.7 Test and verify Core Web Vitals: LCP < 2.5s, CLS < 0.1, INP < 200ms using Lighthouse
-- [x] 6.8 Add cache-control headers for static assets and uploaded files
-- [x] 6.9 Configure Cloudflare R2 bucket with appropriate CORS and caching policies
-- [x] 6.10 Create production environment variable documentation and .env.example file
-- [x] 6.11 Configure Vercel deployment with environment variables, build settings, and custom domain
-- [x] 6.12 Set up on-demand ISR revalidation triggered after CMS mutations for instant content updates
-- [x] 6.13 Write comprehensive README with setup instructions, architecture overview, environment variables, and deployment guide
-- [x] 6.14 Run final Lighthouse audit targeting 90+ scores across Performance, Accessibility, Best Practices, and SEO
+  - [x] 4.3 Write property test for display order consistency (Property 2)
+    - **Property 2: Display Order Consistency**
+    - Generate arbitrary permutations of items, verify that after reorder the result has unique display_order values with no gaps and unchanged item count
+    - **Validates: Requirements 2.6, 5.3, 18.4, 19.4**
 
-### Phase 7: Future Stubs — RAG Chatbot, Analytics, Blog/Writing Section
+  - [x] 4.4 Write unit tests for experience service (create, update, delete, reorder, listVisible)
+    - Test listVisible returns only is_visible=true entries
+    - Test listVisible returns entries sorted most recent start_date first
+    - Test reorder updates display_order for all affected entries
+    - _Requirements: 18.1, 18.2, 18.3, 18.4, 18.5, 18.6_
 
-- [x] 7.1 Create RAG chatbot API stub route returning 501 Not Implemented (src/app/api/chat/route.ts)
-- [x] 7.2 Create newsletter subscribe API stub route returning 501 Not Implemented (src/app/api/subscribe/route.ts)
-- [x] 7.3 Create analytics component slot in root layout with placeholder (src/components/analytics.tsx)
-- [x] 7.4 Create blog/writing section stub with placeholder page and navigation link (disabled) (src/app/(public)/writing/page.tsx)
-- [x] 7.5 Document future integration points in README: vector DB setup for RAG, analytics provider integration, blog CMS extension
+  - [x] 4.5 Write property test for draft visibility invariant (Property 4)
+    - **Property 4: Draft Visibility Invariant**
+    - Generate mixed sets of published/draft projects and visible/hidden experiences and certifications, verify public queries never return hidden items
+    - **Validates: Requirements 2.4, 2.5, 3.4, 18.5, 19.5**
+
+  - [x] 4.6 Write unit tests for certification service (create, update, delete, reorder, listVisible)
+    - Test listVisible returns only is_visible=true entries in display_order
+    - Test reorder updates display_order for all affected entries
+    - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.5, 19.6_
+
+  - [x] 4.7 Write unit tests for resume service (upload, setActive, deactivation logic)
+    - Test uploading a new resume sets previous resumes to is_active=false
+    - Test at most one resume is active at any time
+    - _Requirements: 6.1, 6.2_
+
+  - [x] 4.8 Write property test for active resume singleton (Property 5)
+    - **Property 5: Active Resume Singleton**
+    - Generate arbitrary sequences of resume uploads, verify that at all intermediate states at most one resume is active
+    - **Validates: Requirements 6.2**
+
+  - [x] 4.9 Write unit tests for upload service (MIME type validation, size limits)
+    - Test acceptance of valid types: application/pdf, image/jpeg, image/png, image/webp
+    - Test rejection of invalid MIME types regardless of file extension
+    - Test rejection of files exceeding 10 MB
+    - _Requirements: 12.5, 14.3, 14.4_
+
+  - [x] 4.10 Write property test for file upload type safety (Property 8)
+    - **Property 8: File Upload Type Safety**
+    - Generate arbitrary MIME type strings, verify only the allowed set is accepted regardless of extension
+    - **Validates: Requirements 12.5, 14.4**
+
+  - [x] 4.11 Write unit tests for content service (sanitization of rich text)
+    - Test that script tags are stripped from saved content
+    - Test that event handler attributes (onclick, onerror) are removed
+    - Test that safe HTML (p, strong, em, a) is preserved
+    - _Requirements: 4.5, 12.1_
+
+  - [x] 4.12 Write property test for XSS prevention on rich text (Property 9)
+    - **Property 9: XSS Prevention on Rich Text**
+    - Generate arbitrary HTML strings with script tags and event handlers, verify sanitized output contains no executable elements
+    - **Validates: Requirements 4.5, 12.1**
+
+- [ ] 5. Checkpoint - Ensure all service tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 6. tRPC router integration tests
+  - [x] 6.1 Write integration tests for projects router (auth enforcement, input validation)
+    - Test unauthenticated calls to protected procedures return UNAUTHORIZED
+    - Test public procedures (list, getBySlug) work without auth
+    - Test invalid input returns validation error
+    - _Requirements: 1.5, 12.6_
+
+  - [x] 6.2 Write property test for authentication gate invariant (Property 3)
+    - **Property 3: Authentication Gate Invariant**
+    - Generate arbitrary procedure names from protected routers, verify all reject unauthenticated calls
+    - **Validates: Requirements 1.5**
+
+  - [x] 6.3 Write integration tests for experience router (auth, CRUD, visibility filtering)
+    - Test listVisible excludes hidden entries
+    - Test create/update/delete require authentication
+    - Test chronological sort order of listVisible results
+    - _Requirements: 18.1, 18.5, 18.6_
+
+  - [x] 6.4 Write property test for experience chronological display order (Property 12)
+    - **Property 12: Experience Chronological Display Order**
+    - Generate arbitrary sets of visible experiences with varied start_dates, verify listVisible always returns them in reverse chronological order
+    - **Validates: Requirements 18.6**
+
+  - [x] 6.5 Write integration tests for certifications router (auth, CRUD, visibility filtering)
+    - Test listVisible excludes hidden entries and returns in display_order
+    - Test create/update/delete require authentication
+    - _Requirements: 19.1, 19.5, 19.6_
+
+  - [x] 6.6 Write integration tests for site-config router
+    - Test get returns current config for public access
+    - Test update requires authentication
+    - _Requirements: 7.1, 7.2_
+
+  - [x] 6.7 Write integration tests for contact form API route (validation, rate limiting)
+    - Test valid submissions are accepted
+    - Test invalid submissions return field-level errors
+    - Test rate limiting rejects after threshold exceeded
+    - _Requirements: 8.1, 8.2, 8.5_
+
+- [ ] 7. Checkpoint - Ensure all router tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 8. Extract and refine admin components
+  - [-] 8.1 Extract ExperienceTable and ExperienceForm into dedicated component files (src/components/admin/experience-table.tsx, src/components/admin/experience-form.tsx)
+    - Move inline components from src/app/admin/experience/page.tsx into separate files
+    - Ensure proper TypeScript interfaces for props
+    - Import extracted components back into the page
+    - _Requirements: 16.1, 16.2, 18.10_
+
+  - [ ] 8.2 Extract CertificationTable and CertificationForm into dedicated component files (src/components/admin/certification-table.tsx, src/components/admin/certification-form.tsx)
+    - Move inline components from src/app/admin/certifications/page.tsx into separate files
+    - Ensure proper TypeScript interfaces for props
+    - Import extracted components back into the page
+    - _Requirements: 16.1, 16.2, 19.10_
+
+  - [ ] 8.3 Create dedicated ContentEditor component (src/components/admin/content-editor.tsx)
+    - Extract rich text editing logic from admin content page into a reusable component
+    - Support Section key prop and content save callback
+    - Include XSS sanitization on submit
+    - _Requirements: 4.1, 4.2, 4.5, 16.1_
+
+  - [ ] 8.4 Create dedicated SocialLinkList component (src/components/admin/social-link-list.tsx)
+    - Extract social link management UI into a dedicated component
+    - Support add, remove, reorder, toggle visibility actions
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 16.1_
+
+  - [ ] 8.5 Create dedicated ResumeUploader component (src/components/admin/resume-uploader.tsx)
+    - Extract resume upload UI into a dedicated component
+    - Show current active resume, upload new, and replace functionality
+    - Client-side validation for PDF type and 10MB size limit
+    - _Requirements: 6.1, 6.5, 16.1_
+
+  - [x] 8.6 Create dedicated ThemeConfigurator component (src/components/admin/theme-configurator.tsx)
+    - Extract theme/accent color configuration UI into a dedicated component
+    - Include live accent color preview before save
+    - Include contrast ratio validation (4.5:1 minimum)
+    - _Requirements: 7.1, 7.6, 11.7, 16.1_
+
+- [x] 9. SEO and sitemap tests
+  - [x] 9.1 Write unit tests for sitemap generation
+    - Test all published projects are included in sitemap
+    - Test draft projects are excluded from sitemap
+    - Test all static pages are included
+    - _Requirements: 9.3_
+
+  - [x] 9.2 Write property test for sitemap completeness (Property 10)
+    - **Property 10: Sitemap Completeness**
+    - Generate arbitrary sets of published and draft projects, verify sitemap includes exactly the published set
+    - **Validates: Requirements 9.3, 9.4**
+
+  - [x] 9.3 Write unit tests for robots.txt generation
+    - Test public pages are allowed
+    - Test /admin/* routes are disallowed
+    - _Requirements: 9.4_
+
+- [ ] 10. Public rendering component tests
+  - [x] 10.1 Write component tests for ExperienceTimeline rendering
+    - Test entries display in chronological order (most recent first)
+    - Test null end_date displays "Present"
+    - Test tech_stack tags render correctly
+    - _Requirements: 18.6, 18.7_
+
+  - [x] 10.2 Write property test for current position display (Property 13)
+    - **Property 13: Current Position Display**
+    - Generate arbitrary experience entries with null end_date, verify rendered output contains "Present" text
+    - **Validates: Requirements 18.7**
+
+  - [x] 10.3 Write component tests for CertificationCard rendering
+    - Test credential_url renders as verifiable link with target="_blank" and rel="noopener noreferrer"
+    - Test entries without credential_url do not render a link
+    - Test expiry information displays correctly
+    - _Requirements: 19.6, 19.7_
+
+  - [x] 10.4 Write property test for credential URL rendering (Property 14)
+    - **Property 14: Credential URL Rendering**
+    - Generate arbitrary certifications with non-null credential_url, verify rendered anchor has target="_blank" and rel="noopener noreferrer"
+    - **Validates: Requirements 19.7**
+
+  - [x] 10.5 Write component tests for ProjectGrid with category filtering
+    - Test all published projects display by default
+    - Test category filter shows only matching projects
+    - Test featured projects have a visual indicator
+    - _Requirements: 3.1, 3.2, 3.5_
+
+  - [x] 10.6 Write component tests for ContactForm validation
+    - Test required field error messages display on empty submit
+    - Test email format validation feedback
+    - Test success state rendering after submission
+    - _Requirements: 8.2, 8.3_
+
+- [ ] 11. Checkpoint - Ensure all component and SEO tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 12. Theme system and accessibility hardening
+  - [ ] 12.1 Verify and fix theme toggle behavior (light/dark/system) across all pages
+    - Ensure next-themes class strategy applies without FOUC
+    - Verify localStorage persistence of visitor preference
+    - Verify system prefers-color-scheme is respected as default
+    - _Requirements: 7.4, 7.5_
+
+  - [ ] 12.2 Write property test for theme application without layout shift (Property 7)
+    - **Property 7: Theme Application Without Layout Shift**
+    - Generate arbitrary accent color values, verify CSS custom property updates do not trigger reflow (validate only CSS variable changes, no layout properties mutated)
+    - **Validates: Requirements 7.1, 7.5**
+
+  - [ ] 12.3 Audit and enforce ARIA attributes on all interactive admin components
+    - Ensure drag-and-drop sortable items have appropriate aria-labels
+    - Ensure modals have role="dialog" and aria-modal="true"
+    - Ensure form inputs have associated labels
+    - _Requirements: 11.1, 11.3, 11.4_
+
+  - [ ] 12.4 Verify prefers-reduced-motion disables all non-essential animations
+    - Check page transitions, hover effects, and loading animations respect the media query
+    - Ensure only essential feedback animations (form submit spinner) remain
+    - _Requirements: 11.6_
+
+- [ ] 13. Final integration and wiring
+  - [ ] 13.1 Verify on-demand ISR revalidation triggers after all CMS mutations
+    - Ensure project create/update/delete triggers revalidation of /projects and /projects/[slug]
+    - Ensure experience/certification mutations trigger revalidation of respective public pages
+    - Ensure content/site-config updates trigger homepage and about page revalidation
+    - _Requirements: 17.2_
+
+  - [ ] 13.2 Verify JSON-LD structured data on homepage and project detail pages
+    - Ensure homepage has Organization/Person structured data
+    - Ensure project detail pages have CreativeWork structured data
+    - Validate JSON-LD output against schema.org specs
+    - _Requirements: 9.6_
+
+  - [ ] 13.3 Verify dynamic metadata generation for all public pages
+    - Each page generates unique title and description
+    - OpenGraph and Twitter Card tags are present on all pages
+    - Experience and Certifications pages have proper metadata
+    - _Requirements: 9.1, 9.2_
+
+  - [ ] 13.4 Verify extension points for future features are in place
+    - Confirm /api/chat stub returns 501
+    - Confirm /api/subscribe stub returns 501
+    - Confirm analytics component slot is in root layout
+    - Confirm writing/blog page has placeholder content
+    - _Requirements: 16.5_
+
+- [ ] 14. Final checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
 
@@ -183,10 +318,10 @@ This implementation plan covers the full-stack portfolio web application with a 
 - Each task references specific requirements for traceability
 - Checkpoints ensure incremental validation between phases
 - The design uses TypeScript throughout — all implementation tasks use TypeScript
-- Experience and Certifications follow the same CRUD + reorder + visibility pattern as Social Links and Projects
-- ISR (Incremental Static Regeneration) with 60-second revalidation is used for all public content pages
-- On-demand revalidation is triggered after CMS mutations for near-instant content updates
-- Authentication is single-user (Owner only) with no public registration
+- Testing uses Vitest + fast-check for property-based tests, @testing-library/react for component tests
+- The core application (services, routers, pages, schemas) is already implemented — these tasks focus on testing, component extraction, and hardening
+- Property tests validate universal correctness properties defined in the design document
+- Unit tests validate specific examples and edge cases
 
 ## Task Dependency Graph
 
@@ -194,26 +329,19 @@ This implementation plan covers the full-stack portfolio web application with a 
 {
   "waves": [
     { "id": 0, "tasks": ["1.1"] },
-    { "id": 1, "tasks": ["1.2", "1.3"] },
-    { "id": 2, "tasks": ["1.4", "1.5", "1.17", "1.18", "1.19", "1.20", "1.21"] },
-    { "id": 3, "tasks": ["1.6", "1.7", "1.8", "1.9", "1.10"] },
-    { "id": 4, "tasks": ["1.11", "1.12", "1.13", "1.14", "1.15"] },
-    { "id": 5, "tasks": ["1.16"] },
-    { "id": 6, "tasks": ["2.1", "2.2", "3.1", "3.2", "3.3"] },
-    { "id": 7, "tasks": ["2.3", "2.4", "2.5", "2.6", "3.4", "3.5", "3.6", "3.7", "3.8"] },
-    { "id": 8, "tasks": ["2.7", "2.8", "2.9", "3.9", "3.10", "3.11", "3.12", "3.13"] },
-    { "id": 9, "tasks": ["2.10", "2.11", "2.12", "2.13", "3.14", "3.15", "3.16", "3.17", "3.18"] },
-    { "id": 10, "tasks": ["3.19", "3.20", "3.21", "3.22", "3.24", "3.26", "3.27"] },
-    { "id": 11, "tasks": ["3.23", "3.25", "3.28", "3.29", "3.30", "3.31"] },
-    { "id": 12, "tasks": ["4.1", "4.2", "4.10", "4.15"] },
-    { "id": 13, "tasks": ["4.3", "4.4", "4.5", "4.6", "4.7", "4.11"] },
-    { "id": 14, "tasks": ["4.8", "4.9", "4.12", "4.13", "4.14"] },
-    { "id": 15, "tasks": ["5.1", "5.2", "5.3", "5.4", "5.5"] },
-    { "id": 16, "tasks": ["5.6", "5.7", "5.8", "5.9", "5.10", "5.11", "5.12"] },
-    { "id": 17, "tasks": ["6.1", "6.2", "6.3", "6.4", "6.5", "6.6"] },
-    { "id": 18, "tasks": ["6.7", "6.8", "6.9", "6.10", "6.11", "6.12"] },
-    { "id": 19, "tasks": ["6.13", "6.14"] },
-    { "id": 20, "tasks": ["7.1", "7.2", "7.3", "7.4", "7.5"] }
+    { "id": 1, "tasks": ["1.2"] },
+    { "id": 2, "tasks": ["2.1", "2.3", "2.5", "2.6"] },
+    { "id": 3, "tasks": ["2.2", "2.4"] },
+    { "id": 4, "tasks": ["4.1", "4.4", "4.6", "4.7", "4.9", "4.11"] },
+    { "id": 5, "tasks": ["4.2", "4.3", "4.5", "4.8", "4.10", "4.12"] },
+    { "id": 6, "tasks": ["6.1", "6.3", "6.5", "6.6", "6.7"] },
+    { "id": 7, "tasks": ["6.2", "6.4"] },
+    { "id": 8, "tasks": ["8.1", "8.2", "8.3", "8.4", "8.5", "8.6"] },
+    { "id": 9, "tasks": ["9.1", "9.3", "10.1", "10.3", "10.5", "10.6"] },
+    { "id": 10, "tasks": ["9.2", "10.2", "10.4"] },
+    { "id": 11, "tasks": ["12.1", "12.3", "12.4"] },
+    { "id": 12, "tasks": ["12.2"] },
+    { "id": 13, "tasks": ["13.1", "13.2", "13.3", "13.4"] }
   ]
 }
 ```

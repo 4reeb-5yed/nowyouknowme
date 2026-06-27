@@ -186,6 +186,7 @@ export default function ProjectsPage() {
             size="sm"
             onClick={() => setViewMode("table")}
             aria-label="Table view"
+            aria-pressed={viewMode === "table"}
           >
             <List className="size-4" aria-hidden="true" />
             <span className="ml-1 hidden sm:inline">List</span>
@@ -195,6 +196,7 @@ export default function ProjectsPage() {
             size="sm"
             onClick={() => setViewMode("reorder")}
             aria-label="Reorder view"
+            aria-pressed={viewMode === "reorder"}
           >
             <ArrowUpDown className="size-4" aria-hidden="true" />
             <span className="ml-1 hidden sm:inline">Reorder</span>
@@ -233,6 +235,7 @@ export default function ProjectsPage() {
         <SortableList
           items={projectList}
           onReorder={handleReorder}
+          ariaLabel="Projects, drag to reorder"
           renderItem={(item, dragHandleProps) => (
             <SortableProjectItem item={item} dragHandleProps={dragHandleProps} />
           )}

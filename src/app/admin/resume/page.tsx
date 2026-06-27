@@ -180,7 +180,7 @@ export default function ResumePage() {
         <h2 className="text-lg font-semibold text-foreground">
           Upload New Resume
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-sm text-muted-foreground" id="resume-file-help">
           Accepts PDF files up to {MAX_FILE_SIZE_MB}MB.
         </p>
 
@@ -200,6 +200,10 @@ export default function ResumePage() {
                 accept="application/pdf"
                 onChange={handleFileChange}
                 className="mt-1.5 block w-full text-sm text-muted-foreground file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary hover:file:bg-primary/20"
+                aria-invalid={validationError ? true : undefined}
+                aria-describedby={
+                  validationError ? "resume-file-error resume-file-help" : "resume-file-help"
+                }
               />
             </div>
             <Button
@@ -214,7 +218,7 @@ export default function ResumePage() {
 
           {/* Validation error */}
           {validationError && (
-            <div className="flex items-center gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2">
+            <div id="resume-file-error" role="alert" className="flex items-center gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2">
               <AlertCircle className="size-4 shrink-0 text-destructive" aria-hidden="true" />
               <p className="text-sm text-destructive">{validationError}</p>
             </div>

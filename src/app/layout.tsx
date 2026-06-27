@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeInjector } from "@/components/theme-injector";
 import { Analytics } from "@/components/analytics";
 import { clientEnv } from "@/config/env";
+import { getConfig } from "@/server/services/site-config.service";
+import { resolveDefaultTheme } from "@/lib/theme";
 import "./globals.css";
 
 /**
@@ -63,6 +65,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const config = await getConfig();
+  const defaultTheme = resolveDefaultTheme(config?.theme);
+
   return (
     <html
       lang="en"
@@ -75,7 +80,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme={defaultTheme}
           enableSystem={true}
           disableTransitionOnChange
         >
