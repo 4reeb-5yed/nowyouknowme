@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Theme System - Supplementary Token Definitions
+   ==========================================================================
+   
+   PRIMARY TOKENS: src/app/globals.css
+   This file provides supplementary theme utilities for runtime accent color
+   injection and additional theme variations. The core design tokens (light mode
+   in :root, dark mode in .dark, typography, spacing, and the Tailwind v4
+   @theme inline block) are defined in src/app/globals.css.
+
+   THEME ARCHITECTURE:
+   - Light/dark mode: Controlled via `next-themes` with the `class` strategy.
+     The `.dark` class is toggled on <html> and `prefers-color-scheme` is the
+     default until the visitor makes a choice (stored in localStorage).
+   - Accent color: Stored in the database (site_config.accentColor) and injected
+     at the root layout level via SSR. ISR regenerates on change — no rebuild.
+   - Runtime override: The `[data-accent-color]` attribute selector below allows
+     JavaScript to inject a custom accent at runtime (e.g., theme configurator
+     preview in the CMS).
+
+   ========================================================================== */
+
+/* ==========================================================================
+   Runtime Accent Color Override
+   --------------------------------------------------------------------------
+   Apply `data-accent-color` on any ancestor element (typically <html> or a
+   wrapper) to override the accent color at runtime without a page reload.
+
+   Usage (JS):
+     document.documentElement.setAttribute('data-accent-color', '#8b5cf6');
+     document.documentElement.style.setProperty('--accent-hue', '270');
+     document.documentElement.style.setProperty('--accent-chroma', '0.25');
+
+   The CMS theme configurator uses this for live preview before saving.
+   ========================================================================== */
+
+[data-accent-color] {
+  --accent: oklch(0.588 var(--accent-chroma, 0.214) var(--accent-hue, 264));
+  --ring: oklch(0.588 var(--accent-chroma, 0.214) var(--accent-hue, 264));
+}
+
+.dark [data-accent-color],
+[data-accent-color].dark {
+  --accent: oklch(0.588 var(--accent-chroma, 0.214) var(--accent-hue, 264));
+  --ring: oklch(0.588 var(--accent-chroma, 0.214) var(--accent-hue, 264));
+}
+
+/* ==========================================================================
+   Accent Color Intensity Variants
+   --------------------------------------------------------------------------
+   Utility classes for accent color variations (lighter/darker shades).
+   These complement the base --accent token from globals.css.
+   ========================================================================== */
+
+:root {
+  --accent-light: oklch(0.75 0.15 var(--accent-hue, 264));
+  --accent-dark: oklch(0.45 0.2 var(--accent-hue, 264));
+  --accent-subtle: oklch(0.95 0.03 var(--accent-hue, 264));
+}
+
+.dark {
+  --accent-light: oklch(0.7 0.18 var(--accent-hue, 264));
+  --accent-dark: oklch(0.4 0.15 var(--accent-hue, 264));
+  --accent-subtle: oklch(0.25 0.04 var(--accent-hue, 264));
+}
+
+/* ==========================================================================
+   Theme Transition Utilities
+   --------------------------------------------------------------------------
+   Smooth transitions when switching between light and dark mode.
+   Apply `.theme-transition` to the root element during theme switches.
+   ========================================================================== */
+
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+}
+
+/* ==========================================================================
+   High Contrast Mode
+   --------------------------------------------------------------------------
+   Utility for visitors who prefer higher contrast. Automatically activates
+   via prefers-contrast media query or manually via data attribute.
+   ========================================================================== */
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: oklch(0.7 0 0);
+    --muted-foreground: oklch(0.35 0 0);
+  }
+
+  .dark {
+    --border: oklch(0.5 0 0);
+    --muted-foreground: oklch(0.8 0 0);
+  }
+}
+
+[data-high-contrast="true"] {
+  --border: oklch(0.7 0 0);
+  --muted-foreground: oklch(0.35 0 0);
+}
+
+.dark[data-high-contrast="true"],
+.dark [data-high-contrast="true"] {
+  --border: oklch(0.5 0 0);
+  --muted-foreground: oklch(0.8 0 0);
+}
