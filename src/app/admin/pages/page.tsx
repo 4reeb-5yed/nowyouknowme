@@ -292,7 +292,7 @@ export default function ContentPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-foreground">
-          Content
+          Pages
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Edit the text content for different sections of your portfolio site.
