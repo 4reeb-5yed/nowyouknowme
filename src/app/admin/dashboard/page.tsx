@@ -242,8 +242,8 @@ export default function DashboardPage() {
             description="Add credentials and certs"
           />
           <QuickActionLink
-            href="/admin/content"
-            label="Edit Content"
+            href="/admin/pages"
+            label="Edit Pages"
             description="Update hero, about, and skills"
           />
         </div>
