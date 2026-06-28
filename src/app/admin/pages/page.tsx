@@ -175,9 +175,9 @@ export default function ContentPage() {
   });
 
   // Fetch all sections
-  const aboutQuery = trpc.content.getSection.useQuery({ key: "about" });
-  const skillsQuery = trpc.content.getSection.useQuery({ key: "skills" });
-  const contactQuery = trpc.content.getSection.useQuery({ key: "contact" });
+  const aboutQuery = trpc.pages.getSection.useQuery({ key: "about" });
+  const skillsQuery = trpc.pages.getSection.useQuery({ key: "skills" });
+  const contactQuery = trpc.pages.getSection.useQuery({ key: "contact" });
 
   // Seed text drafts from fetched data
   useEffect(() => {
@@ -201,11 +201,11 @@ export default function ContentPage() {
 
   // Mutation
   const utils = trpc.useUtils();
-  const updateMutation = trpc.content.updateSection.useMutation({
+  const updateMutation = trpc.pages.updateSection.useMutation({
     onSuccess: (_data, variables) => {
       const key = variables.key as AllSectionKey;
       setSaveStatus((prev) => ({ ...prev, [key]: "idle" }));
-      utils.content.getSection.invalidate({ key });
+      utils.pages.getSection.invalidate({ key });
       toast.success("Content saved successfully");
     },
     onError: (_err, variables) => {

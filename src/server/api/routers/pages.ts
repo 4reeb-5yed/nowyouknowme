@@ -16,7 +16,7 @@ function revalidateContentPages() {
   revalidatePath("/contact");
 }
 
-export const contentRouter = createTRPCRouter({
+export const pagesRouter = createTRPCRouter({
   /**
    * Get a section by key (public).
    */

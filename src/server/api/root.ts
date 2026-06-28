@@ -3,7 +3,7 @@
  */
 import { createCallerFactory, createTRPCRouter } from "./trpc";
 import { certificationsRouter } from "./routers/certifications";
-import { contentRouter } from "./routers/content";
+import { pagesRouter } from "./routers/pages";
 import { experienceRouter } from "./routers/experience";
 import { projectsRouter } from "./routers/projects";
 import { resumeRouter } from "./routers/resume";
@@ -12,11 +12,10 @@ import { socialLinksRouter } from "./routers/social-links";
 
 /**
  * Main application router.
- * Sub-routers will be added here as features are implemented.
  */
 export const appRouter = createTRPCRouter({
   certifications: certificationsRouter,
-  content: contentRouter,
+  pages: pagesRouter,
   experience: experienceRouter,
   projects: projectsRouter,
   resume: resumeRouter,
