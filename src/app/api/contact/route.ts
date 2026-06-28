@@ -12,7 +12,7 @@ function getClientIp(request: NextRequest): string {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
     // x-forwarded-for can contain multiple IPs; take the first (client IP)
-    return forwarded.split(",")[0].trim();
+    return forwarded.split(",")[0]?.trim();
   }
 
   const realIp = request.headers.get("x-real-ip");
