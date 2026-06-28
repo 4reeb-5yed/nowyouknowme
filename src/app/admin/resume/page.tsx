@@ -18,7 +18,7 @@ const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 export default function ResumePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
-  const [uploadMessage, setUploadMessage] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const utils = trpc.useUtils();
@@ -39,6 +39,17 @@ export default function ResumePage() {
   } = trpc.resume.listAll.useQuery();
 
   // Mutations
+  const createMutation = trpc.resume.create.useMutation({
+    onSuccess: () => {
+      utils.resume.getActive.invalidate();
+      utils.resume.listAll.invalidate();
+      toast.success("Resume uploaded and activated");
+    },
+    onError: (err) => {
+      toast.error("Failed to save resume", { description: err.message });
+    },
+  });
+
   const setActiveMutation = trpc.resume.setActive.useMutation({
     onSuccess: () => {
       utils.resume.getActive.invalidate();
@@ -53,7 +64,6 @@ export default function ResumePage() {
   // Handlers
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValidationError(null);
-    setUploadMessage(null);
 
     const file = e.target.files?.[0] ?? null;
     if (!file) {
@@ -78,14 +88,42 @@ export default function ResumePage() {
     setSelectedFile(file);
   }
 
-  function handleUpload() {
+  async function handleUpload() {
     if (!selectedFile) return;
 
-    // Placeholder: upload API route (Task 3.20) does not exist yet
-    setUploadMessage("File upload not yet configured");
-    setSelectedFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    setIsUploading(true);
+
+    try {
+      // 1. Upload file to R2 via the API route
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("folder", "resumes");
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error((body as { error?: string }).error ?? "Upload failed");
+      }
+
+      const { url } = (await res.json()) as { url: string };
+
+      // 2. Save the URL to the database and mark as active
+      await createMutation.mutateAsync({ fileUrl: url });
+
+      // 3. Reset form
+      setSelectedFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Upload failed";
+      toast.error("Upload failed", { description: message });
+    } finally {
+      setIsUploading(false);
     }
   }
 
@@ -199,7 +237,8 @@ export default function ResumePage() {
                 type="file"
                 accept="application/pdf"
                 onChange={handleFileChange}
-                className="mt-1.5 block w-full text-sm text-muted-foreground file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary hover:file:bg-primary/20"
+                disabled={isUploading}
+                className="mt-1.5 block w-full text-sm text-muted-foreground file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary hover:file:bg-primary/20 disabled:opacity-50"
                 aria-invalid={validationError ? true : undefined}
                 aria-describedby={
                   validationError ? "resume-file-error resume-file-help" : "resume-file-help"
@@ -208,11 +247,20 @@ export default function ResumePage() {
             </div>
             <Button
               onClick={handleUpload}
-              disabled={!selectedFile}
+              disabled={!selectedFile || isUploading}
               size="default"
             >
-              <Upload className="size-4" aria-hidden="true" />
-              <span className="ml-1.5">Upload</span>
+              {isUploading ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                  <span className="ml-1.5">Uploading…</span>
+                </>
+              ) : (
+                <>
+                  <Upload className="size-4" aria-hidden="true" />
+                  <span className="ml-1.5">Upload</span>
+                </>
+              )}
             </Button>
           </div>
 
@@ -224,18 +272,8 @@ export default function ResumePage() {
             </div>
           )}
 
-          {/* Upload placeholder message */}
-          {uploadMessage && (
-            <div className="flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 dark:border-amber-700 dark:bg-amber-900/20">
-              <AlertCircle className="size-4 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
-              <p className="text-sm text-amber-700 dark:text-amber-300">
-                {uploadMessage}
-              </p>
-            </div>
-          )}
-
           {/* Selected file preview */}
-          {selectedFile && (
+          {selectedFile && !isUploading && (
             <p className="text-sm text-muted-foreground">
               Selected: <span className="font-medium">{selectedFile.name}</span>{" "}
               ({(selectedFile.size / (1024 * 1024)).toFixed(2)} MB)

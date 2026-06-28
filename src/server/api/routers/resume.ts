@@ -24,6 +24,21 @@ export const resumeRouter = createTRPCRouter({
   }),
 
   /**
+   * Create a new resume record after a successful file upload.
+   * Marks it as active and deactivates all previous resumes.
+   */
+  create: protectedProcedure
+    .input(z.object({ fileUrl: z.string().url() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await resumeService.create({
+        userId: ctx.session.user.id,
+        fileUrl: input.fileUrl,
+      });
+      revalidatePath("/", "layout");
+      return result;
+    }),
+
+  /**
    * Set a specific resume as active (protected).
    * Revalidates all pages since the resume button can appear globally.
    */
