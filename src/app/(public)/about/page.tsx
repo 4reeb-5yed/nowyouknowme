@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const trpc = await createServerClient();
-  const section = await trpc.content.getSection({ key: "about" });
+  const section = await trpc.pages.getSection({ key: "about" });
 
   return (
     <main className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
