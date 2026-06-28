@@ -56,7 +56,7 @@ export default async function HomePage() {
   const resumeUrl = activeResume?.fileUrl ?? null;
 
   // Fetch About section content for preview
-  const aboutSection = await trpc.content.getSection({ key: "about" });
+  const aboutSection = await trpc.pages.getSection({ key: "about" });
   const aboutContent = aboutSection?.content ?? "";
 
   // Strip HTML tags for a plain-text preview, truncate to ~200 chars
