@@ -51,8 +51,12 @@ export default async function HomePage() {
   const configRows = await db.select().from(siteConfig).limit(1);
   const tagline = configRows[0]?.heroTagline || DEFAULT_TAGLINE;
 
+  // Fetch active resume for the download button
+  const activeResume = await trpc.resume.getActive();
+  const resumeUrl = activeResume?.fileUrl ?? null;
+
   // Fetch About section content for preview
-  const aboutSection = await trpc.pages.getSection({ key: "about" });
+  const aboutSection = await trpc.content.getSection({ key: "about" });
   const aboutContent = aboutSection?.content ?? "";
 
   // Strip HTML tags for a plain-text preview, truncate to ~200 chars
@@ -97,8 +101,9 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
       {/* Hero Section */}
-      <Hero tagline={tagline} />
+      <Hero tagline={tagline} resumeUrl={resumeUrl} />
 
       {/* About Preview Section */}
       <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20" aria-label="About preview">

@@ -1,5 +1,6 @@
 "use client";
 
+import { RichTextEditor } from "@/components/editor/rich-text-editor";
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc/client";
@@ -429,17 +430,10 @@ export default function ContentPage() {
             >
               {activeTab === "about" ? "About" : "Contact"} Content
             </label>
-            <textarea
-              id={`editor-${activeTab}`}
-              value={textDrafts[activeTab]}
-              onChange={(e) => handleTextChange(activeTab, e.target.value)}
-              placeholder={`Enter ${activeTab} content here... HTML is supported.`}
-              rows={12}
-              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/50 resize-y font-mono"
-            />
-            <p className="text-xs text-muted-foreground">
-              You can use HTML markup for formatting. Script tags and event handlers are automatically removed.
-            </p>
+            <RichTextEditor
+  value={textDrafts[activeTab]}
+  onChange={(value) => handleTextChange(activeTab, value)}
+/>
           </div>
 
           {/* Actions */}

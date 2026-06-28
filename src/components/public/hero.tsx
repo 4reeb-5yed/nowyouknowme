@@ -1,13 +1,16 @@
+import { ResumeButton } from "@/components/public/resume-button";
+
 export interface HeroProps {
   tagline: string;
+  resumeUrl: string | null;
 }
 
 /**
  * Hero section for the homepage.
- * Renders a large, centered hero with the tagline from Site_Config.
- * Server component — no client-side interactivity needed.
+ * Renders a large, centered hero with the tagline from Site_Config
+ * and a Download Resume CTA when an active resume is available.
  */
-export function Hero({ tagline }: HeroProps) {
+export function Hero({ tagline, resumeUrl }: HeroProps) {
   return (
     <section
       className="relative flex min-h-[60vh] items-center justify-center overflow-hidden px-4 py-20 sm:py-28 md:py-36"
@@ -29,6 +32,11 @@ export function Hero({ tagline }: HeroProps) {
         <p className="mt-4 text-base text-muted-foreground sm:mt-6 sm:text-lg md:text-xl">
           Explore my work, experience, and what drives me.
         </p>
+        {resumeUrl && (
+          <div className="mt-8">
+            <ResumeButton resumeUrl={resumeUrl} />
+          </div>
+        )}
       </div>
     </section>
   );
