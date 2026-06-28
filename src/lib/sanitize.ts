@@ -54,6 +54,13 @@ const ALLOWED_TAGS = new Set([
  */
 const ALLOWED_ATTRIBUTES: Record<string, Set<string>> = {
   a: new Set(["href", "title", "target", "rel"]),
+  p: new Set(["style"]),
+  h1: new Set(["style"]),
+  h2: new Set(["style"]),
+  h3: new Set(["style"]),
+  h4: new Set(["style"]),
+  h5: new Set(["style"]),
+  h6: new Set(["style"]),
 };
 
 /**
@@ -159,6 +166,7 @@ function stripDisallowedTags(html: string): string {
 /**
  * Filters an attribute string, keeping only attributes in the allowed set.
  * Validates href values to ensure they don't contain dangerous protocols.
+ * For style attributes, only permits text-align declarations.
  */
 function filterAttributes(attrString: string, allowedAttrs: Set<string>): string {
   const attrs: string[] = [];
@@ -172,6 +180,14 @@ function filterAttributes(attrString: string, allowedAttrs: Set<string>): string
     const attrValue = attrMatch[2] ?? attrMatch[3] ?? attrMatch[4] ?? "";
 
     if (!allowedAttrs.has(attrName)) {
+      continue;
+    }
+
+    // For style, only allow text-align with safe values
+    if (attrName === "style") {
+      const safe = attrValue.match(/text-align\s*:\s*(left|center|right|justify)/i);
+      if (!safe) continue;
+      attrs.push(`style="text-align: ${safe[1]}"`);
       continue;
     }
 
