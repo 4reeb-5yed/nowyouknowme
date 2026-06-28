@@ -1,5 +1,6 @@
 "use client";
 
+import { Toolbar } from "./toolbar";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { useEffect } from "react";
 
@@ -43,9 +44,11 @@ export function RichTextEditor({
 
   if (!editor) return null;
 
-  return (
-    <div className="rounded-lg border border-border">
-      <EditorContent editor={editor} />
-    </div>
-  );
+ return (
+  <div className="overflow-hidden rounded-lg border border-border bg-background">
+    <Toolbar editor={editor} />
+
+    <EditorContent editor={editor} />
+  </div>
+);
 }
