@@ -22,6 +22,7 @@ import {
   ChevronDown,
   Image,
   History,
+  Eye,
 } from "lucide-react";
 
 import { TRPCProvider } from "@/lib/trpc/provider";
@@ -29,6 +30,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { CommandPalette } from "@/components/admin/command-palette";
 import { KeyboardShortcutsHelp } from "@/components/admin/keyboard-shortcuts-help";
+import { LivePreview } from "@/components/admin/live-preview";
 
 const navItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -52,6 +54,15 @@ export default function AdminLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [shortcutsHelpOpen, setShortcutsHelpOpen] = useState(false);
+  
+  // Live preview state
+  const [previewKey, setPreviewKey] = useState(0);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const openPreview = useCallback(() => setIsPreviewOpen(true), []);
+  const closePreview = useCallback(() => setIsPreviewOpen(false), []);
+  const refreshPreview = useCallback(() => setPreviewKey((k) => k + 1), []);
+  const generatePreviewUrl = useCallback(() => "/", []);
 
   // Don't render the sidebar shell for the login page
   if (pathname === "/admin/login") {
@@ -209,6 +220,16 @@ export default function AdminLayout({
               >
                 <Keyboard className="h-5 w-5" aria-hidden="true" />
               </button>
+
+              {/* Live Preview button */}
+              <button
+                onClick={openPreview}
+                className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                aria-label="Live Preview"
+                title="Live Preview"
+              >
+                <Eye className="h-5 w-5" aria-hidden="true" />
+              </button>
             </div>
           </header>
 
@@ -226,6 +247,15 @@ export default function AdminLayout({
         <KeyboardShortcutsHelp 
           open={shortcutsHelpOpen} 
           onOpenChange={setShortcutsHelpOpen} 
+        />
+
+        {/* Live Preview Modal */}
+        <LivePreview
+          url={generatePreviewUrl()}
+          isActive={isPreviewOpen}
+          onClose={closePreview}
+          onRefresh={refreshPreview}
+          className="preview-container"
         />
 
         {/* Toast notifications */}
