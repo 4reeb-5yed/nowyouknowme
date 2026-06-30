@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/public/theme-toggle";
 import { cn } from "@/lib/utils";
 
@@ -15,14 +14,23 @@ const navLinks = [
   { href: "/certifications", label: "Certifications" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-  // TODO: Add { href: "/writing", label: "Writing" } here when the blog section is ready
 ] as const;
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const mobileMenuRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Track scroll position for premium header effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close mobile menu on Escape and trap focus within it
   useEffect(() => {
@@ -35,7 +43,6 @@ export function SiteHeader() {
         return;
       }
 
-      // Focus trap: Tab and Shift+Tab cycle within the mobile menu
       if (e.key === "Tab") {
         const menu = mobileMenuRef.current;
         if (!menu) return;
@@ -66,20 +73,31 @@ export function SiteHeader() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [mobileMenuOpen]);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        isScrolled
+          ? "border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
+          : "bg-transparent border-transparent"
+      )}
+    >
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo / Brand */}
         <Link
           href="/"
-          className="text-lg font-bold tracking-tight transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded-md"
+          className="group flex items-center gap-2 text-lg font-bold tracking-tight transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded-md"
         >
-          NowYouKnowMe
+          <span className="rounded-lg bg-primary/10 p-1.5 text-primary transition-colors group-hover:bg-primary/20">
+            <Sparkles className="h-4 w-4" />
+          </span>
+          <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            NowYouKnowMe
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -95,15 +113,18 @@ export function SiteHeader() {
                 key={href}
                 href={href}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  "hover:bg-muted hover:text-foreground",
+                  "relative rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  "hover:bg-muted/50 hover:text-foreground",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isActive
-                    ? "bg-muted text-foreground"
+                    ? "text-foreground"
                     : "text-muted-foreground"
                 )}
               >
                 {label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-primary" />
+                )}
               </Link>
             );
           })}
@@ -113,7 +134,6 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          {/* Mobile menu button */}
           <button
             ref={menuButtonRef}
             type="button"
@@ -137,7 +157,7 @@ export function SiteHeader() {
         <nav
           ref={mobileMenuRef}
           id="mobile-navigation"
-          className="border-t border-border/40 md:hidden"
+          className="border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden"
           aria-label="Mobile navigation"
         >
           <div className="container mx-auto space-y-1 px-4 py-3">
@@ -153,11 +173,11 @@ export function SiteHeader() {
                   href={href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                    "hover:bg-muted hover:text-foreground",
+                    "block rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
+                    "hover:bg-muted/50 hover:text-foreground",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     isActive
-                      ? "bg-muted text-foreground"
+                      ? "bg-primary/10 text-primary"
                       : "text-muted-foreground"
                   )}
                 >

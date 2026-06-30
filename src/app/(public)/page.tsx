@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { createServerClient } from "@/lib/trpc/server";
 import { Hero } from "@/components/public/hero";
 import { ProjectCard } from "@/components/public/project-card";
+import { ScrollReveal } from "@/components/public/scroll-reveal";
 import { db } from "@/server/db";
 import { siteConfig } from "@/server/db/schema";
 import { clientEnv } from "@/config/env";
@@ -107,50 +108,77 @@ export default async function HomePage() {
 
       {/* About Preview Section */}
       <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20" aria-label="About preview">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            About Me
-          </h2>
-          {aboutPreview ? (
-            <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">{aboutPreview}</p>
-          ) : (
-            <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-              Cybersecurity professional, cloud architect, and web developer.
-            </p>
-          )}
-          <Link
-            href="/about"
-            className="mt-6 inline-block text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Learn more about me →
-          </Link>
-        </div>
+        <ScrollReveal direction="up" delay={0}>
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              About Me
+            </h2>
+            {aboutPreview ? (
+              <p className="mt-6 max-w-2xl mx-auto text-lg leading-relaxed text-muted-foreground">
+                {aboutPreview}
+              </p>
+            ) : (
+              <p className="mt-6 max-w-2xl mx-auto text-lg leading-relaxed text-muted-foreground">
+                Cybersecurity professional, cloud architect, and web developer.
+              </p>
+            )}
+            <Link
+              href="/about"
+              className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Learn more about me 
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
+        </ScrollReveal>
       </section>
 
-      {/* Featured Projects Section */}
-      <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20" aria-label="Featured projects">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Featured Projects
-          </h2>
-          <Link
-            href="/projects"
-            className="text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            See all projects →
-          </Link>
+      {/* Decorative divider */}
+      <div className="relative py-8">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="h-px w-full max-w-xs bg-gradient-to-r from-transparent via-border to-transparent" />
         </div>
+        <div className="relative flex justify-center">
+          <span className="rounded-full border bg-background px-4 py-1 text-xs font-medium text-muted-foreground">
+            ✦
+          </span>
+        </div>
+      </div>
+
+      {/* Featured Projects Section */}
+      <section id="projects" className="container mx-auto px-4 py-12 md:py-16 lg:py-20" aria-label="Featured projects">
+        <ScrollReveal direction="up" delay={0}>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-12">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Featured Projects
+              </h2>
+              <p className="mt-2 text-muted-foreground">
+                Selected work showcasing my expertise
+              </p>
+            </div>
+            <Link
+              href="/projects"
+              className="group inline-flex items-center gap-2 text-sm font-medium text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              See all projects 
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
+        </ScrollReveal>
 
         {featuredProjects.length > 0 ? (
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProjects.map((project, index) => (
+              <ScrollReveal key={project.id} direction="up" delay={index * 100}>
+                <ProjectCard project={project} />
+              </ScrollReveal>
             ))}
           </div>
         ) : (
-          <p className="mt-8 text-muted-foreground">
-            No featured projects yet. Check back soon.
-          </p>
+          <div className="rounded-xl border border-dashed border-muted-foreground/25 p-12 text-center">
+            <p className="text-muted-foreground">No featured projects yet. Check back soon.</p>
+          </div>
         )}
       </section>
     </main>
