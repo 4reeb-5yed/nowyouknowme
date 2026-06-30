@@ -11,18 +11,31 @@ import { cn } from "@/lib/utils";
 const PLACEHOLDER_BLUR =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4=";
 
-const categoryIcons = {
-  cybersecurity: <Shield className="h-3.5 w-3.5" />,
-  cloud: <Cloud className="h-3.5 w-3.5" />,
-  web: <Code className="h-3.5 w-3.5" />,
-  other: <Box className="h-3.5 w-3.5" />,
-};
-
-const categoryGradients = {
-  cybersecurity: "from-emerald-500/20 to-teal-500/20",
-  cloud: "from-blue-500/20 to-indigo-500/20",
-  web: "from-purple-500/20 to-pink-500/20",
-  other: "from-gray-500/20 to-gray-600/20",
+const categoryConfig = {
+  cybersecurity: {
+    icon: Shield,
+    gradient: "from-emerald-500/10 to-teal-500/10",
+    borderGradient: "hover:border-emerald-500/30",
+    iconBg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  },
+  cloud: {
+    icon: Cloud,
+    gradient: "from-blue-500/10 to-indigo-500/10",
+    borderGradient: "hover:border-blue-500/30",
+    iconBg: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+  },
+  web: {
+    icon: Code,
+    gradient: "from-purple-500/10 to-pink-500/10",
+    borderGradient: "hover:border-purple-500/30",
+    iconBg: "bg-purple-500/10 text-purple-600 dark:text-purple-400",
+  },
+  other: {
+    icon: Box,
+    gradient: "from-gray-500/10 to-gray-600/10",
+    borderGradient: "hover:border-gray-500/30",
+    iconBg: "bg-gray-500/10 text-gray-600 dark:text-gray-400",
+  },
 };
 
 export interface ProjectCardProps {
@@ -31,7 +44,7 @@ export interface ProjectCardProps {
 }
 
 /**
- * Elegant ProjectCard with subtle hover effects and clear hierarchy.
+ * Premium ProjectCard with elegant hover effects, category styling, and smooth animations.
  */
 export function ProjectCard({ project, compact = false }: ProjectCardProps) {
   const categoryVariant = project.category as
@@ -40,20 +53,20 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
     | "web"
     | "other";
 
-  const Icon = categoryIcons[categoryVariant] || categoryIcons.other;
-  const gradient = categoryGradients[categoryVariant] || categoryGradients.other;
+  const config = categoryConfig[categoryVariant] || categoryConfig.other;
+  const Icon = config.icon;
 
   if (compact) {
     return (
-      <article className="group relative flex gap-4 rounded-lg border bg-card p-4 transition-all duration-200 hover:bg-muted/30 hover:border-border">
+      <article className="group relative flex gap-4 rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:border-primary/20 hover:shadow-md">
         {/* Thumbnail */}
         {project.thumbnailUrl && (
-          <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-md bg-muted">
+          <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg bg-muted">
             <Image
               src={project.thumbnailUrl}
               alt={`${project.title} thumbnail`}
               fill
-              className="object-cover"
+              className="object-cover transition-transform group-hover:scale-105"
               loading="lazy"
             />
           </div>
@@ -61,13 +74,15 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
 
         {/* Content */}
         <div className="flex flex-1 flex-col justify-center min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-muted-foreground">{Icon}</span>
-            <Badge variant={categoryVariant} className="text-[10px] px-1.5 py-0">
+          <div className="mb-1 flex items-center gap-2">
+            <span className={cn("rounded-md p-1", config.iconBg)}>
+              <Icon className="h-3 w-3" />
+            </span>
+            <Badge variant={categoryVariant} className="text-[10px]">
               {project.category}
             </Badge>
           </div>
-          <h3 className="text-sm font-medium leading-tight truncate group-hover:text-primary transition-colors">
+          <h3 className="text-sm font-medium leading-tight truncate transition-colors group-hover:text-primary">
             <Link
               href={`/projects/${project.slug}`}
               className="after:absolute after:inset-0"
@@ -78,17 +93,17 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
         </div>
 
         <div className="flex items-center text-muted-foreground">
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </div>
       </article>
     );
   }
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-all duration-300 premium-card">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:border-primary/20 hover:shadow-lg hover:-translate-y-1">
       {/* Thumbnail */}
-      {project.thumbnailUrl ? (
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+        {project.thumbnailUrl ? (
           <Image
             src={project.thumbnailUrl}
             alt={`${project.title} thumbnail`}
@@ -99,34 +114,42 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
             placeholder="blur"
             blurDataURL={PLACEHOLDER_BLUR}
           />
-        </div>
-      ) : (
-        <div className={cn(
-          "relative aspect-[16/10] w-full bg-gradient-to-br",
-          gradient
-        )}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="rounded-lg bg-background/50 p-3">
-              {Icon}
+        ) : (
+          <div className={cn(
+            "absolute inset-0 flex items-center justify-center bg-gradient-to-br",
+            config.gradient
+          )}>
+            <div className={cn("rounded-xl p-4", config.iconBg)}>
+              <Icon className="h-8 w-8" />
             </div>
           </div>
-        </div>
-      )}
+        )}
+        
+        {/* Gradient overlay on hover */}
+        <div className={cn(
+          "absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        )} />
+      </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        {/* Category badge */}
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground/60">
-            {Icon}
-          </span>
-          <Badge variant={categoryVariant} className="text-[10px] px-1.5 py-0">
-            {project.category}
-          </Badge>
+      <div className="flex flex-1 flex-col gap-3 p-5">
+        {/* Category */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className={cn("rounded-lg p-1.5", config.iconBg)}>
+              <Icon className="h-3.5 w-3.5" />
+            </span>
+            <Badge variant={categoryVariant} className="text-[10px] font-medium">
+              {project.category}
+            </Badge>
+          </div>
+          {project.isFeatured && (
+            <span className="text-xs font-medium text-amber-500">★ Featured</span>
+          )}
         </div>
 
         {/* Title */}
-        <h3 className="text-base font-semibold leading-tight group-hover:text-primary transition-colors">
+        <h3 className="text-base font-semibold leading-tight transition-colors group-hover:text-primary">
           <Link
             href={`/projects/${project.slug}`}
             className="after:absolute after:inset-0"
@@ -136,23 +159,23 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
         </h3>
 
         {/* Description */}
-        <p className="line-clamp-2 text-sm text-muted-foreground">
+        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {project.description}
         </p>
 
         {/* Tech Stack */}
         {project.techStack.length > 0 && (
-          <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+          <div className="mt-auto flex flex-wrap gap-1.5">
             {project.techStack.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="rounded-full bg-muted/80 px-2 py-0.5 text-xs text-muted-foreground"
+                className="rounded-full bg-muted/80 px-2.5 py-1 text-xs font-medium text-muted-foreground backdrop-blur-sm"
               >
                 {tech}
               </span>
             ))}
             {project.techStack.length > 3 && (
-              <span className="rounded-full bg-muted/80 px-2 py-0.5 text-xs text-muted-foreground">
+              <span className="rounded-full bg-muted/80 px-2.5 py-1 text-xs font-medium text-muted-foreground backdrop-blur-sm">
                 +{project.techStack.length - 3}
               </span>
             )}
@@ -162,10 +185,10 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
         {/* View link */}
         <Link
           href={`/projects/${project.slug}`}
-          className="mt-2 flex items-center gap-1 text-sm font-medium text-primary transition-colors group-hover:underline"
+          className="mt-2 flex items-center gap-1.5 text-sm font-medium text-primary transition-all group-hover:gap-2.5"
         >
           View project
-          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </article>

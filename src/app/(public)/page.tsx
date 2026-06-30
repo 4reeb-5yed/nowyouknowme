@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, BookOpen, FolderKanban, MessageCircle } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { Hero } from "@/components/public/hero";
@@ -13,8 +13,6 @@ import { clientEnv } from "@/config/env";
 export const revalidate = 60;
 
 const DEFAULT_TAGLINE = "Building secure, scalable, and elegant solutions.";
-const DEFAULT_NAME = "Your Name"; // Should come from site config
-const DEFAULT_ROLE = "Cybersecurity Professional & Developer";
 const DEFAULT_DESCRIPTION =
   "Personal portfolio showcasing cybersecurity, cloud, and web development projects.";
 
@@ -99,7 +97,7 @@ export default async function HomePage() {
   };
 
   return (
-    <main>
+    <main className="pt-16">
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
@@ -110,33 +108,48 @@ export default async function HomePage() {
       <Hero tagline={tagline} resumeUrl={resumeUrl} />
 
       {/* About Preview Section */}
-      <section className="container mx-auto px-4 py-16 md:py-20" aria-label="About preview">
-        <ScrollReveal direction="up">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              About Me
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              {aboutPreview || "Cybersecurity professional, cloud architect, and web developer passionate about building secure, scalable solutions."}
-            </p>
-            <Link
-              href="/about"
-              className="group mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-all hover:gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              Read my story
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-        </ScrollReveal>
+      <section className="relative section-gradient-border" aria-label="About preview">
+        <div className="container mx-auto px-4 py-20 md:py-28">
+          <ScrollReveal direction="up">
+            <div className="mx-auto max-w-2xl text-center">
+              {/* Section icon */}
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
+                <BookOpen className="h-6 w-6 text-primary" />
+              </div>
+              
+              <h2 className="text-2xl font-semibold tracking-tight">
+                About Me
+              </h2>
+              <p className="mt-4 leading-relaxed text-muted-foreground">
+                {aboutPreview || "Cybersecurity professional, cloud architect, and web developer passionate about building secure, scalable solutions."}
+              </p>
+              <Link
+                href="/about"
+                className="group mt-8 inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Read my story
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
       </section>
 
       {/* Featured Projects Section */}
-      <section className="container mx-auto px-4 py-16 md:py-20" aria-label="Featured projects">
+      <section className="container mx-auto px-4 py-20 md:py-28" aria-label="Featured projects">
         <ScrollReveal direction="up">
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Featured Work
-            </h2>
+          <div className="mb-10 flex items-end justify-between">
+            <div>
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
+                <FolderKanban className="h-5 w-5 text-primary" />
+              </div>
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Featured Work
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Selected projects showcasing my expertise
+              </p>
+            </div>
           </div>
         </ScrollReveal>
 
@@ -149,8 +162,9 @@ export default async function HomePage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-lg border border-dashed p-8 text-center">
-            <p className="text-muted-foreground">No featured projects yet.</p>
+          <div className="rounded-xl border border-dashed border-border p-12 text-center">
+            <FolderKanban className="mx-auto h-8 w-8 text-muted-foreground/50" />
+            <p className="mt-3 text-muted-foreground">No featured projects yet.</p>
           </div>
         )}
 
@@ -162,32 +176,45 @@ export default async function HomePage() {
                 className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 View all projects
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </ScrollReveal>
         )}
       </section>
 
-      {/* Quick Contact CTA */}
-      <section className="container mx-auto px-4 py-16 md:py-20">
-        <ScrollReveal direction="up">
-          <div className="rounded-2xl border bg-muted/30 p-8 text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-              <Sparkles className="h-6 w-6 text-primary" />
+      {/* Contact CTA Section */}
+      <section className="relative section-gradient-border" aria-label="Contact">
+        <div className="container mx-auto px-4 py-20 md:py-28">
+          <ScrollReveal direction="up">
+            <div className="relative mx-auto max-w-xl overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-muted/50 to-muted/20 p-8 md:p-12">
+              {/* Decorative gradient orb */}
+              <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+              <div className="absolute -left-20 -bottom-20 h-40 w-40 rounded-full bg-primary/5 blur-3xl" />
+              
+              <div className="relative text-center">
+                <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-background shadow-sm">
+                  <MessageCircle className="h-6 w-6 text-primary" />
+                </div>
+                
+                <h2 className="text-xl font-semibold tracking-tight">
+                  Let&apos;s work together
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  Have a project in mind or want to collaborate? I&apos;d love to hear from you.
+                </p>
+                
+                <Link
+                  href="/contact"
+                  className="group mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  Get in touch
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
             </div>
-            <h2 className="text-xl font-semibold">Let&apos;s work together</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Interested in working together? I&apos;d love to hear from you.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              Get in touch
-            </Link>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
       </section>
     </main>
   );

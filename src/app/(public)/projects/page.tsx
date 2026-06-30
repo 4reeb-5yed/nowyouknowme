@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FolderKanban } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { ProjectGrid } from "@/components/public/project-grid";
@@ -39,33 +39,38 @@ export default async function ProjectsPage() {
   }));
 
   return (
-    <main className="container mx-auto px-4 py-12 md:py-16">
-      {/* Back link */}
-      <Link
-        href="/"
-        className="mb-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to home
-      </Link>
+    <main className="min-h-screen pt-24 pb-16">
+      <div className="container mx-auto px-4">
+        {/* Back link */}
+        <Link
+          href="/"
+          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to home
+        </Link>
 
-      {/* Page header */}
-      <header className="mb-10 max-w-2xl">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Projects
-        </h1>
-        <p className="mt-3 text-muted-foreground">
-          A collection of work across cybersecurity, cloud, and web development.
-        </p>
-      </header>
+        {/* Page header */}
+        <header className="mb-12 max-w-2xl">
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
+            <FolderKanban className="h-6 w-6 text-primary" />
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Projects
+          </h1>
+          <p className="mt-3 text-muted-foreground">
+            A collection of work across cybersecurity, cloud, and web development.
+          </p>
+        </header>
 
-      {/* Projects grid */}
-      <section aria-labelledby="project-list-heading">
-        <h2 id="project-list-heading" className="sr-only">
-          Project List
-        </h2>
-        <ProjectGrid projects={projects} />
-      </section>
+        {/* Projects grid */}
+        <section aria-labelledby="project-list-heading">
+          <h2 id="project-list-heading" className="sr-only">
+            Project List
+          </h2>
+          <ProjectGrid projects={projects} />
+        </section>
+      </div>
     </main>
   );
 }

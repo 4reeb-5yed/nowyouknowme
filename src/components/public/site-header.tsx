@@ -23,16 +23,14 @@ export function SiteHeader() {
   const mobileMenuRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Track scroll position for premium header effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on Escape and trap focus within it
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
@@ -80,28 +78,26 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "fixed top-0 z-50 w-full transition-all duration-300",
         isScrolled
-          ? "border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
-          : "bg-transparent border-transparent"
+          ? "border-b bg-background/80 backdrop-blur-xl shadow-sm"
+          : "bg-background/50"
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo / Brand */}
+        {/* Logo */}
         <Link
           href="/"
-          className="group flex items-center gap-2 text-lg font-bold tracking-tight transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded-md"
+          className="group flex items-center gap-2.5 text-base font-semibold tracking-tight transition-all hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
         >
-          <span className="rounded-lg bg-primary/10 p-1.5 text-primary transition-colors group-hover:bg-primary/20">
-            <Sparkles className="h-4 w-4" />
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/10 transition-all group-hover:from-primary/30 group-hover:to-primary/10">
+            <Sparkles className="h-4 w-4 text-primary" />
           </span>
-          <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            NowYouKnowMe
-          </span>
+          <span className="hidden sm:inline">NowYouKnowMe</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
           {navLinks.map(({ href, label }) => {
             const isActive =
               href === "/"
@@ -113,9 +109,9 @@ export function SiteHeader() {
                 key={href}
                 href={href}
                 className={cn(
-                  "relative rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  "hover:bg-muted/50 hover:text-foreground",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "relative px-3 py-2 text-sm font-medium transition-all rounded-md",
+                  "hover:text-foreground",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                   isActive
                     ? "text-foreground"
                     : "text-muted-foreground"
@@ -123,7 +119,7 @@ export function SiteHeader() {
               >
                 {label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-primary" />
+                  <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary" />
                 )}
               </Link>
             );
@@ -131,13 +127,13 @@ export function SiteHeader() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <ThemeToggle />
 
           <button
             ref={menuButtonRef}
             type="button"
-            className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
@@ -160,31 +156,32 @@ export function SiteHeader() {
           className="border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden"
           aria-label="Mobile navigation"
         >
-          <div className="container mx-auto space-y-1 px-4 py-3">
-            {navLinks.map(({ href, label }) => {
-              const isActive =
-                href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(href);
+          <div className="container mx-auto px-4 py-3">
+            <div className="space-y-1">
+              {navLinks.map(({ href, label }) => {
+                const isActive =
+                  href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(href);
 
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={cn(
-                    "block rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
-                    "hover:bg-muted/50 hover:text-foreground",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    isActive
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground"
-                  )}
-                >
-                  {label}
-                </Link>
-              );
-            })}
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "flex items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      isActive
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </nav>
       )}

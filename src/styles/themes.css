@@ -242,3 +242,286 @@
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
+
+/* ==========================================================================
+   Premium Light Mode Enhancements
+   ========================================================================== */
+
+:root {
+  /* Premium shadows for depth */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.04), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.06), 0 8px 10px -6px rgb(0 0 0 / 0.06);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.1);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.03);
+  
+  /* Premium borders */
+  --border-subtle: oklch(0.97 0 0);
+  --border-emphasis: oklch(0.89 0 0);
+  
+  /* Section backgrounds */
+  --section-subtle: oklch(0.985 0 0);
+  --section-muted: oklch(0.97 0 0);
+  
+  /* Glassmorphism */
+  --glass-bg: oklch(1 0 0 / 0.8);
+  --glass-border: oklch(0 0 0 / 5%);
+}
+
+/* Premium card hover */
+:root .premium-card {
+  box-shadow: var(--shadow-sm);
+}
+
+:root .premium-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Premium Dark Mode Enhancements  
+   ========================================================================== */
+
+.dark {
+  /* Premium shadows with dark mode colors */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.25), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.25);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.35), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.2);
+  
+  /* Premium borders */
+  --border-subtle: oklch(0.22 0 0);
+  --border-emphasis: oklch(0.28 0 0);
+  
+  /* Section backgrounds */
+  --section-subtle: oklch(0.17 0 0);
+  --section-muted: oklch(0.14 0 0);
+  
+  /* Glassmorphism for dark mode */
+  --glass-bg: oklch(0.15 0 0 / 0.8);
+  --glass-border: oklch(0 0 0 / 20%);
+}
+
+.dark .premium-card {
+  box-shadow: var(--shadow-sm);
+}
+
+.dark .premium-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Premium Component Styles
+   ========================================================================== */
+
+/* Glassmorphism card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.dark .glass-card {
+  background: var(--glass-bg);
+}
+
+/* Premium section styling */
+.section-subtle {
+  background-color: var(--section-subtle);
+}
+
+.section-muted {
+  background-color: var(--section-muted);
+}
+
+/* Subtle gradient backgrounds */
+.gradient-subtle {
+  background: linear-gradient(
+    135deg,
+    var(--background) 0%,
+    var(--section-subtle) 50%,
+    var(--background) 100%
+  );
+}
+
+.gradient-muted {
+  background: linear-gradient(
+    135deg,
+    var(--background) 0%,
+    var(--section-muted) 100%
+  );
+}
+
+/* Premium divider */
+.divider-subtle {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border) 50%,
+    transparent 100%
+  );
+}
+
+/* Premium text styling */
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, oklch(0.5 0.15 264) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Premium button enhancements */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-premium:hover::before {
+  opacity: 1;
+}
+
+/* Premium link underline animation */
+.link-animated {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.link-animated:hover::after {
+  width: 100%;
+}
+
+/* Premium badge styling */
+.badge-subtle {
+  background: var(--section-muted);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Premium input styling */
+.input-premium {
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-inner);
+}
+
+.input-premium:focus {
+  box-shadow: var(--shadow-md), 0 0 0 3px var(--ring);
+}
+
+/* Premium avatar placeholder */
+.avatar-placeholder {
+  background: linear-gradient(135deg, var(--primary) 0%, oklch(0.5 0.15 264) 100%);
+}
+
+/* Premium badge glow for featured items */
+.glow-primary {
+  box-shadow: 0 0 20px -5px var(--primary);
+}
+
+/* Premium hover lift effect */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Premium scale on hover */
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* ==========================================================================
+   Premium Page Section Layouts
+   ========================================================================== */
+
+/* Section with gradient border top */
+.section-gradient-border {
+  position: relative;
+}
+
+.section-gradient-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border) 20%,
+    var(--border) 80%,
+    transparent 100%
+  );
+}
+
+/* Premium page header */
+.page-header {
+  position: relative;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+  border-radius: 2px;
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 100ms; }
+.stagger-2 { animation-delay: 200ms; }
+.stagger-3 { animation-delay: 300ms; }
+.stagger-4 { animation-delay: 400ms; }
+.stagger-5 { animation-delay: 500ms; }
+
+/* ==========================================================================
+   Premium Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .gradient-subtle,
+  .gradient-muted {
+    background: var(--background);
+  }
+}
