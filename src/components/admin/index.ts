@@ -22,3 +22,7 @@ export type { CertificationTableItem } from "./certification-table";
 
 export { CertificationForm } from "./certification-form";
 export type { CertificationFormProps, CertFormData } from "./certification-form";
+
+// Enhanced CMS components
+export { CommandPalette } from "./command-palette";
+export { KeyboardShortcutsHelp } from "./keyboard-shortcuts-help";

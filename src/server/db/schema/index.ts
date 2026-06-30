@@ -11,6 +11,7 @@ export { resumes } from "./resume";
 export { siteConfig } from "./site-config";
 export { experiences } from "./experience";
 export { certifications } from "./certification";
+export { activityLogs } from "./activity-log";
 
 // Future stubs
 export { posts } from "./post";

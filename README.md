@@ -4,6 +4,7 @@ A full-stack portfolio web application with a built-in CMS dashboard. Manage pro
 
 ## Features
 
+### Public Site
 - **Project Showcase** — CRUD, drag-and-drop reordering, category filtering, featured indicators
 - **Work Experience Timeline** — Chronological display with tech stack tags
 - **Certifications** — Credential management with verification links
@@ -13,6 +14,15 @@ A full-stack portfolio web application with a built-in CMS dashboard. Manage pro
 - **SEO** — Dynamic metadata, Open Graph, JSON-LD structured data, sitemap, robots.txt
 - **Single-User Auth** — Owner-only login with JWT sessions (no public registration)
 - **ISR + On-Demand Revalidation** — Near-instant content updates after CMS edits
+
+### Advanced CMS Dashboard
+- **Command Palette** — Quick navigation and search with `Cmd/Ctrl+K`
+- **Global Search** — Search across all content types (projects, experience, certifications, pages)
+- **Activity Log** — Track all content changes with timestamps and user info
+- **Media Library** — Centralized file management for images and documents
+- **Keyboard Shortcuts** — `Cmd+S` to save, `Cmd+/` for help, full shortcut support
+- **Bulk Actions** — Multi-select and batch operations on content
+- **Real-time Dashboard** — Live activity feed, stats overview, quick actions
 
 ## Tech Stack
 
@@ -194,13 +204,14 @@ nowyouknowme/
 │   │   │   ├── contact/       # Contact form
 │   │   │   └── writing/       # Writing/blog section (future)
 │   │   ├── admin/             # CMS Dashboard (SSR, auth-protected)
-│   │   │   ├── dashboard/     # Dashboard home with stats
+│   │   │   ├── dashboard/     # Dashboard home with stats + activity log
 │   │   │   ├── projects/      # Projects CRUD
 │   │   │   ├── pages/         # Section content editor (About, Skills, Contact)
 │   │   │   ├── social-links/  # Social links manager
 │   │   │   ├── experience/    # Experience CRUD
 │   │   │   ├── certifications/# Certifications CRUD
 │   │   │   ├── resume/        # Resume manager
+│   │   │   ├── media/        # Media library (images, documents)
 │   │   │   └── site-config/   # Theme and SEO settings
 │   │   └── api/               # API routes
 │   │       ├── trpc/          # tRPC HTTP handler
@@ -212,11 +223,16 @@ nowyouknowme/
 │   ├── components/
 │   │   ├── ui/                # shadcn/ui primitives
 │   │   ├── public/            # Public site components
-│   │   ├── admin/             # CMS components
+│   │   ├── admin/             # CMS components (tables, forms, modals)
+│   │   │   ├── command-palette.tsx    # Global search & navigation
+│   │   │   ├── keyboard-shortcuts-help.tsx  # Shortcut reference modal
+│   │   │   └── media-library.tsx       # File management UI
 │   │   ├── editor/            # Rich text editor components
 │   │   └── analytics.tsx      # Analytics placeholder
 │   ├── server/
-│   │   ├── api/               # tRPC routers
+│   │   ├── api/
+│   │   │   ├── routers/       # tRPC routers (projects, experience, search, activity-log, etc.)
+│   │   │   └── trpc.ts       # tRPC configuration
 │   │   ├── services/          # Business logic layer
 │   │   └── db/                # Drizzle ORM (schema, migrations)
 │   ├── lib/

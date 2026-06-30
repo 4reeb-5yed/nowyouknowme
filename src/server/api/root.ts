@@ -9,6 +9,8 @@ import { projectsRouter } from "./routers/projects";
 import { resumeRouter } from "./routers/resume";
 import { siteConfigRouter } from "./routers/site-config";
 import { socialLinksRouter } from "./routers/social-links";
+import { activityLogRouter } from "./routers/activity-log";
+import { searchRouter } from "./routers/search";
 
 /**
  * Main application router.
@@ -21,6 +23,8 @@ export const appRouter = createTRPCRouter({
   resume: resumeRouter,
   siteConfig: siteConfigRouter,
   socialLinks: socialLinksRouter,
+  activityLog: activityLogRouter,
+  search: searchRouter,
 });
 
 export type AppRouter = typeof appRouter;

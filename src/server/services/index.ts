@@ -6,3 +6,4 @@ export * as experienceService from "./experience.service";
 export * as uploadService from "./upload.service";
 export * as emailService from "./email.service";
 export * as siteConfigService from "./site-config.service";
+export * as activityLogService from "./activity-log.service";
