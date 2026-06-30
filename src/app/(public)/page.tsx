@@ -111,26 +111,26 @@ export default async function HomePage() {
       <section className="relative overflow-hidden" aria-label="About preview">
         {/* Background */}
         <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <div className="absolute left-1/4 top-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-primary/15 via-purple-500/10 to-blue-500/15 blur-[120px]" />
+          <div className="absolute left-1/4 top-1/2 h-[40vmin] w-[40vmin] -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/15 via-purple-500/10 to-blue-500/15 blur-[80px]" />
         </div>
         
-        <div className="container mx-auto px-4 py-24 md:py-32">
+        <div className="container mx-auto px-4 py-16 md:py-24">
           <ScrollReveal direction="up">
-            <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto max-w-xl text-center">
               {/* Section icon */}
-              <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/20 to-primary/5 shadow-xl shadow-primary/10">
-                <BookOpen className="h-10 w-10 text-primary" />
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-primary/15 to-primary/5 shadow-lg shadow-primary/5">
+                <BookOpen className="h-7 w-7 text-primary" />
               </div>
               
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                 About Me
               </h2>
-              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 {aboutPreview || "Cybersecurity professional, cloud architect, and web developer passionate about building secure, scalable solutions."}
               </p>
               <Link
                 href="/about"
-                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-border/50 bg-card/80 px-7 py-3 text-sm font-medium shadow-lg backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group mt-8 inline-flex items-center gap-2 rounded-full border border-border/50 bg-card/80 px-6 py-2.5 text-sm font-medium shadow backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Read my story
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -144,20 +144,20 @@ export default async function HomePage() {
       <section className="relative overflow-hidden" aria-label="Featured projects">
         {/* Background */}
         <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <div className="absolute right-1/4 top-1/3 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-primary/15 blur-[100px]" />
+          <div className="absolute right-1/4 top-1/3 h-[35vmin] w-[35vmin] rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-primary/15 blur-[80px]" />
         </div>
 
-        <div className="container mx-auto px-4 py-24 md:py-32">
+        <div className="container mx-auto px-4 py-16 md:py-24">
           <ScrollReveal direction="up">
-            <div className="mb-12 flex items-end justify-between">
+            <div className="mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
               <div>
-                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-purple-500/20 to-pink-500/5 shadow-lg shadow-purple-500/10">
-                  <FolderKanban className="h-7 w-7 text-purple-600 dark:text-purple-400" />
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-purple-500/15 to-pink-500/5 shadow-lg shadow-purple-500/5">
+                  <FolderKanban className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                   Featured Work
                 </h2>
-                <p className="mt-2 text-muted-foreground">
+                <p className="mt-1 text-sm text-muted-foreground">
                   Selected projects showcasing my expertise
                 </p>
               </div>
@@ -165,7 +165,7 @@ export default async function HomePage() {
           </ScrollReveal>
 
           {featuredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {featuredProjects.map((project, index) => (
                 <ScrollReveal key={project.id} direction="up" delay={index * 100}>
                   <ProjectCard project={project} />
@@ -173,18 +173,18 @@ export default async function HomePage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-border/50 bg-card/30 p-16 text-center backdrop-blur-sm">
-              <FolderKanban className="mx-auto h-12 w-12 text-muted-foreground/30" />
-              <p className="mt-4 text-muted-foreground">No featured projects yet.</p>
+            <div className="rounded-2xl border border-dashed border-border/50 bg-card/30 p-12 text-center backdrop-blur-sm">
+              <FolderKanban className="mx-auto h-10 w-10 text-muted-foreground/30" />
+              <p className="mt-3 text-muted-foreground">No featured projects yet.</p>
             </div>
           )}
 
           {featuredProjects.length > 0 && (
             <ScrollReveal direction="up" delay={featuredProjects.length * 100}>
-              <div className="mt-14 flex justify-center">
+              <div className="mt-10 flex justify-center">
                 <Link
                   href="/projects"
-                  className="group inline-flex items-center gap-2.5 rounded-full border border-border/50 bg-card/50 px-6 py-2.5 text-sm font-medium shadow backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="group inline-flex items-center gap-2 rounded-full border border-border/50 bg-card/50 px-5 py-2 text-sm font-medium shadow backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   View all projects
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -199,35 +199,34 @@ export default async function HomePage() {
       <section className="relative overflow-hidden" aria-label="Contact">
         {/* Background */}
         <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/20 via-emerald-500/10 to-teal-500/20 blur-[120px]" />
+          <div className="absolute left-1/2 top-1/2 h-[50vmin] w-[50vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/15 via-emerald-500/10 to-teal-500/15 blur-[80px]" />
         </div>
 
-        <div className="container mx-auto px-4 py-24 md:py-32">
+        <div className="container mx-auto px-4 py-16 md:py-24">
           <ScrollReveal direction="up">
-            <div className="relative mx-auto max-w-xl overflow-hidden rounded-3xl border border-border/50 bg-card/60 backdrop-blur-xl p-10 md:p-14 shadow-2xl shadow-primary/5">
+            <div className="relative mx-auto max-w-lg overflow-hidden rounded-2xl border border-border/50 bg-card/60 backdrop-blur-xl p-8 md:p-12 shadow-xl shadow-primary/5">
               {/* Decorative gradient orbs */}
-              <div className="absolute -right-24 -top-24 h-60 w-60 rounded-full bg-primary/20 blur-3xl" />
-              <div className="absolute -left-24 -bottom-24 h-60 w-60 rounded-full bg-emerald-500/10 blur-3xl" />
-              <div className="absolute right-1/4 top-0 h-1 w-1/2 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+              <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/15 blur-3xl" />
+              <div className="absolute -left-16 -bottom-16 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" />
               
               <div className="relative text-center">
-                <div className="mb-8 inline-flex h-18 w-18 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/20 to-primary/5 shadow-xl shadow-primary/10">
-                  <MessageCircle className="h-9 w-9 text-primary" />
+                <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-primary/15 to-primary/5 shadow-lg shadow-primary/5">
+                  <MessageCircle className="h-7 w-7 text-primary" />
                 </div>
                 
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
                   Let&apos;s work together
                 </h2>
-                <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   Have a project in mind or want to collaborate? I&apos;d love to hear from you.
                 </p>
                 
                 <Link
                   href="/contact"
-                  className="group mt-10 inline-flex items-center gap-2.5 rounded-full bg-primary px-10 py-4 text-base font-medium text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="group mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Get in touch
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>

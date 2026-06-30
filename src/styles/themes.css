@@ -525,3 +525,105 @@
     background: var(--background);
   }
 }
+
+/* ==========================================================================
+   Custom Scrollbar Styling
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+  background-clip: content-box;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-foreground) transparent;
+}
+
+/* ==========================================================================
+   Text Selection Styling
+   ========================================================================== */
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* ==========================================================================
+   Smooth Scrolling
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ==========================================================================
+   Better Focus States
+   ========================================================================== */
+
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================================================
+   Better Typography Rendering
+   ========================================================================== */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ==========================================================================
+   Premium Link Underlines
+   ========================================================================== */
+
+a {
+  text-decoration-skip-ink: auto;
+}
+
+/* ==========================================================================
+   Better Image Rendering
+   ========================================================================== */
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   Remove default button styles for custom buttons
+   ========================================================================== */
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
