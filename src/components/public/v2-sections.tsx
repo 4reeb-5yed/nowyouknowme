@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Sparkles, Briefcase, Code2, Shield, Cloud, Star } from "lucide-react";
+import { ArrowRight, Sparkles, Briefcase, Code2, Shield, Cloud, Star, FolderKanban, Award, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Intersection Observer hook for scroll animations
@@ -26,11 +26,18 @@ function useInView(options = {}) {
   return { ref, isInView };
 }
 
+// Icon mapping for stats
+const iconMap = {
+  FolderKanban,
+  Award,
+  Clock,
+};
+
 // V2 Stats Section - Editorial layout
 interface Stat {
   label: string;
   value: string;
-  icon: React.ElementType;
+  icon: string;
 }
 
 export function V2Stats({ stats }: { stats: Stat[] }) {
@@ -54,24 +61,27 @@ export function V2Stats({ stats }: { stats: Stat[] }) {
           <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-accent/10 to-transparent rounded-br-[2rem]" />
 
           <div className="relative grid grid-cols-3 divide-x divide-border/50">
-            {stats.map((stat, i) => (
-              <div 
-                key={stat.label} 
-                className={cn(
-                  "flex flex-col items-center px-6 py-10 transition-all duration-700",
-                  isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                )}
-                style={{ transitionDelay: `${i * 100}ms` }}
-              >
-                <stat.icon className="w-7 h-7 text-primary mb-4" />
-                <span className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/80 bg-clip-text text-transparent">
-                  {stat.value}
-                </span>
-                <span className="mt-2 text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
+            {stats.map((stat, i) => {
+              const IconComponent = iconMap[stat.icon as keyof typeof iconMap] || FolderKanban;
+              return (
+                <div 
+                  key={stat.label} 
+                  className={cn(
+                    "flex flex-col items-center px-6 py-10 transition-all duration-700",
+                    isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  )}
+                  style={{ transitionDelay: `${i * 100}ms` }}
+                >
+                  <IconComponent className="w-7 h-7 text-primary mb-4" />
+                  <span className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/80 bg-clip-text text-transparent">
+                    {stat.value}
+                  </span>
+                  <span className="mt-2 text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                    {stat.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

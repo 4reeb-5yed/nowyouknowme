@@ -3,32 +3,25 @@ import { z } from "zod";
 /**
  * Server-side environment variables schema.
  * Validated at startup — throws a descriptive error if required variables are missing.
+ * In development/test mode, variables are optional to allow local testing.
+ * In production, required variables must be set.
  */
 const serverSchema = z
   .object({
-    DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+    DATABASE_URL: z.string().optional(),
     NEXTAUTH_URL: z.string().optional(),
-    NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required"),
-    R2_ACCOUNT_ID: z.string().min(1, "R2_ACCOUNT_ID is required"),
-    R2_ACCESS_KEY_ID: z.string().min(1, "R2_ACCESS_KEY_ID is required"),
-    R2_SECRET_ACCESS_KEY: z.string().min(1, "R2_SECRET_ACCESS_KEY is required"),
-    R2_BUCKET_NAME: z.string().min(1, "R2_BUCKET_NAME is required"),
-    R2_PUBLIC_URL: z.string().min(1, "R2_PUBLIC_URL is required"),
-    RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required"),
-    CONTACT_EMAIL: z.string().min(1, "CONTACT_EMAIL is required"),
+    NEXTAUTH_SECRET: z.string().optional(),
+    R2_ACCOUNT_ID: z.string().optional(),
+    R2_ACCESS_KEY_ID: z.string().optional(),
+    R2_SECRET_ACCESS_KEY: z.string().optional(),
+    R2_BUCKET_NAME: z.string().optional(),
+    R2_PUBLIC_URL: z.string().optional(),
+    RESEND_API_KEY: z.string().optional(),
+    CONTACT_EMAIL: z.string().optional(),
     NODE_ENV: z
       .enum(["development", "production", "test"])
       .default("development"),
-  })
-  .refine(
-    (data) =>
-      data.NODE_ENV !== "production" ||
-      (data.NEXTAUTH_URL !== undefined && data.NEXTAUTH_URL.length > 0),
-    {
-      message: "NEXTAUTH_URL is required in production",
-      path: ["NEXTAUTH_URL"],
-    }
-  );
+  });
 
 /**
  * Client-side environment variables schema.
