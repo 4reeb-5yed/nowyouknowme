@@ -103,109 +103,110 @@ export default async function ProjectDetailPage({ params }: Props) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      {/* Back link */}
-      <Link
-        href="/projects"
-        className="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        ← Back to Projects
-      </Link>
+        {/* Back link */}
+        <Link
+          href="/projects"
+          className="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          ← Back to Projects
+        </Link>
 
-      {/* Header */}
-      <header className="mb-10 md:mb-12">
-        <div className="flex flex-wrap items-center gap-3 mb-4">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {project.title}
-          </h1>
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary capitalize">
-            {project.category}
-          </span>
-        </div>
-        <p className="text-lg text-muted-foreground max-w-2xl">{project.description}</p>
-      </header>
-
-      {/* Content sections with consistent spacing */}
-      <div className="space-y-10">
-        {/* Thumbnail */}
-        {project.thumbnailUrl && (
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg border">
-            <Image
-              src={project.thumbnailUrl}
-              alt={`Project thumbnail for ${project.title}`}
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 896px"
-              placeholder="blur"
-              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4="
-            />
+        {/* Header */}
+        <header className="mb-10 md:mb-12">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              {project.title}
+            </h1>
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary capitalize">
+              {project.category}
+            </span>
           </div>
-        )}
+          <p className="text-lg text-muted-foreground max-w-2xl">{project.description}</p>
+        </header>
 
-        {/* Links */}
-        {(project.githubUrl || project.liveUrl) && (
-          <div className="flex flex-wrap gap-4">
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent transition-colors"
-              >
-                <Code className="h-4 w-4" aria-hidden="true" />
-                View Source
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-              >
-                <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                Live Demo
-              </a>
-            )}
-          </div>
-        )}
+        {/* Content sections with consistent spacing */}
+        <div className="space-y-10">
+          {/* Thumbnail */}
+          {project.thumbnailUrl && (
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg border">
+              <Image
+                src={project.thumbnailUrl}
+                alt={`Project thumbnail for ${project.title}`}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 896px"
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4="
+              />
+            </div>
+          )}
 
-        {/* Tech Stack */}
-        {techStack.length > 0 && (
-          <section aria-labelledby="tech-stack-heading">
-            <h2
-              id="tech-stack-heading"
-              className="mb-3 text-xl font-semibold"
-            >
-              Tech Stack
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {techStack.map((tech) => (
-                <span
-                  key={tech}
-                  className="inline-flex items-center rounded-md bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground"
+          {/* Links */}
+          {(project.githubUrl || project.liveUrl) && (
+            <div className="flex flex-wrap gap-4">
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent transition-colors"
                 >
-                  {tech}
-                </span>
-              ))}
+                  <Code className="h-4 w-4" aria-hidden="true" />
+                  View Source
+                </a>
+              )}
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                >
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                  Live Demo
+                </a>
+              )}
             </div>
-          </section>
-        )}
+          )}
 
-        {/* Full Description */}
-        {displayDescription && (
-          <section aria-labelledby="description-heading">
-            <h2
-              id="description-heading"
-              className="mb-3 text-xl font-semibold"
-            >
-              About This Project
-            </h2>
-            <div className="prose prose-neutral dark:prose-invert max-w-none whitespace-pre-wrap">
-              {displayDescription}
-            </div>
-          </section>
-        )}
+          {/* Tech Stack */}
+          {techStack.length > 0 && (
+            <section aria-labelledby="tech-stack-heading">
+              <h2
+                id="tech-stack-heading"
+                className="mb-3 text-xl font-semibold"
+              >
+                Tech Stack
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center rounded-md bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Full Description */}
+          {displayDescription && (
+            <section aria-labelledby="description-heading">
+              <h2
+                id="description-heading"
+                className="mb-3 text-xl font-semibold"
+              >
+                About This Project
+              </h2>
+              <div className="prose prose-neutral dark:prose-invert max-w-none whitespace-pre-wrap">
+                {displayDescription}
+              </div>
+            </section>
+          )}
+        </div>
       </div>
     </main>
   );
