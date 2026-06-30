@@ -1,0 +1,484 @@
+/* ==========================================================================
+   CRAFT DESIGN SYSTEM - Awwwards Quality Portfolio
+   ========================================================================== */
+
+/* Premium CSS Variables */
+:root {
+  /* Core palette - sophisticated dark with warm accents */
+  --craft-bg: #0a0a0f;
+  --craft-bg-elevated: #121218;
+  --craft-bg-card: #1a1a22;
+  --craft-text: #fafafa;
+  --craft-text-muted: #8a8a9a;
+  --craft-text-subtle: #5a5a6a;
+  --craft-accent: #c8a8f0;
+  --craft-accent-warm: #f0c8a8;
+  --craft-border: rgba(255, 255, 255, 0.06);
+  --craft-border-hover: rgba(255, 255, 255, 0.12);
+  
+  /* Spatial system */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+  --space-2xl: 8rem;
+  --space-3xl: 12rem;
+  
+  /* Typography scale - fluid */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.625vw, 1.375rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+  --text-2xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+  --text-3xl: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  --text-4xl: clamp(3.5rem, 2.5rem + 5vw, 7rem);
+  --text-hero: clamp(4rem, 3rem + 6vw, 12rem);
+  
+  /* Easing - premium curves */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Shadows */
+  --shadow-glow: 0 0 80px -20px var(--craft-accent);
+  --shadow-lift: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 8px 32px -8px rgba(0, 0, 0, 0.4);
+}
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--craft-bg);
+  color: var(--craft-text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Typography */
+.craft-heading-hero {
+  font-size: var(--text-hero);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+.craft-heading-1 {
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.craft-heading-2 {
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.craft-heading-3 {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.craft-heading-4 {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.craft-text-body {
+  font-size: var(--text-base);
+  color: var(--craft-text-muted);
+  line-height: 1.75;
+}
+
+.craft-text-large {
+  font-size: var(--text-lg);
+  color: var(--craft-text-muted);
+  line-height: 1.7;
+}
+
+.craft-text-small {
+  font-size: var(--text-sm);
+  color: var(--craft-text-subtle);
+}
+
+.craft-text-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--craft-text-subtle);
+}
+
+/* Layout */
+.craft-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+}
+
+.craft-container-wide {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+}
+
+.craft-section {
+  padding: clamp(4rem, 10vh, 8rem) 0;
+}
+
+.craft-section-lg {
+  padding: clamp(6rem, 15vh, 12rem) 0;
+}
+
+/* Grid */
+.craft-grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.craft-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.craft-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .craft-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .craft-grid-2,
+  .craft-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animations */
+@keyframes craft-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes craft-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes craft-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes craft-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes craft-line-grow {
+  from { transform: scaleX(0); transform-origin: left; }
+  to { transform: scaleX(1); transform-origin: left; }
+}
+
+@keyframes craft-glow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes craft-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(1deg); }
+  50% { transform: translateY(-25px) rotate(0deg); }
+  75% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+@keyframes craft-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes craft-reveal {
+  from { 
+    clip-path: inset(0 100% 0 0);
+  }
+  to { 
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Animation utilities */
+.craft-animate {
+  animation-fill-mode: both;
+}
+
+.craft-animate-fade-up {
+  animation: craft-fade-up 1s var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+.craft-animate-fade-in {
+  animation: craft-fade-in 0.8s var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+.craft-animate-scale-in {
+  animation: craft-scale-in 0.8s var(--ease-out-quint) forwards;
+  opacity: 0;
+}
+
+.craft-animate-slide-left {
+  animation: craft-slide-in-left 0.8s var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+.craft-delay-1 { animation-delay: 0.1s; }
+.craft-delay-2 { animation-delay: 0.2s; }
+.craft-delay-3 { animation-delay: 0.3s; }
+.craft-delay-4 { animation-delay: 0.4s; }
+.craft-delay-5 { animation-delay: 0.5s; }
+.craft-delay-6 { animation-delay: 0.6s; }
+.craft-delay-7 { animation-delay: 0.7s; }
+.craft-delay-8 { animation-delay: 0.8s; }
+.craft-delay-9 { animation-delay: 0.9s; }
+.craft-delay-10 { animation-delay: 1s; }
+
+/* Interactive elements */
+.craft-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: 100px;
+  border: 1px solid var(--craft-border);
+  background: transparent;
+  color: var(--craft-text);
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out-expo);
+  text-decoration: none;
+}
+
+.craft-button:hover {
+  background: var(--craft-bg-elevated);
+  border-color: var(--craft-border-hover);
+  transform: translateY(-3px);
+}
+
+.craft-button-primary {
+  background: var(--craft-accent);
+  color: var(--craft-bg);
+  border-color: var(--craft-accent);
+}
+
+.craft-button-primary:hover {
+  background: #d4b8f4;
+  border-color: #d4b8f4;
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-3px);
+}
+
+/* Glass effect */
+.craft-glass {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--craft-border);
+}
+
+/* Gradient text */
+.craft-gradient-text {
+  background: linear-gradient(135deg, var(--craft-accent) 0%, var(--craft-accent-warm) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+}
+
+.craft-gradient-text-animated {
+  animation: craft-gradient-shift 8s ease infinite;
+}
+
+/* Cards */
+.craft-card {
+  background: var(--craft-bg-card);
+  border: 1px solid var(--craft-border);
+  border-radius: 24px;
+  transition: all 0.5s var(--ease-out-expo);
+}
+
+.craft-card:hover {
+  background: var(--craft-bg-elevated);
+  border-color: var(--craft-border-hover);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Decorative elements */
+.craft-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.craft-orb-primary {
+  background: radial-gradient(circle, var(--craft-accent) 0%, transparent 70%);
+}
+
+.craft-orb-warm {
+  background: radial-gradient(circle, var(--craft-accent-warm) 0%, transparent 70%);
+}
+
+/* Line */
+.craft-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--craft-border-hover), transparent);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--craft-accent);
+  color: var(--craft-bg);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--craft-bg-card);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--craft-text-subtle);
+}
+
+/* Focus states */
+:focus-visible {
+  outline: 2px solid var(--craft-accent);
+  outline-offset: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .craft-section {
+    padding: clamp(3rem, 8vh, 6rem) 0;
+  }
+  
+  .craft-section-lg {
+    padding: clamp(4rem, 10vh, 8rem) 0;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* CTA Section */
+.craft-cta {
+  padding: clamp(8rem, 20vh, 16rem) 0;
+  text-align: center;
+  position: relative;
+}
+
+.craft-cta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(200, 168, 240, 0.1) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.craft-cta-container {
+  position: relative;
+  z-index: 1;
+}
+
+.craft-cta-title {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #fafafa;
+  margin-bottom: 1.5rem;
+}
+
+.craft-cta-text {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(138, 138, 154, 1);
+  margin-bottom: 3rem;
+}
+
+.craft {
+  min-height: 100vh;
+}
