@@ -328,7 +328,7 @@ export default async function HomePage() {
               </div>
             </ScrollReveal>
 
-            <div className="mx-auto max-w-2xl space-y-4">
+            <div className="mx-auto max-w-xl space-y-4 lg:max-w-2xl lg-constrained">
               {experiences.map((exp, index) => (
                 <ScrollReveal key={exp.id} direction="up" delay={index * 75}>
                   <Link

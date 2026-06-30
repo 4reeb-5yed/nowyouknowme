@@ -835,3 +835,248 @@ button:disabled {
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
+
+/* ==========================================================================
+   Background Patterns & Textures
+   ========================================================================== */
+
+/* Subtle dot grid pattern */
+.bg-dots {
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Subtle line grid pattern */
+.bg-grid {
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Noise texture overlay */
+.bg-noise {
+  position: relative;
+}
+
+.bg-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark .bg-noise::before {
+  opacity: 0.05;
+}
+
+/* ==========================================================================
+   Animated Background Elements
+   ========================================================================== */
+
+/* Floating particles */
+@keyframes particle-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-30px) translateX(15px) rotate(90deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-15px) translateX(-10px) rotate(180deg);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translateY(-40px) translateX(5px) rotate(270deg);
+    opacity: 0.5;
+  }
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle-float 15s ease-in-out infinite;
+}
+
+.particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 18s; }
+.particle:nth-child(2) { left: 20%; top: 80%; animation-delay: -3s; animation-duration: 20s; }
+.particle:nth-child(3) { left: 35%; top: 40%; animation-delay: -6s; animation-duration: 16s; }
+.particle:nth-child(4) { left: 50%; top: 60%; animation-delay: -9s; animation-duration: 22s; }
+.particle:nth-child(5) { left: 65%; top: 30%; animation-delay: -12s; animation-duration: 17s; }
+.particle:nth-child(6) { left: 80%; top: 70%; animation-delay: -2s; animation-duration: 19s; }
+.particle:nth-child(7) { left: 90%; top: 15%; animation-delay: -7s; animation-duration: 21s; }
+.particle:nth-child(8) { left: 75%; top: 85%; animation-delay: -4s; animation-duration: 15s; }
+
+/* Light mode particle colors */
+:root .particle {
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+  opacity: 0.2;
+}
+
+/* Dark mode particle colors - more visible */
+.dark .particle {
+  background: var(--primary);
+  box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary);
+  opacity: 0.4;
+}
+
+/* Gentle gradient wave animation */
+@keyframes gradient-wave {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.1;
+  }
+  33% {
+    transform: translateX(30px) translateY(-20px);
+    opacity: 0.15;
+  }
+  66% {
+    transform: translateX(-20px) translateY(10px);
+    opacity: 0.12;
+  }
+}
+
+.gradient-wave {
+  animation: gradient-wave 20s ease-in-out infinite;
+}
+
+.gradient-wave:nth-child(2) {
+  animation-delay: -5s;
+  animation-duration: 25s;
+}
+
+.gradient-wave:nth-child(3) {
+  animation-delay: -10s;
+  animation-duration: 22s;
+}
+
+/* Aurora-like effect */
+@keyframes aurora {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateY(-50px) scale(1.1);
+    filter: blur(30px);
+    opacity: 0.15;
+  }
+}
+
+.aurora {
+  position: absolute;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: aurora 15s ease-in-out infinite;
+  pointer-events: none;
+}
+
+:root .aurora {
+  opacity: 0.05;
+}
+
+.dark .aurora {
+  opacity: 0.12;
+}
+
+/* Light mode aurora colors - warm subtle */
+:root .aurora:nth-child(1) {
+  background: linear-gradient(135deg, oklch(0.7 0.1 40) 0%, oklch(0.6 0.12 280) 100%);
+  left: -10%;
+  top: 20%;
+}
+
+:root .aurora:nth-child(2) {
+  background: linear-gradient(135deg, oklch(0.6 0.12 280) 0%, oklch(0.65 0.08 200) 100%);
+  right: -10%;
+  bottom: 20%;
+  animation-delay: -5s;
+}
+
+/* Dark mode aurora colors - vibrant */
+.dark .aurora:nth-child(1) {
+  background: linear-gradient(135deg, oklch(0.6 0.2 280) 0%, oklch(0.55 0.25 350) 100%);
+  left: -10%;
+  top: 20%;
+}
+
+.dark .aurora:nth-child(2) {
+  background: linear-gradient(135deg, oklch(0.55 0.25 180) 0%, oklch(0.6 0.2 280) 100%);
+  right: -10%;
+  bottom: 20%;
+  animation-delay: -5s;
+}
+
+/* Slow rotating gradient */
+@keyframes slow-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.slow-rotate {
+  animation: slow-rotate 60s linear infinite;
+}
+
+/* Breathing glow effect */
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.05;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.1;
+    transform: scale(1.05);
+  }
+}
+
+.breathe {
+  animation: breathe 8s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Layout Utilities
+   ========================================================================== */
+
+/* Prevent content from stretching too wide */
+.constrain-width {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Centered content container */
+.content-center {
+  width: 100%;
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Prevent single items from taking full width */
+.auto-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+/* Better single-column layout on large screens */
+@media (min-width: 1024px) {
+  .lg-constrained > *:only-child {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

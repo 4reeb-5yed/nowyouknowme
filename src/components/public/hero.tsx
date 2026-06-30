@@ -31,10 +31,22 @@ export function Hero({ tagline, resumeUrl, githubUrl, linkedinUrl, email }: Hero
       className="relative flex min-h-[85vh] items-center justify-center overflow-hidden px-4"
       aria-label="Hero"
     >
-      {/* Gradient background */}
+      {/* Animated background */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute left-1/4 top-1/3 -translate-y-1/2 h-[50vmin] w-[50vmin] rounded-full bg-gradient-to-r from-primary/20 via-purple-500/10 to-blue-500/20 blur-[100px]" />
-        <div className="absolute right-1/4 bottom-1/3 translate-y-1/2 h-[40vmin] w-[40vmin] rounded-full bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-primary/20 blur-[80px]" />
+        {/* Main gradient orbs with animations */}
+        <div className="absolute left-1/4 top-1/3 -translate-y-1/2 h-[50vmin] w-[50vmin] rounded-full aurora gradient-wave" />
+        <div className="absolute right-1/4 bottom-1/3 translate-y-1/2 h-[40vmin] w-[40vmin] rounded-full aurora gradient-wave" />
+        
+        {/* Floating particles */}
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+        
+        {/* Subtle dot grid overlay */}
+        <div className="absolute inset-0 bg-dots opacity-[0.02] dark:opacity-[0.03]" />
       </div>
 
       {/* Content */}
