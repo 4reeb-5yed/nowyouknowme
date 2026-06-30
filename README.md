@@ -70,21 +70,21 @@ git clone <repository-url>
 cd nowyouknowme
 
 # 2. Install dependencies
-npm install
+pnpm install  # or npm install
 
 # 3. Copy environment variables
 cp .env.example .env
 # Fill in all [REQUIRED] values — see Environment Variables section below
 
 # 4. Generate and run database migrations
-npm run db:generate
-npm run db:migrate
+pnpm run db:generate
+pnpm run db:migrate
 
 # 5. Seed the owner account
-npm run db:seed
+pnpm run db:seed
 
 # 6. Start the development server
-npm run dev
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) for the public site and [http://localhost:3000/admin/login](http://localhost:3000/admin/login) for the CMS dashboard.
@@ -107,7 +107,7 @@ All environment variables are documented in [`.env.example`](.env.example). Belo
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `NEXTAUTH_SECRET` | Yes | JWT signing secret (`openssl rand -base64 32`) |
+| `NEXTAUTH_SECRET` | Yes | JWT signing secret (`bash openssl rand -base64 32`) |
 | `NEXTAUTH_URL` | Production | Canonical app URL for callbacks |
 
 ### Email (Resend)
@@ -145,30 +145,30 @@ All environment variables are documented in [`.env.example`](.env.example). Belo
 
 ```bash
 # Generate migration files from schema changes
-npm run db:generate
+pnpm run db:generate
 
 # Apply migrations to the database
-npm run db:migrate
+pnpm run db:migrate
 
 # Push schema directly (development only — skips migration files)
-npm run db:push
+pnpm run db:push
 
 # Open Drizzle Studio (visual database browser)
-npm run db:studio
+pnpm run db:studio
 
 # Seed the owner account
-npm run db:seed
+pnpm run db:seed
 ```
 
 ## Scripts
 
 ```bash
-npm run dev          # Start development server
-npm run build        # Production build
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run lint:fix     # Auto-fix lint issues
-npm run lighthouse   # Run Lighthouse audit
+pnpm run dev          # Start development server
+pnpm run build        # Production build
+pnpm run start        # Start production server
+pnpm run lint         # Run ESLint
+pnpm run lint:fix     # Auto-fix lint issues
+pnpm run lighthouse   # Run Lighthouse audit
 ```
 
 ## Project Structure
@@ -236,7 +236,7 @@ For a complete deployment guide, see [docs/deployment.md](docs/deployment.md).
 1. Push your repository to GitHub/GitLab
 2. Import the project in [Vercel](https://vercel.com/new)
 3. Add all required environment variables (see Environment Variables above)
-4. Set the build command to `npm run build`
+4. Set the build command to `pnpm run build`
 5. Set the output directory to `.next`
 6. Deploy
 
