@@ -46,13 +46,16 @@ export function Hero({
       {/* Background gradient */}
       <div className="hero__gradient" aria-hidden="true" />
 
-      {/* Typographic watermark - static, fixed behind content */}
+      {/* Typographic watermark - vertical text on left */}
       <div 
         className="hero__watermark"
         aria-hidden="true"
       >
         <span>Areeb Syed</span>
       </div>
+
+      {/* Right side architectural accent */}
+      <div className="hero__right-accent" aria-hidden="true" />
 
       {/* Content */}
       <div className="hero__content container">
