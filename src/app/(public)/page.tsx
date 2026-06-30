@@ -1,8 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { 
-  ArrowRight, BookOpen, FolderKanban, MessageCircle, 
-  Globe, Mail, Award, Clock, Briefcase, Code2, Sparkles, User
+  ArrowRight, BookOpen, FolderKanban, 
+  Award, Clock, Briefcase, Code2
 } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
@@ -379,67 +379,19 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Contact CTA Section */}
-      <section className="relative overflow-hidden" aria-label="Contact">
-        <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <div className="absolute left-1/2 top-1/2 h-[50vmin] w-[50vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/15 via-emerald-500/10 to-teal-500/15 blur-[80px]" />
-        </div>
-
-        <div className="container mx-auto px-4 py-16 md:py-24">
-          <ScrollReveal direction="up">
-            <div className="relative mx-auto max-w-lg overflow-hidden rounded-2xl border border-border/50 bg-card/60 backdrop-blur-xl p-8 md:p-12 shadow-xl shadow-primary/5">
-              <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/15 blur-3xl" />
-              <div className="absolute -left-16 -bottom-16 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" />
-              
-              <div className="relative text-center">
-                <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-primary/15 to-primary/5 shadow-lg shadow-primary/5">
-                  <MessageCircle className="h-7 w-7 text-primary" />
-                </div>
-                
-                <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
-                  Let&apos;s work together
-                </h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  Have a project in mind or want to collaborate? I&apos;d love to hear from you.
-                </p>
-                
-                <div className="mt-8 flex flex-col items-center gap-3">
-                  <Link
-                    href="/contact"
-                    className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  >
-                    Get in touch
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                  
-                  <div className="mt-4 flex items-center gap-4">
-                    {githubLink && (
-                      <a
-                        href={githubLink.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                        aria-label="GitHub Profile"
-                      >
-                        <Globe className="h-5 w-5" />
-                      </a>
-                    )}
-                    {linkedinLink && (
-                      <a
-                        href={linkedinLink.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                        aria-label="LinkedIn Profile"
-                      >
-                        <User className="h-5 w-5" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
+      {/* Simple Contact CTA - minimal, not redundant */}
+      <section className="py-16 md:py-24" aria-label="Contact">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-muted-foreground">
+            Interested in working together?{" "}
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1 font-medium text-foreground underline-offset-4 transition-colors hover:underline"
+            >
+              Get in touch
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </p>
         </div>
       </section>
 
