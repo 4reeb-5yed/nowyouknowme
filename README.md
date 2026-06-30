@@ -72,9 +72,8 @@ cd nowyouknowme
 # 2. Install dependencies
 pnpm install  # or npm install
 
-# 3. Copy environment variables
-cp .env.example .env
-# Fill in all [REQUIRED] values — see Environment Variables section below
+# 3. Create environment file
+# Copy the required variables from the Environment Variables section below into a .env file
 
 # 4. Generate and run database migrations
 pnpm run db:generate
@@ -95,7 +94,7 @@ Default seed credentials (change immediately):
 
 ## Environment Variables
 
-All environment variables are documented in [`.env.example`](.env.example). Below is a summary by category:
+Create a `.env` file in the project root with the following variables:
 
 ### Database
 
