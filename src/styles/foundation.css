@@ -815,22 +815,31 @@ input, textarea, select {
 /* Hero Watermark */
 .hero__watermark {
   position: absolute;
-  right: -5%;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
+  transform: translate(-50%, -50%) rotate(-90deg);
   font-family: var(--font-mono);
-  font-size: clamp(8rem, 20vw, 18rem);
+  font-size: clamp(4rem, 15vw, 12rem);
   font-weight: 500;
   color: var(--ink-primary);
-  opacity: 0.04;
+  opacity: 0.03;
   white-space: nowrap;
   pointer-events: none;
   z-index: var(--z-watermark);
   will-change: transform;
+  text-align: center;
+  user-select: none;
 }
 
 .hero__watermark span {
   display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .hero__watermark {
+    font-size: clamp(3rem, 12vw, 6rem);
+    opacity: 0.025;
+  }
 }
 
 /* Hero Content */

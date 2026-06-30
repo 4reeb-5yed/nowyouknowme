@@ -129,7 +129,7 @@ export function Hero({
         aria-hidden="true"
         role="presentation"
       >
-        <span>NowYouKnowMe</span>
+        <span>Areeb Syed</span>
       </div>
 
       {/* Content */}
