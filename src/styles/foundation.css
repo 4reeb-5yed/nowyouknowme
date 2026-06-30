@@ -813,16 +813,16 @@ input, textarea, select {
   z-index: 1;
 }
 
-/* Hero Watermark - Vertical text behind content */
+/* Hero Watermark - Vertical text on left side behind content */
 .hero__watermark {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   bottom: 0;
-  width: 40%;
+  width: 35%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   pointer-events: none;
   z-index: 2;
   overflow: hidden;
@@ -839,14 +839,13 @@ input, textarea, select {
   user-select: none;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  transform: rotate(180deg);
   letter-spacing: 0.1em;
-  padding-right: 1rem;
+  padding-left: 1rem;
 }
 
 @media (max-width: 768px) {
   .hero__watermark {
-    width: 25%;
+    width: 20%;
   }
   .hero__watermark span {
     font-size: clamp(1rem, 3vw, 2rem);
