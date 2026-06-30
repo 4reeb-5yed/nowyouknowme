@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 interface Experience {
   id: string;
@@ -41,31 +41,6 @@ const experiences: Experience[] = [
     isCurrent: false,
   },
 ];
-
-function useScrollReveal(threshold = 0.25) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(element);
-        }
-      },
-      { threshold, rootMargin: "-10% 0px -10% 0px" }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-}
 
 export function ExperienceSection() {
   const { ref, isVisible } = useScrollReveal();

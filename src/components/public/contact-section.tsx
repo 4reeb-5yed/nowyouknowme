@@ -1,32 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useEffect, useRef } from "react";
-
-function useScrollReveal(threshold = 0.25) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(element);
-        }
-      },
-      { threshold, rootMargin: "-10% 0px -10% 0px" }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-}
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function ContactSection() {
   const { ref, isVisible } = useScrollReveal();
@@ -37,8 +12,9 @@ export function ContactSection() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -55,15 +31,23 @@ export function ContactSection() {
       return;
     }
 
-    // In production, this would submit to an API
-    setSubmitted(true);
-    setFormState({ name: "", email: "", message: "" });
-    
-    // Reset after 3 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-      setErrors({});
-    }, 3000);
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      
+      setSubmitted(true);
+      setFormState({ name: "", email: "", message: "" });
+      
+      // Reset after 5 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -88,15 +72,17 @@ export function ContactSection() {
               type="text"
               id="contact-name"
               name="name"
+              autoComplete="name"
               className="form-input"
               placeholder=" "
               value={formState.name}
               onChange={(e) => setFormState({ ...formState, name: e.target.value })}
               aria-describedby={errors.name ? "name-error" : undefined}
               aria-required="true"
+              aria-invalid={errors.name ? "true" : undefined}
             />
             <label htmlFor="contact-name" className="form-label">Name</label>
-            {errors.name && <p id="name-error" className="form-error">{errors.name}</p>}
+            {errors.name && <p id="name-error" className="form-error" role="alert">{errors.name}</p>}
           </div>
 
           <div className="form-field">
@@ -104,21 +90,24 @@ export function ContactSection() {
               type="email"
               id="contact-email"
               name="email"
+              autoComplete="email"
               className="form-input"
               placeholder=" "
               value={formState.email}
               onChange={(e) => setFormState({ ...formState, email: e.target.value })}
               aria-describedby={errors.email ? "email-error" : undefined}
               aria-required="true"
+              aria-invalid={errors.email ? "true" : undefined}
             />
             <label htmlFor="contact-email" className="form-label">Email</label>
-            {errors.email && <p id="email-error" className="form-error">{errors.email}</p>}
+            {errors.email && <p id="email-error" className="form-error" role="alert">{errors.email}</p>}
           </div>
 
           <div className="form-field form-field--textarea">
             <textarea
               id="contact-message"
               name="message"
+              autoComplete="off"
               className="form-input"
               placeholder=" "
               rows={5}
@@ -126,17 +115,31 @@ export function ContactSection() {
               onChange={(e) => setFormState({ ...formState, message: e.target.value })}
               aria-describedby={errors.message ? "message-error" : undefined}
               aria-required="true"
+              aria-invalid={errors.message ? "true" : undefined}
             />
             <label htmlFor="contact-message" className="form-label">Message</label>
-            {errors.message && <p id="message-error" className="form-error">{errors.message}</p>}
+            {errors.message && <p id="message-error" className="form-error" role="alert">{errors.message}</p>}
           </div>
 
           <button
             type="submit"
             className={`btn btn--primary form-submit`}
+            disabled={isSubmitting || submitted}
             style={submitted ? { backgroundColor: "var(--signal-success)" } : undefined}
           >
-            {submitted ? "Sent — Thank you!" : "Send Message"}
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3" />
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+                Sending...
+              </>
+            ) : submitted ? (
+              "Sent — Thank you!"
+            ) : (
+              "Send Message"
+            )}
           </button>
 
           <div className="form-alternative">

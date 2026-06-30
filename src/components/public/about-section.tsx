@@ -1,31 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
-function useScrollReveal(threshold = 0.25) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(element);
-        }
-      },
-      { threshold, rootMargin: "-10% 0px -10% 0px" }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-}
+const PLACEHOLDER_BLUR =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNGM0YxRUMiLz48L3N2Zz4=";
 
 export function AboutSection() {
   const { ref, isVisible } = useScrollReveal();
@@ -38,10 +17,15 @@ export function AboutSection() {
           className={`about-content reveal ${isVisible ? "visible" : ""}`}
         >
           <div className="about-photo">
-            <img
+            <Image
               src="https://picsum.photos/seed/portrait/400/400"
               alt="Portrait of the developer"
+              width={400}
+              height={400}
               loading="lazy"
+              sizes="(max-width: 768px) 200px, 300px"
+              placeholder="blur"
+              blurDataURL={PLACEHOLDER_BLUR}
             />
           </div>
           <div className="about-text">

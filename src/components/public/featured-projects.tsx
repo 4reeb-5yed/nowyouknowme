@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 interface Project {
   id: string;
@@ -12,6 +13,9 @@ interface Project {
   liveUrl?: string;
   codeUrl?: string;
 }
+
+const PLACEHOLDER_BLUR =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNGM0YxRUMiLz48L3N2Zz4=";
 
 const projects: Project[] = [
   {
@@ -45,31 +49,6 @@ const projects: Project[] = [
     codeUrl: "#",
   },
 ];
-
-function useScrollReveal(threshold = 0.25) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(element);
-        }
-      },
-      { threshold, rootMargin: "-10% 0px -10% 0px" }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-}
 
 export function FeaturedProjects() {
   const { ref, isVisible } = useScrollReveal();
@@ -117,10 +96,15 @@ export function FeaturedProjects() {
               </div>
             </div>
             <div className="projects-spread__image">
-              <img
+              <Image
                 src={project.imageUrl}
                 alt={`${project.title} project screenshot`}
+                width={1200}
+                height={750}
                 loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 66vw"
+                placeholder="blur"
+                blurDataURL={PLACEHOLDER_BLUR}
               />
             </div>
           </article>

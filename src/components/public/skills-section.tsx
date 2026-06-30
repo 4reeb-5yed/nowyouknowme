@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 interface SkillCluster {
   name: string;
@@ -26,31 +26,6 @@ const skillClusters: SkillCluster[] = [
   },
 ];
 
-function useScrollReveal(threshold = 0.25) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(element);
-        }
-      },
-      { threshold, rootMargin: "-10% 0px -10% 0px" }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-}
-
 export function SkillsSection() {
   const { ref, isVisible } = useScrollReveal();
 
@@ -68,7 +43,9 @@ export function SkillsSection() {
         >
           {skillClusters.map((cluster) => (
             <div key={cluster.name} className="skills-cluster">
-              <p className="skills-cluster__label">{cluster.name}</p>
+              <div className="skills-cluster__header">
+                <p className="skills-cluster__label">{cluster.name}</p>
+              </div>
               <ul className="skills-cluster__list">
                 {cluster.skills.map((skill) => (
                   <li key={skill}>
