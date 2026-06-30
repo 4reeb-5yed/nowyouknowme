@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, Code } from "lucide-react";
+import { ArrowLeft, Github, ExternalLink, Shield, Cloud, Code, Box } from "lucide-react";
 
 import type { Metadata } from "next";
 import { createServerClient } from "@/lib/trpc/server";
@@ -50,6 +50,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const categoryConfig = {
+  cybersecurity: { icon: Shield, label: "Security" },
+  cloud: { icon: Cloud, label: "Cloud" },
+  web: { icon: Code, label: "Web" },
+  other: { icon: Box, label: "Other" },
+};
+
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
   const api = await createServerClient();
@@ -61,8 +68,10 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   const techStack = (project.techStack ?? []) as string[];
   const displayDescription = project.longDescription || project.description;
+  const categoryVariant = project.category as keyof typeof categoryConfig;
+  const catConfig = categoryConfig[categoryVariant] || categoryConfig.other;
+  const Icon = catConfig.icon;
 
-  // JSON-LD structured data for project detail
   const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
   const projectUrl = `${siteUrl}/projects/${slug}`;
   const jsonLd = {
@@ -74,85 +83,60 @@ export default async function ProjectDetailPage({ params }: Props) {
     ...(project.thumbnailUrl && { image: project.thumbnailUrl }),
     ...(techStack.length > 0 && { keywords: techStack.join(", ") }),
     ...(project.githubUrl && { codeRepository: project.githubUrl }),
-    ...(project.liveUrl && {
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        url: project.liveUrl,
-      },
-    }),
-    author: {
-      "@type": "Person",
-      name: "NowYouKnowMe",
-      url: siteUrl,
-    },
+    author: { "@type": "Person", name: "Areeb Syed", url: siteUrl },
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
-      </div>
-
-      <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16 lg:py-20">
-        {/* JSON-LD Structured Data */}
+    <main className="section section--canvas">
+      <div className="container">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Back link */}
-        <Link
-          href="/projects"
-          className="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          ← Back to Projects
+
+        <Link href="/projects" className="project-detail__back">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Projects
         </Link>
 
-        {/* Header */}
-        <header className="mb-10 md:mb-12">
-          <div className="flex flex-wrap items-center gap-3 mb-4">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              {project.title}
-            </h1>
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary capitalize">
-              {project.category}
+        <header className="project-detail__header">
+          <div className="project-detail__meta">
+            <span className="project-detail__category">
+              <Icon className="h-3 w-3" />
+              {catConfig.label}
             </span>
+            {project.isFeatured && (
+              <span className="project-detail__featured">Featured</span>
+            )}
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl">{project.description}</p>
+          <h1 className="project-detail__title">{project.title}</h1>
+          <p className="project-detail__description">{project.description}</p>
         </header>
 
-        {/* Content sections with consistent spacing */}
-        <div className="space-y-10">
-          {/* Thumbnail */}
-          {project.thumbnailUrl && (
-            <div className="relative aspect-video w-full overflow-hidden rounded-lg border">
-              <Image
-                src={project.thumbnailUrl}
-                alt={`Project thumbnail for ${project.title}`}
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 896px"
-                placeholder="blur"
-                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4="
-              />
-            </div>
-          )}
+        {project.thumbnailUrl && (
+          <div className="project-detail__image">
+            <Image
+              src={project.thumbnailUrl}
+              alt={`Project thumbnail for ${project.title}`}
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 768px) 100vw, 80vw"
+            />
+          </div>
+        )}
 
-          {/* Links */}
+        <div className="project-detail__content">
           {(project.githubUrl || project.liveUrl) && (
-            <div className="flex flex-wrap gap-4">
+            <div className="project-detail__links">
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent transition-colors"
+                  className="btn btn--secondary"
                 >
-                  <Code className="h-4 w-4" aria-hidden="true" />
+                  <Github className="h-4 w-4" />
                   View Source
                 </a>
               )}
@@ -161,51 +145,41 @@ export default async function ProjectDetailPage({ params }: Props) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                  className="btn btn--primary"
                 >
-                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                  <ExternalLink className="h-4 w-4" />
                   Live Demo
                 </a>
               )}
             </div>
           )}
 
-          {/* Tech Stack */}
           {techStack.length > 0 && (
-            <section aria-labelledby="tech-stack-heading">
-              <h2
-                id="tech-stack-heading"
-                className="mb-3 text-xl font-semibold"
-              >
-                Tech Stack
-              </h2>
-              <div className="flex flex-wrap gap-2">
+            <section className="project-detail__section">
+              <h2 className="project-detail__section-title">Tech Stack</h2>
+              <div className="project-detail__stack">
                 {techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="inline-flex items-center rounded-md bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground"
-                  >
-                    {tech}
-                  </span>
+                  <span key={tech} className="project-detail__tag">{tech}</span>
                 ))}
               </div>
             </section>
           )}
 
-          {/* Full Description */}
           {displayDescription && (
-            <section aria-labelledby="description-heading">
-              <h2
-                id="description-heading"
-                className="mb-3 text-xl font-semibold"
-              >
-                About This Project
-              </h2>
-              <div className="prose prose-neutral dark:prose-invert max-w-none whitespace-pre-wrap">
-                {displayDescription}
-              </div>
+            <section className="project-detail__section">
+              <h2 className="project-detail__section-title">About This Project</h2>
+              <div className="project-detail__body">{displayDescription}</div>
             </section>
           )}
+        </div>
+
+        <div className="section-footer">
+          <Link href="/#contact" className="btn btn--text">
+            Interested in working together?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </Link>
         </div>
       </div>
     </main>

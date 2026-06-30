@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Mail } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { ContactForm } from "@/components/public/contact-form";
@@ -34,44 +33,30 @@ export default async function ContactPage() {
   const socialLinks = await trpc.socialLinks.listVisible();
 
   return (
-    <main className="min-h-screen">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background to-muted/20" />
-
-      <div className="container mx-auto px-4 py-24 md:py-32">
-        {/* Page header */}
-        <header className="mx-auto mb-16 max-w-2xl text-center">
-          <div className="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
-            <Mail className="h-8 w-8 text-primary" />
-          </div>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Get in touch
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
+    <main className="section section--canvas">
+      <div className="container">
+        <div className="section-header section-header--centered">
+          <p className="section-kicker">// 06 — Contact</p>
+          <h1 className="section-title">Get in Touch</h1>
+          <p className="section-description">
             Have a question or want to work together? Send me a message and I&apos;ll get back to you.
           </p>
-        </header>
+        </div>
 
-        <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-2 lg:gap-10">
+        <div className="contact-page-grid">
           {/* Contact Form */}
-          <section aria-label="Contact form">
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-lg transition-shadow hover:shadow-xl">
-              <ContactForm />
-            </div>
+          <section aria-label="Contact form" className="contact-page-form">
+            <ContactForm />
           </section>
 
           {/* Social Links */}
-          <section aria-label="Social links">
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-lg transition-shadow hover:shadow-xl">
-              <h2 className="text-lg font-semibold">
-                Or find me online
-              </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Connect with me on these platforms.
-              </p>
-              <div className="mt-6">
-                <SocialLinks links={socialLinks} />
-              </div>
+          <section aria-label="Social links" className="contact-page-social">
+            <h2 className="contact-page-social__title">Or find me online</h2>
+            <p className="contact-page-social__desc">
+              Connect with me on these platforms.
+            </p>
+            <div className="contact-page-social__links">
+              <SocialLinks links={socialLinks} />
             </div>
           </section>
         </div>

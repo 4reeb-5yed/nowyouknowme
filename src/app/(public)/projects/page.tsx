@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FolderKanban } from "lucide-react";
+import Link from "next/link";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { ProjectGrid } from "@/components/public/project-grid";
@@ -38,36 +38,32 @@ export default async function ProjectsPage() {
   }));
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
-      </div>
-
-      <div className="container mx-auto px-4 py-24 md:py-32">
-        {/* Page header */}
-        <header className="mx-auto mb-16 max-w-2xl text-center">
-          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-purple-500/10 to-pink-500/5 shadow-lg shadow-purple-500/5">
-            <FolderKanban className="h-8 w-8 text-purple-600 dark:text-purple-400" />
-          </div>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Projects
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
-            A collection of work across cybersecurity, cloud, and web development.
+    <main className="section section--canvas">
+      <div className="container">
+        <div className="section-header section-header--centered">
+          <p className="section-kicker">// 02 — Selected Work</p>
+          <h1 className="section-title">Projects</h1>
+          <p className="section-description">
+            A curated collection of projects spanning systems engineering, 
+            cloud infrastructure, and product development.
           </p>
-        </header>
+        </div>
 
-        {/* Projects grid */}
-        <section aria-labelledby="project-list-heading" className="mx-auto max-w-6xl">
+        <section aria-labelledby="project-list-heading">
           <h2 id="project-list-heading" className="sr-only">
             Project List
           </h2>
           <ProjectGrid projects={projects} />
         </section>
+
+        <div className="section-footer">
+          <Link href="/#contact" className="btn btn--text">
+            Interested in working together?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </Link>
+        </div>
       </div>
     </main>
   );

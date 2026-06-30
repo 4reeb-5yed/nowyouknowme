@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ProjectCard } from "./project-card";
+import { cn } from "@/lib/utils";
 
 export interface Project {
   id: string;
@@ -27,7 +28,7 @@ interface ProjectGridProps {
 
 const categories = [
   { id: "all", label: "All" },
-  { id: "cybersecurity", label: "Cybersecurity" },
+  { id: "cybersecurity", label: "Security" },
   { id: "cloud", label: "Cloud" },
   { id: "web", label: "Web" },
   { id: "other", label: "Other" },
@@ -49,7 +50,7 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
       <div
         role="tablist"
         aria-label="Filter projects by category"
-        className="mb-8 flex flex-wrap gap-2"
+        className="project-filter-tabs"
       >
         {categories.map((cat) => (
           <button
@@ -57,11 +58,10 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
             role="tab"
             aria-selected={activeCategory === cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-              activeCategory === cat.id
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
-            }`}
+            className={cn(
+              "project-filter-tab",
+              activeCategory === cat.id && "project-filter-tab--active"
+            )}
           >
             {cat.label}
           </button>
@@ -72,7 +72,7 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
       {filteredProjects.length > 0 ? (
         <div
           role="tabpanel"
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300"
+          className="project-grid"
           key={activeCategory}
         >
           {filteredProjects.map((project) => (
@@ -82,10 +82,10 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
       ) : (
         <div
           role="tabpanel"
-          className="flex min-h-[200px] items-center justify-center rounded-lg border border-dashed border-muted-foreground/25 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300"
+          className="project-grid-empty"
           key={`${activeCategory}-empty`}
         >
-          <p className="text-muted-foreground">No projects found</p>
+          <p>No projects found in this category</p>
         </div>
       )}
     </div>

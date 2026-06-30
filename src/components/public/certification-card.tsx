@@ -20,73 +20,63 @@ export interface CertificationCardProps {
   certification: Certification;
 }
 
-/**
- * Determines the expiry status text and styling for a certification.
- */
 function getExpiryInfo(expiryDate: string | null): {
   text: string;
   className: string;
 } {
   if (!expiryDate) {
-    return { text: "No Expiry", className: "text-green-600 dark:text-green-400" };
+    return { text: "No Expiry", className: "certification-card__expiry--valid" };
   }
 
   const expiry = new Date(expiryDate);
   const now = new Date();
 
   if (expiry < now) {
-    return { text: "Expired", className: "text-red-600 dark:text-red-400" };
+    return { text: "Expired", className: "certification-card__expiry--expired" };
   }
 
   return {
     text: `Valid until ${formatDate(expiryDate)}`,
-    className: "text-muted-foreground",
+    className: "certification-card__expiry",
   };
 }
 
-/**
- * CertificationCard displays a single certification in a card format.
- * Shows certification name, issuing organization, issue date, expiry info,
- * and an optional credential verification link.
- */
 export function CertificationCard({ certification }: CertificationCardProps) {
   const expiryInfo = getExpiryInfo(certification.expiryDate);
 
   return (
-    <article className="flex flex-col gap-3 rounded-lg border bg-card p-5 text-card-foreground shadow-sm transition-all motion-safe:hover:scale-[1.02] hover:shadow-md">
-      {/* Certification name */}
-      <h3 className="text-lg font-semibold leading-tight">
-        {certification.certificationName}
-      </h3>
+    <article className="certification-card">
+      <div className="certification-card__header">
+        <h3 className="certification-card__title">
+          {certification.certificationName}
+        </h3>
+        <p className="certification-card__org">
+          {certification.issuingOrganization}
+        </p>
+      </div>
 
-      {/* Issuing organization */}
-      <p className="text-sm text-muted-foreground">
-        {certification.issuingOrganization}
-      </p>
+      <div className="certification-card__meta">
+        <p className="certification-card__date">
+          Issued {formatDate(certification.issueDate)}
+        </p>
+        <p className={`certification-card__expiry ${expiryInfo.className}`}>
+          {expiryInfo.text}
+        </p>
+      </div>
 
-      {/* Issue date */}
-      <p className="text-sm text-muted-foreground">
-        Issued: {formatDate(certification.issueDate)}
-      </p>
-
-      {/* Expiry info */}
-      <p className={`text-sm font-medium ${expiryInfo.className}`}>
-        {expiryInfo.text}
-      </p>
-
-      {/* Credential verification link */}
       {certification.credentialUrl && (
         <a
           href={certification.credentialUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="certification-card__link"
         >
           Verify Credential
-          <span aria-hidden="true" className="text-xs">
-            ↗
-          </span>
-          <span className="sr-only">(opens in new tab)</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
         </a>
       )}
     </article>

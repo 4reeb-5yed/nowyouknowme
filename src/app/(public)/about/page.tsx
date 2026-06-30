@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { User } from "lucide-react";
+import Link from "next/link";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { clientEnv } from "@/config/env";
@@ -32,36 +32,31 @@ export default async function AboutPage() {
   const section = await trpc.pages.getSection({ key: "about" });
 
   return (
-    <main className="min-h-screen">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background to-muted/20" />
-
-      <div className="container mx-auto px-4 py-24 md:py-32">
-        {/* Page header */}
-        <header className="mx-auto max-w-2xl text-center">
-          <div className="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
-            <User className="h-8 w-8 text-primary" />
-          </div>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            About Me
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Background, skills, and what drives me as a professional.
+    <main className="section section--surface">
+      <div className="container">
+        <div className="section-header">
+          <p className="section-kicker">// 05 — Background</p>
+          <h1 className="section-title">About Me</h1>
+          <p className="section-description">
+            The story behind the work.
           </p>
-        </header>
+        </div>
 
-        {/* Content */}
-        <div className="mx-auto mt-16 max-w-2xl">
-          {section?.content ? (
-            <article
-              className="rounded-2xl border border-border bg-card p-8 shadow-lg transition-shadow hover:shadow-xl"
-              dangerouslySetInnerHTML={{ __html: section.content }}
-            />
-          ) : (
-            <div className="rounded-2xl border border-dashed border-border p-12 text-center">
-              <p className="text-muted-foreground">About content is not available at this time.</p>
-            </div>
-          )}
+        {section?.content ? (
+          <article className="about-page-content" dangerouslySetInnerHTML={{ __html: section.content }} />
+        ) : (
+          <div className="about-page-empty">
+            <p>About content is not available at this time.</p>
+          </div>
+        )}
+
+        <div className="section-footer">
+          <Link href="/#contact" className="btn btn--text">
+            Get in touch
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </Link>
         </div>
       </div>
     </main>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Writing",
@@ -7,23 +8,28 @@ export const metadata: Metadata = {
 
 export default function WritingPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
-      </div>
+    <main className="section section--canvas">
+      <div className="container">
+        <div className="section-header section-header--centered">
+          <p className="section-kicker">// 07 — Blog</p>
+          <h1 className="section-title">Writing</h1>
+          <p className="section-description">
+            Articles on systems engineering, cloud infrastructure, and product development. Coming soon.
+          </p>
+        </div>
 
-      <div className="container mx-auto flex flex-col items-center justify-center px-4 py-24 text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Writing
-        </h1>
-        <p className="mt-4 max-w-md text-lg text-muted-foreground">
-          The blog is coming soon. Check back later for articles on cybersecurity,
-          cloud engineering, and web development.
-        </p>
+        <div className="writing-page-coming-soon">
+          <p>More content coming soon.</p>
+        </div>
+
+        <div className="section-footer">
+          <Link href="/#contact" className="btn btn--text">
+            Want to discuss a topic?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </Link>
+        </div>
       </div>
     </main>
   );
