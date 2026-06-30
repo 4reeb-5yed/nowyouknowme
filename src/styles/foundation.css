@@ -810,35 +810,36 @@ input, textarea, select {
     color-mix(in srgb, var(--bg-canvas) 96%, var(--bg-surface)) 100%
   );
   pointer-events: none;
+  z-index: 1;
 }
 
-/* Hero Watermark */
+/* Hero Watermark - Static background element */
 .hero__watermark {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(-90deg);
-  font-family: var(--font-mono);
-  font-size: clamp(4rem, 15vw, 12rem);
-  font-weight: 500;
-  color: var(--ink-primary);
-  opacity: 0.03;
-  white-space: nowrap;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
-  z-index: var(--z-watermark);
-  will-change: transform;
-  text-align: center;
-  user-select: none;
+  z-index: 2;
+  overflow: hidden;
 }
 
 .hero__watermark span {
-  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 500;
+  color: var(--ink-primary);
+  opacity: 0.04;
+  white-space: nowrap;
+  user-select: none;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
-  .hero__watermark {
-    font-size: clamp(3rem, 12vw, 6rem);
-    opacity: 0.025;
+  .hero__watermark span {
+    font-size: clamp(2rem, 8vw, 4rem);
+    opacity: 0.03;
   }
 }
 
@@ -847,6 +848,11 @@ input, textarea, select {
   position: relative;
   z-index: 10;
   width: 100%;
+}
+
+.hero__content-inner {
+  position: relative;
+  max-width: calc(7/12 * 100%);
 }
 
 .hero__kicker {
