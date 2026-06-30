@@ -18,7 +18,7 @@ A full-stack portfolio web application with a built-in CMS dashboard. Manage pro
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 14 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Language | TypeScript (strict) |
 | API | tRPC v11 |
 | ORM | Drizzle ORM |
@@ -177,6 +177,8 @@ pnpm run lighthouse   # Run Lighthouse audit
 nowyouknowme/
 ├── docs/                       # Additional documentation
 │   ├── deployment.md           # Deployment guide
+│   ├── future-integrations.md  # Future features implementation guide
+│   ├── lighthouse-audit.md    # Lighthouse audit results
 │   ├── performance.md          # Performance optimization notes
 │   ├── r2-configuration.md    # Cloudflare R2 setup guide
 │   └── r2-cors.json           # R2 CORS policy
@@ -190,11 +192,12 @@ nowyouknowme/
 │   │   │   ├── about/         # About page
 │   │   │   ├── experience/    # Experience timeline
 │   │   │   ├── certifications/# Certifications display
-│   │   │   └── contact/       # Contact form
+│   │   │   ├── contact/       # Contact form
+│   │   │   └── writing/       # Writing/blog section (future)
 │   │   ├── admin/             # CMS Dashboard (SSR, auth-protected)
 │   │   │   ├── dashboard/     # Dashboard home with stats
 │   │   │   ├── projects/      # Projects CRUD
-│   │   │   ├── content/       # Section content editor
+│   │   │   ├── pages/         # Section content editor (About, Skills, Contact)
 │   │   │   ├── social-links/  # Social links manager
 │   │   │   ├── experience/    # Experience CRUD
 │   │   │   ├── certifications/# Certifications CRUD
@@ -204,11 +207,15 @@ nowyouknowme/
 │   │       ├── trpc/          # tRPC HTTP handler
 │   │       ├── auth/          # NextAuth handler
 │   │       ├── contact/       # Contact form endpoint
+│   │       ├── subscribe/     # Newsletter subscription (stub)
+│   │       ├── chat/          # RAG chatbot (stub)
 │   │       └── upload/        # File upload endpoint
 │   ├── components/
 │   │   ├── ui/                # shadcn/ui primitives
 │   │   ├── public/            # Public site components
-│   │   └── admin/             # CMS components
+│   │   ├── admin/             # CMS components
+│   │   ├── editor/            # Rich text editor components
+│   │   └── analytics.tsx      # Analytics placeholder
 │   ├── server/
 │   │   ├── api/               # tRPC routers
 │   │   ├── services/          # Business logic layer
@@ -220,10 +227,8 @@ nowyouknowme/
 │   ├── types/                 # TypeScript type definitions
 │   ├── styles/                # CSS (globals, themes)
 │   └── config/                # Static configuration
-├── .env.example               # Environment variable template
 ├── drizzle.config.ts          # Drizzle ORM config
 ├── next.config.ts             # Next.js configuration
-├── tailwind.config.ts         # Tailwind CSS config
 └── tsconfig.json              # TypeScript config
 ```
 
