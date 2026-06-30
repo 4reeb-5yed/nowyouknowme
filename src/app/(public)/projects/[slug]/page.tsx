@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Github, ExternalLink, Shield, Cloud, Code, Box } from "lucide-react";
+import { ArrowLeft, ExternalLink, Shield, Cloud, Code, Box } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 
 import type { Metadata } from "next";
 import { createServerClient } from "@/lib/trpc/server";
@@ -136,7 +137,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   rel="noopener noreferrer"
                   className="btn btn--secondary"
                 >
-                  <Github className="h-4 w-4" />
+                  <FaGithub className="h-4 w-4" />
                   View Source
                 </a>
               )}
