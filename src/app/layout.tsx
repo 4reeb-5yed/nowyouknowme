@@ -7,6 +7,7 @@ import { clientEnv } from "@/config/env";
 import { getConfig } from "@/server/services/site-config.service";
 import { resolveDefaultTheme } from "@/lib/theme";
 import "./globals.css";
+import "@/styles/themes.css";
 
 /**
  * Font Preloading Strategy:
