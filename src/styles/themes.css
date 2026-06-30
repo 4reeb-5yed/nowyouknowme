@@ -646,9 +646,9 @@ button:disabled {
   --popover: oklch(0.995 0.003 55);
   --popover-foreground: oklch(0.25 0.02 55);
   
-  /* Primary - Sophisticated warm blue */
-  --primary: oklch(0.50 0.12 250);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Primary - Dark for light mode */
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
   
   /* Secondary - Warm neutral */
   --secondary: oklch(0.96 0.008 55);
@@ -747,9 +747,9 @@ button:disabled {
   --popover: oklch(0.15 0.015 265);
   --popover-foreground: oklch(0.95 0 0);
   
-  /* Primary - Vibrant electric blue */
-  --primary: oklch(0.70 0.18 250);
-  --primary-foreground: oklch(0.12 0.02 265);
+  /* Primary - Subtle purple-blue, refined */
+  --primary: oklch(0.65 0.18 280);
+  --primary-foreground: oklch(0.98 0 0);
   
   /* Secondary - Deep purple tint */
   --secondary: oklch(0.18 0.02 280);
@@ -768,15 +768,15 @@ button:disabled {
   --destructive-foreground: oklch(0.98 0 0);
   
   /* Borders - Subtle purple tint */
-  --border: oklch(0.25 0.02 265);
-  --input: oklch(0.22 0.02 265);
-  --ring: oklch(0.70 0.18 250);
+  --border: oklch(1 0 0 / 20%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.65 0.18 280);
   
   /* Shadows - Deep atmospheric */
   --shadow-soft: 0 2px 8px -2px rgb(0 0 0 / 0.3);
   --shadow-warm: 0 4px 16px -4px rgb(0 0 0 / 0.4);
   --shadow-lifted: 0 8px 24px -8px rgb(0 0 0 / 0.5);
-  --shadow-glow: 0 0 40px -5px oklch(0.70 0.18 250);
+  --shadow-glow: 0 0 40px -5px oklch(0.65 0.18 280);
   
   /* Background gradients */
   --gradient-hero: linear-gradient(135deg, oklch(0.15 0.02 280) 0%, oklch(0.12 0.015 265) 100%);
@@ -785,9 +785,9 @@ button:disabled {
   
   /* Accent colors - vibrant and glowing */
   --accent-warm: oklch(0.70 0.15 35);
-  --accent-cool: oklch(0.65 0.18 250);
+  --accent-cool: oklch(0.65 0.18 280);
   --accent-rose: oklch(0.68 0.15 15);
-  --accent-purple: oklch(0.65 0.20 290);
+  --accent-purple: oklch(0.65 0.20 280);
 }
 
 /* Dark mode cards with glow effect */
@@ -803,7 +803,7 @@ button:disabled {
 .dark .premium-card:hover,
 .dark article[class*="card"]:hover,
 .dark [class*="Card"]:hover {
-  box-shadow: var(--shadow-lifted), 0 0 30px -10px oklch(0.65 0.15 250);
+  box-shadow: var(--shadow-lifted), 0 0 30px -10px oklch(0.65 0.15 280);
   transform: translateY(-2px);
 }
 
@@ -828,8 +828,8 @@ button:disabled {
 
 /* Dark mode particles - glowing */
 .dark .particle {
-  background: oklch(0.65 0.15 250);
-  box-shadow: 0 0 12px oklch(0.65 0.15 250), 0 0 25px oklch(0.60 0.12 250);
+  background: oklch(0.65 0.15 280);
+  box-shadow: 0 0 12px oklch(0.65 0.15 280), 0 0 25px oklch(0.60 0.12 250);
   opacity: 0.40;
 }
 
@@ -1228,7 +1228,7 @@ button:disabled {
 }
 
 .dark .orb-cool {
-  background: radial-gradient(circle, oklch(0.55 0.18 250) 0%, transparent 70%);
+  background: radial-gradient(circle, oklch(0.55 0.18 280) 0%, transparent 70%);
   opacity: 0.4;
   filter: blur(90px);
   animation: pulse 6s ease-in-out infinite;
