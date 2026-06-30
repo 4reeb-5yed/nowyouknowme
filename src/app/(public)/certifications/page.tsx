@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { CertificationCard } from "@/components/public/certification-card";
@@ -13,25 +15,16 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const description =
     config?.metaDescription ||
-    "Professional certifications and credentials demonstrating verified expertise in cybersecurity, cloud infrastructure, and web development.";
-  const ogImage = config?.ogImageUrl || undefined;
-  const title = "Certifications";
+    "Professional certifications and credentials validating expertise across cybersecurity, cloud infrastructure, and web development.";
 
   return {
-    title,
+    title: "Certifications",
     description: `Certifications — ${description}`,
     openGraph: {
-      title,
+      title: "Certifications",
       description,
       url: `${siteUrl}/certifications`,
       type: "website",
-      ...(ogImage && { images: [{ url: ogImage }] }),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      ...(ogImage && { images: [ogImage] }),
     },
   };
 }
@@ -41,23 +34,33 @@ export default async function CertificationsPage() {
   const certifications = await trpc.certifications.listVisible();
 
   return (
-    <main className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
-      <header className="mb-10 md:mb-12">
+    <main className="container mx-auto px-4 py-12 md:py-16">
+      {/* Back link */}
+      <Link
+        href="/"
+        className="mb-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to home
+      </Link>
+
+      {/* Page header */}
+      <header className="mb-10 max-w-2xl">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
           Certifications
         </h1>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
-          Professional credentials and licenses validating expertise across
-          domains.
+        <p className="mt-3 text-muted-foreground">
+          Professional credentials validating expertise across domains.
         </p>
       </header>
 
+      {/* Certifications grid */}
       <section aria-labelledby="certifications-list-heading">
         <h2 id="certifications-list-heading" className="sr-only">
           Credentials
         </h2>
         {certifications.length === 0 ? (
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground py-12 text-center">
             No certifications to display at this time.
           </p>
         ) : (

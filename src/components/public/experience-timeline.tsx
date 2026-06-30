@@ -2,9 +2,6 @@
 
 import { Badge } from "@/components/ui/badge";
 
-/**
- * Represents a work experience entry displayed in the timeline.
- */
 export interface Experience {
   id: string;
   companyName: string;
@@ -21,9 +18,6 @@ export interface ExperienceTimelineProps {
   experiences: Experience[];
 }
 
-/**
- * Formats a date string (YYYY-MM-DD) to a readable format like "Jan 2024".
- */
 function formatTimelineDate(dateStr: string): string {
   const date = new Date(dateStr);
   return new Intl.DateTimeFormat("en-US", {
@@ -33,80 +27,78 @@ function formatTimelineDate(dateStr: string): string {
 }
 
 /**
- * ExperienceTimeline displays work experience entries as a vertical timeline.
- * Entries are expected to arrive pre-sorted with most recent first.
- *
- * - Shows "Present" for entries where end_date is null
- * - Displays tech_stack tags and description for each entry
- * - Timeline layout with vertical line on desktop, single column on mobile
- * - Accessible: proper heading hierarchy, semantic HTML
- *
- * Validates: Requirements 18.6, 18.7
+ * Elegant timeline for displaying work experience.
  */
 export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
   if (experiences.length === 0) {
     return (
-      <p className="text-center text-muted-foreground">
-        No experience entries to display.
+      <p className="text-center text-muted-foreground py-12">
+        No experience entries yet.
       </p>
     );
   }
 
   return (
     <section aria-label="Work experience timeline">
-      <ol className="relative space-y-8 md:space-y-12">
-        {/* Vertical timeline line (desktop only) */}
-        <div
-          className="absolute left-4 top-2 hidden h-[calc(100%-1rem)] w-0.5 bg-border md:block"
-          aria-hidden="true"
-        />
-
-        {experiences.map((experience) => {
+      <ol className="relative space-y-6">
+        {experiences.map((experience, index) => {
           const startFormatted = formatTimelineDate(experience.startDate);
           const endFormatted = experience.endDate
             ? formatTimelineDate(experience.endDate)
             : "Present";
+          const isLatest = index === 0;
 
           return (
-            <li key={experience.id} className="relative md:pl-12">
-              {/* Timeline dot (desktop only) */}
+            <li key={experience.id} className="relative pl-8 md:pl-10">
+              {/* Timeline line */}
               <div
-                className="absolute left-[0.875rem] top-2 hidden h-3 w-3 rounded-full border-2 border-primary bg-background md:block"
+                className="absolute left-3 top-2 h-full w-px bg-border md:left-[11px]"
                 aria-hidden="true"
               />
 
-              {/* Date range */}
-              <time
-                className="mb-1 block text-sm font-medium text-muted-foreground"
-                dateTime={experience.startDate}
-              >
-                {startFormatted} — {endFormatted}
-              </time>
+              {/* Timeline dot */}
+              <div
+                className={`absolute left-0 top-1.5 h-2 w-2 rounded-full md:left-[7px] ${
+                  isLatest
+                    ? "bg-primary shadow-lg shadow-primary/30"
+                    : "bg-muted-foreground/30"
+                }`}
+                aria-hidden="true"
+              />
 
-              {/* Content card */}
-              <div className="rounded-lg border bg-card p-4 shadow-sm transition-shadow hover:shadow-md">
-                <h3 className="text-lg font-semibold leading-tight text-foreground">
+              {/* Content */}
+              <div className="pb-6 last:pb-0">
+                {/* Date */}
+                <time
+                  className="mb-1 block text-xs font-medium uppercase tracking-wider text-muted-foreground"
+                  dateTime={experience.startDate}
+                >
+                  {startFormatted} — {endFormatted}
+                </time>
+
+                {/* Role & Company */}
+                <h3 className="text-base font-semibold text-foreground">
                   {experience.roleTitle}
                 </h3>
-                <p className="mt-0.5 text-sm font-medium text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                   {experience.companyName}
                 </p>
 
                 {/* Description */}
                 {experience.description && (
-                  <p className="mt-3 text-sm text-muted-foreground">
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {experience.description}
                   </p>
                 )}
 
-                {/* Tech stack tags */}
+                {/* Tech stack */}
                 {experience.techStack.length > 0 && (
                   <div
                     className="mt-3 flex flex-wrap gap-1.5"
                     aria-label={`Technologies used at ${experience.companyName}`}
                   >
                     {experience.techStack.map((tech) => (
-                      <Badge key={tech} variant="secondary">
+                      <Badge key={tech} variant="secondary" className="text-xs">
                         {tech}
                       </Badge>
                     ))}

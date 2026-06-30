@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { ResumeButton } from "@/components/public/resume-button";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Sparkles, Shield, Cloud, Code } from "lucide-react";
@@ -21,7 +22,6 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
   const typingRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Typing animation
     let charIndex = 0;
     const typeText = () => {
       if (charIndex < fullText.length) {
@@ -30,7 +30,6 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
         typingRef.current = setTimeout(typeText, 50 + Math.random() * 30);
       } else {
         setIsTyping(false);
-        // Pause then restart
         setTimeout(() => {
           setTypedText("");
           charIndex = 0;
@@ -40,7 +39,6 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
       }
     };
 
-    // Start typing after a brief delay
     const startTimeout = setTimeout(typeText, 500);
 
     return () => {
@@ -58,19 +56,14 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
 
   return (
     <section
-      className="relative flex min-h-[90vh] items-center justify-center overflow-hidden px-4"
+      className="relative flex min-h-[85vh] items-center justify-center overflow-hidden px-4"
       aria-label="Hero"
     >
-      {/* Animated gradient background - CSS only, GPU accelerated */}
+      {/* Animated gradient background */}
       <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        {/* Primary gradient orb */}
         <div className="absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-primary/30 via-purple-500/20 to-blue-500/30 blur-[100px] will-change-transform animate-float-slow" />
-        {/* Secondary gradient orb */}
         <div className="absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-emerald-500/20 via-cyan-500/20 to-primary/30 blur-[80px] will-change-transform animate-float-medium" />
-        {/* Accent orb */}
         <div className="absolute right-1/3 top-1/2 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-amber-500/10 to-orange-500/10 blur-[60px] will-change-transform animate-float-fast" />
-        
-        {/* Subtle grid pattern */}
         <div 
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -80,24 +73,24 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
         />
       </div>
 
-      {/* Floating decorative icons - SSR safe, CSS animated */}
+      {/* Floating decorative icons */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <FloatingIcon icon={<Shield className="h-6 w-6" />} className="top-[15%] left-[10%] animate-float-delayed-1" delay={0} />
-        <FloatingIcon icon={<Code className="h-8 w-8" />} className="top-[25%] right-[15%] animate-float-delayed-2" delay={1} />
-        <FloatingIcon icon={<Cloud className="h-5 w-5" />} className="bottom-[30%] left-[20%] animate-float-delayed-3" delay={2} />
-        <FloatingIcon icon={<Sparkles className="h-7 w-7" />} className="bottom-[20%] right-[25%] animate-float-delayed-4" delay={3} />
+        <FloatingIcon icon={<Shield className="h-5 w-5" />} className="top-[20%] left-[8%]" delay={0} />
+        <FloatingIcon icon={<Code className="h-6 w-6" />} className="top-[30%] right-[12%]" delay={1} />
+        <FloatingIcon icon={<Cloud className="h-4 w-4" />} className="bottom-[35%] left-[18%]" delay={2} />
+        <FloatingIcon icon={<Sparkles className="h-5 w-5" />} className="bottom-[25%] right-[20%]" delay={3} />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-4xl text-center">
-        {/* Badge */}
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm text-primary animate-fade-in">
-          <Sparkles className="h-4 w-4" />
-          <span>Welcome to my portfolio</span>
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
+        {/* Welcome badge */}
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary animate-fade-in">
+          <Sparkles className="h-3 w-3" />
+          <span>Welcome</span>
         </div>
 
         {/* Main headline with typing effect */}
-        <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl min-h-[1.1em]">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl min-h-[1.1em]">
           <span className="bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
             {typedText}
           </span>
@@ -108,46 +101,45 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
         </h1>
 
         {/* Subheadline */}
-        <p className="mt-6 text-lg text-muted-foreground sm:text-xl md:text-2xl max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-          Explore my work, experience, and what drives me to build exceptional digital experiences.
+        <p className="mt-6 text-base text-muted-foreground sm:text-lg max-w-xl mx-auto animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+          Building secure, scalable solutions with expertise in cybersecurity, cloud infrastructure, and web development.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-          {resumeUrl && (
+        {/* Primary CTA */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+          {resumeUrl ? (
             <ResumeButton resumeUrl={resumeUrl} className="px-8 py-3 text-base" />
+          ) : (
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Get in touch
+            </Link>
           )}
-          <a
-            href="#projects"
-            className="group inline-flex items-center gap-2 rounded-full border-2 border-foreground/20 px-6 py-2.5 text-sm font-medium transition-all hover:border-foreground/40 hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          <Link
+            href="/projects"
+            className="group inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-muted-foreground transition-all hover:border-foreground/30 hover:text-foreground hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            View Projects
-            <span className="transition-transform group-hover:translate-x-1">→</span>
-          </a>
-        </div>
-
-        {/* Stats (optional quick impact) */}
-        <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto animate-fade-in-up" style={{ animationDelay: '600ms' }}>
-          <StatItem number="5+" label="Years Experience" />
-          <StatItem number="20+" label="Projects Built" />
-          <StatItem number="10+" label="Technologies" />
+            View my work
+            <span className="transition-transform group-hover:translate-x-0.5">→</span>
+          </Link>
         </div>
       </div>
 
       {/* Scroll indicator */}
       <button
         onClick={scrollToContent}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-foreground transition-colors animate-bounce-slow"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-muted-foreground/50 hover:text-muted-foreground transition-colors animate-bounce-slow"
         aria-label="Scroll to content"
       >
-        <span className="text-xs font-medium uppercase tracking-widest">Scroll</span>
-        <ChevronDown className="h-5 w-5" />
+        <span className="text-[10px] font-medium uppercase tracking-widest">Explore</span>
+        <ChevronDown className="h-4 w-4" />
       </button>
     </section>
   );
 }
 
-// Floating icon component - pure CSS animation
 function FloatingIcon({ 
   icon, 
   className = "",
@@ -160,22 +152,12 @@ function FloatingIcon({
   return (
     <div 
       className={cn(
-        "absolute rounded-xl border border-foreground/5 bg-background/50 backdrop-blur-sm p-3 text-foreground/30",
+        "absolute rounded-xl border border-foreground/5 bg-background/30 backdrop-blur-sm p-2.5 text-foreground/20",
         className
       )}
       style={{ animationDelay: `${delay * 0.5}s` }}
     >
       {icon}
-    </div>
-  );
-}
-
-// Stats counter component
-function StatItem({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="text-center">
-      <div className="text-3xl font-bold tracking-tight">{number}</div>
-      <div className="mt-1 text-sm text-muted-foreground">{label}</div>
     </div>
   );
 }

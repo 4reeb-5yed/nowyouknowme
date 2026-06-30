@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createServerClient } from "@/lib/trpc/server";
+import { Heart } from "lucide-react";
 
 const footerLinks = [
   { href: "/projects", label: "Projects" },
@@ -9,85 +9,43 @@ const footerLinks = [
   { href: "/contact", label: "Contact" },
 ] as const;
 
-export async function SiteFooter() {
-  let socialLinks: { platform: string; url: string }[] = [];
-
-  try {
-    const trpc = await createServerClient();
-    socialLinks = await trpc.socialLinks.listVisible();
-  } catch {
-    // Gracefully handle if social links are unavailable
-  }
-
+export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border/40 bg-muted/30">
-      <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <footer className="border-t border-border/50 bg-background">
+      <div className="container mx-auto px-4 py-8">
+        {/* Main footer content */}
+        <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           {/* Brand */}
-          <div>
+          <div className="flex flex-col items-center sm:items-start gap-2">
             <Link
               href="/"
-              className="text-lg font-bold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded-md"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               NowYouKnowMe
             </Link>
-            <p className="mt-2 text-sm text-muted-foreground max-w-xs">
-              Building secure, scalable, and elegant solutions across cybersecurity, cloud, and web development.
+            <p className="text-xs text-muted-foreground">
+              Building secure, scalable solutions
             </p>
           </div>
 
           {/* Navigation */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Pages
-            </h3>
-            <nav className="mt-3 flex flex-col gap-2" aria-label="Footer navigation">
-              {footerLinks.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2" aria-label="Footer navigation">
+            {footerLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
 
-          {/* Social Links */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Connect
-            </h3>
-            {socialLinks.length > 0 ? (
-              <nav className="mt-3 flex flex-col gap-2" aria-label="Social links">
-                {socialLinks.map((link) => (
-                  <a
-                    key={`${link.platform}-${link.url}`}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    aria-label={`${link.platform} (opens in new tab)`}
-                  >
-                    {link.platform}
-                  </a>
-                ))}
-              </nav>
-            ) : (
-              <p className="mt-3 text-sm text-muted-foreground">
-                Social links coming soon.
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="mt-12 border-t border-border/40 pt-6">
-          <p className="text-center text-sm text-muted-foreground">
-            &copy; {currentYear} NowYouKnowMe. All rights reserved.
+          {/* Copyright */}
+          <p className="text-xs text-muted-foreground">
+            &copy; {currentYear}
           </p>
         </div>
       </div>

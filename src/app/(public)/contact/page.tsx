@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { ContactForm } from "@/components/public/contact-form";
@@ -14,25 +16,16 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const description =
     config?.metaDescription ||
-    "Get in touch. Send a message through the contact form or reach out via social media.";
-  const ogImage = config?.ogImageUrl || undefined;
-  const title = "Contact";
+    "Get in touch. Send a message or reach out via social media.";
 
   return {
-    title,
+    title: "Contact",
     description: `Contact — ${description}`,
     openGraph: {
-      title,
+      title: "Contact",
       description,
       url: `${siteUrl}/contact`,
       type: "website",
-      ...(ogImage && { images: [{ url: ogImage }] }),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      ...(ogImage && { images: [ogImage] }),
     },
   };
 }
@@ -42,30 +35,39 @@ export default async function ContactPage() {
   const socialLinks = await trpc.socialLinks.listVisible();
 
   return (
-    <main className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
-      <header className="mb-10 md:mb-12">
+    <main className="container mx-auto px-4 py-12 md:py-16">
+      {/* Back link */}
+      <Link
+        href="/"
+        className="mb-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to home
+      </Link>
+
+      {/* Page header */}
+      <header className="mb-10 max-w-2xl">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Contact
+          Get in touch
         </h1>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
-          Have a question or want to work together? Send me a message and
-          I&apos;ll get back to you as soon as possible.
+        <p className="mt-3 text-muted-foreground">
+          Have a question or want to work together? Send me a message and I&apos;ll get back to you.
         </p>
       </header>
 
-      <div className="grid gap-12 lg:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
         {/* Contact Form */}
         <section aria-label="Contact form">
           <ContactForm />
         </section>
 
-        {/* Alternative Contact Methods */}
-        <section aria-label="Alternative contact methods">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Other Ways to Reach Me
+        {/* Social Links */}
+        <section aria-label="Social links">
+          <h2 className="text-lg font-semibold">
+            Or find me online
           </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            You can also find me on these platforms.
+          <p className="mt-1 text-sm text-muted-foreground">
+            Connect with me on these platforms.
           </p>
           <div className="mt-4">
             <SocialLinks links={socialLinks} />
