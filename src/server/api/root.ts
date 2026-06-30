@@ -11,6 +11,7 @@ import { siteConfigRouter } from "./routers/site-config";
 import { socialLinksRouter } from "./routers/social-links";
 import { activityLogRouter } from "./routers/activity-log";
 import { searchRouter } from "./routers/search";
+import { revisionsRouter } from "./routers/revisions";
 
 /**
  * Main application router.
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   socialLinks: socialLinksRouter,
   activityLog: activityLogRouter,
   search: searchRouter,
+  revisions: revisionsRouter,
 });
 
 export type AppRouter = typeof appRouter;

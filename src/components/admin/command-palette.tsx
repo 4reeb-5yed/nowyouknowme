@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Loader2,
   Image,
+  History,
 } from "lucide-react";
 
 interface CommandPaletteProps {
@@ -108,6 +109,14 @@ const NAV_COMMANDS: NavCommand[] = [
     description: "Manage uploaded files and images",
     icon: <Image className="h-4 w-4" />,
     url: "/admin/media",
+  },
+  {
+    id: "nav-revisions",
+    type: "navigation",
+    title: "Revision History",
+    description: "Track and restore content changes",
+    icon: <History className="h-4 w-4" />,
+    url: "/admin/revisions",
   },
   {
     id: "nav-site-config",

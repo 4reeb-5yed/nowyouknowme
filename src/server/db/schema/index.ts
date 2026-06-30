@@ -12,6 +12,7 @@ export { siteConfig } from "./site-config";
 export { experiences } from "./experience";
 export { certifications } from "./certification";
 export { activityLogs } from "./activity-log";
+export { revisions } from "./revision";
 
 // Future stubs
 export { posts } from "./post";

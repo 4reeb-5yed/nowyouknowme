@@ -21,6 +21,7 @@ import {
   Keyboard,
   ChevronDown,
   Image,
+  History,
 } from "lucide-react";
 
 import { TRPCProvider } from "@/lib/trpc/provider";
@@ -38,6 +39,7 @@ const navItems = [
   { href: "/admin/certifications", label: "Certifications", icon: Award },
   { href: "/admin/resume", label: "Resume", icon: FileDown },
   { href: "/admin/media", label: "Media", icon: Image },
+  { href: "/admin/revisions", label: "Revisions", icon: History },
   { href: "/admin/site-config", label: "Site Config", icon: Settings },
 ];
 

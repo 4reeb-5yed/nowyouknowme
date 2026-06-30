@@ -19,6 +19,9 @@ A full-stack portfolio web application with a built-in CMS dashboard. Manage pro
 - **Command Palette** — Quick navigation and search with `Cmd/Ctrl+K`
 - **Global Search** — Search across all content types (projects, experience, certifications, pages)
 - **Activity Log** — Track all content changes with timestamps and user info
+- **Revision History** — Full version control with restore capability
+- **Live Preview** — Real-time preview of content changes in multiple device sizes
+- **Visual Section Reordering** — Drag-and-drop page sections with preview
 - **Media Library** — Centralized file management for images and documents
 - **Keyboard Shortcuts** — `Cmd+S` to save, `Cmd+/` for help, full shortcut support
 - **Bulk Actions** — Multi-select and batch operations on content
@@ -212,6 +215,7 @@ nowyouknowme/
 │   │   │   ├── certifications/# Certifications CRUD
 │   │   │   ├── resume/        # Resume manager
 │   │   │   ├── media/        # Media library (images, documents)
+│   │   │   ├── revisions/    # Revision history browser
 │   │   │   └── site-config/   # Theme and SEO settings
 │   │   └── api/               # API routes
 │   │       ├── trpc/          # tRPC HTTP handler
@@ -224,16 +228,19 @@ nowyouknowme/
 │   │   ├── ui/                # shadcn/ui primitives
 │   │   ├── public/            # Public site components
 │   │   ├── admin/             # CMS components (tables, forms, modals)
-│   │   │   ├── command-palette.tsx    # Global search & navigation
+│   │   │   ├── command-palette.tsx       # Global search & navigation
 │   │   │   ├── keyboard-shortcuts-help.tsx  # Shortcut reference modal
-│   │   │   └── media-library.tsx       # File management UI
+│   │   │   ├── media-library.tsx        # File management UI
+│   │   │   ├── section-reorder.tsx       # Drag-drop section reordering
+│   │   │   ├── live-preview.tsx         # Live preview with device sizes
+│   │   │   └── revision-history.tsx     # Version history UI
 │   │   ├── editor/            # Rich text editor components
 │   │   └── analytics.tsx      # Analytics placeholder
 │   ├── server/
 │   │   ├── api/
-│   │   │   ├── routers/       # tRPC routers (projects, experience, search, activity-log, etc.)
+│   │   │   ├── routers/       # tRPC routers (projects, experience, search, activity-log, revisions, etc.)
 │   │   │   └── trpc.ts       # tRPC configuration
-│   │   ├── services/          # Business logic layer
+│   │   ├── services/          # Business logic layer (services for all entities)
 │   │   └── db/                # Drizzle ORM (schema, migrations)
 │   ├── lib/
 │   │   ├── auth.ts            # NextAuth configuration

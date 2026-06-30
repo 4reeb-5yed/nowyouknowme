@@ -26,3 +26,8 @@ export type { CertificationFormProps, CertFormData } from "./certification-form"
 // Enhanced CMS components
 export { CommandPalette } from "./command-palette";
 export { KeyboardShortcutsHelp } from "./keyboard-shortcuts-help";
+export { MediaLibrary } from "./media-library";
+export { SectionReorder } from "./section-reorder";
+export type { PageSection } from "./section-reorder";
+export { LivePreview, useLivePreview } from "./live-preview";
+export { RevisionHistory, RevisionCountBadge } from "./revision-history";
