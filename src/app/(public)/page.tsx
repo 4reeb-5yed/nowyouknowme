@@ -14,6 +14,7 @@ import { AnimatedBackground } from "@/components/public/animated-background";
 import { db } from "@/server/db";
 import { siteConfig } from "@/server/db/schema";
 import { clientEnv } from "@/config/env";
+import { cn } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -276,7 +277,17 @@ export default async function HomePage() {
           </ScrollReveal>
 
           {featuredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+              className={cn(
+                "grid gap-6",
+                // Single project: centered, wider card
+                featuredProjects.length === 1 && "max-w-2xl mx-auto",
+                // Two projects: 2 columns, centered
+                featuredProjects.length === 2 && "sm:grid-cols-2 max-w-3xl mx-auto",
+                // Three or more: full grid
+                featuredProjects.length >= 3 && "sm:grid-cols-2 lg:grid-cols-3"
+              )}
+            >
               {featuredProjects.map((project, index) => (
                 <ScrollReveal key={project.id} direction="up" delay={index * 100}>
                   <ProjectCard project={project} />
@@ -333,7 +344,15 @@ export default async function HomePage() {
               </div>
             </ScrollReveal>
 
-            <div className="mx-auto max-w-xl space-y-4 lg:max-w-2xl lg-constrained">
+            <div
+              className={cn(
+                "space-y-4",
+                // Single experience: centered, wider
+                experiences.length === 1 && "mx-auto max-w-2xl",
+                // Multiple: existing layout
+                experiences.length > 1 && "mx-auto max-w-xl lg:max-w-2xl lg-constrained"
+              )}
+            >
               {experiences.map((exp, index) => (
                 <ScrollReveal key={exp.id} direction="up" delay={index * 75}>
                   <Link
