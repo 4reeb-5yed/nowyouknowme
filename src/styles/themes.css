@@ -629,6 +629,471 @@ button:disabled {
 }
 
 /* ==========================================================================
+   PREMIUM LIGHT MODE - Elegant Cream Aesthetic
+   Clean, sophisticated, warm editorial feel
+   ========================================================================== */
+
+:root {
+  /* Core Background - Warm Cream */
+  --background: oklch(0.985 0.008 55);
+  --foreground: oklch(0.25 0.02 55);
+  
+  /* Card - Pure white with warm tint */
+  --card: oklch(0.995 0.003 55);
+  --card-foreground: oklch(0.25 0.02 55);
+  
+  /* Popover */
+  --popover: oklch(0.995 0.003 55);
+  --popover-foreground: oklch(0.25 0.02 55);
+  
+  /* Primary - Sophisticated warm blue */
+  --primary: oklch(0.50 0.12 250);
+  --primary-foreground: oklch(0.99 0 0);
+  
+  /* Secondary - Warm neutral */
+  --secondary: oklch(0.96 0.008 55);
+  --secondary-foreground: oklch(0.35 0.02 55);
+  
+  /* Muted - Subtle warm gray */
+  --muted: oklch(0.94 0.008 55);
+  --muted-foreground: oklch(0.50 0.025 55);
+  
+  /* Accent - Warm rose */
+  --accent: oklch(0.60 0.10 15);
+  --accent-foreground: oklch(0.99 0 0);
+  
+  /* Destructive */
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  
+  /* Borders - Warm subtle */
+  --border: oklch(0.90 0.01 55);
+  --input: oklch(0.92 0.01 55);
+  --ring: oklch(0.50 0.12 250);
+  
+  /* Shadows - Warm undertones */
+  --shadow-soft: 0 2px 8px -2px rgb(60 30 0 / 0.06);
+  --shadow-warm: 0 4px 16px -4px rgb(60 30 0 / 0.08);
+  --shadow-lifted: 0 8px 24px -8px rgb(60 30 0 / 0.10);
+  --shadow-glow: 0 0 30px -5px oklch(0.55 0.08 250);
+  
+  /* Background gradients */
+  --gradient-hero: linear-gradient(135deg, oklch(0.97 0.015 55) 0%, oklch(0.94 0.02 50) 100%);
+  --gradient-section: linear-gradient(180deg, oklch(0.985 0.008 55) 0%, oklch(0.97 0.01 55) 100%);
+  --gradient-card: linear-gradient(180deg, oklch(0.995 0.003 55) 0%, oklch(0.99 0.005 55) 100%);
+  
+  /* Accent colors */
+  --accent-warm: oklch(0.65 0.12 35);
+  --accent-cool: oklch(0.55 0.10 250);
+  --accent-rose: oklch(0.60 0.10 15);
+  --accent-purple: oklch(0.55 0.12 290);
+}
+
+/* Light mode cards */
+:root .premium-card,
+:root article[class*="card"],
+:root [class*="Card"] {
+  box-shadow: var(--shadow-soft);
+  background: var(--gradient-card);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+:root .premium-card:hover,
+:root article[class*="card"]:hover,
+:root [class*="Card"]:hover {
+  box-shadow: var(--shadow-lifted);
+  transform: translateY(-2px);
+}
+
+/* Light mode aurora - very subtle warm tones */
+:root .aurora-1 {
+  background: radial-gradient(ellipse, oklch(0.75 0.06 40) 0%, transparent 60%);
+  opacity: 0.08;
+}
+
+:root .aurora-2 {
+  background: radial-gradient(ellipse, oklch(0.70 0.08 280) 0%, transparent 60%);
+  opacity: 0.06;
+}
+
+:root .aurora-3 {
+  background: radial-gradient(ellipse, oklch(0.72 0.06 200) 0%, transparent 60%);
+  opacity: 0.05;
+}
+
+/* Light mode particles - subtle warm dots */
+:root .particle {
+  background: oklch(0.55 0.08 250);
+  box-shadow: 0 0 8px oklch(0.55 0.08 250);
+  opacity: 0.15;
+}
+
+/* ==========================================================================
+   PREMIUM DARK MODE - Atmospheric Deep Elegance
+   Rich, dramatic, immersive feel
+   ========================================================================== */
+
+.dark {
+  /* Core Background - Deep atmospheric */
+  --background: oklch(0.12 0.015 265);
+  --foreground: oklch(0.95 0 0);
+  
+  /* Card - Slightly elevated */
+  --card: oklch(0.15 0.015 265);
+  --card-foreground: oklch(0.95 0 0);
+  
+  /* Popover */
+  --popover: oklch(0.15 0.015 265);
+  --popover-foreground: oklch(0.95 0 0);
+  
+  /* Primary - Vibrant electric blue */
+  --primary: oklch(0.70 0.18 250);
+  --primary-foreground: oklch(0.12 0.02 265);
+  
+  /* Secondary - Deep purple tint */
+  --secondary: oklch(0.18 0.02 280);
+  --secondary-foreground: oklch(0.90 0.01 265);
+  
+  /* Muted - Subtle purple gray */
+  --muted: oklch(0.20 0.02 265);
+  --muted-foreground: oklch(0.65 0.02 265);
+  
+  /* Accent - Vibrant purple */
+  --accent: oklch(0.65 0.18 290);
+  --accent-foreground: oklch(0.98 0 0);
+  
+  /* Destructive */
+  --destructive: oklch(0.60 0.18 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  /* Borders - Subtle purple tint */
+  --border: oklch(0.25 0.02 265);
+  --input: oklch(0.22 0.02 265);
+  --ring: oklch(0.70 0.18 250);
+  
+  /* Shadows - Deep atmospheric */
+  --shadow-soft: 0 2px 8px -2px rgb(0 0 0 / 0.3);
+  --shadow-warm: 0 4px 16px -4px rgb(0 0 0 / 0.4);
+  --shadow-lifted: 0 8px 24px -8px rgb(0 0 0 / 0.5);
+  --shadow-glow: 0 0 40px -5px oklch(0.70 0.18 250);
+  
+  /* Background gradients */
+  --gradient-hero: linear-gradient(135deg, oklch(0.15 0.02 280) 0%, oklch(0.12 0.015 265) 100%);
+  --gradient-section: linear-gradient(180deg, oklch(0.12 0.015 265) 0%, oklch(0.10 0.012 265) 100%);
+  --gradient-card: linear-gradient(180deg, oklch(0.16 0.015 265) 0%, oklch(0.14 0.015 265) 100%);
+  
+  /* Accent colors - vibrant and glowing */
+  --accent-warm: oklch(0.70 0.15 35);
+  --accent-cool: oklch(0.65 0.18 250);
+  --accent-rose: oklch(0.68 0.15 15);
+  --accent-purple: oklch(0.65 0.20 290);
+}
+
+/* Dark mode cards with glow effect */
+.dark .premium-card,
+.dark article[class*="card"],
+.dark [class*="Card"] {
+  box-shadow: var(--shadow-soft);
+  background: var(--gradient-card);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.dark .premium-card:hover,
+.dark article[class*="card"]:hover,
+.dark [class*="Card"]:hover {
+  box-shadow: var(--shadow-lifted), 0 0 30px -10px oklch(0.65 0.15 250);
+  transform: translateY(-2px);
+}
+
+/* Dark mode aurora - dramatic vibrant gradients */
+.dark .aurora-1 {
+  background: radial-gradient(ellipse, oklch(0.60 0.15 280) 0%, oklch(0.50 0.20 350) 50%, transparent 70%);
+  opacity: 0.20;
+  animation: aurora-1 20s ease-in-out infinite;
+}
+
+.dark .aurora-2 {
+  background: radial-gradient(ellipse, oklch(0.55 0.18 180) 0%, oklch(0.50 0.15 250) 50%, transparent 70%);
+  opacity: 0.18;
+  animation: aurora-2 25s ease-in-out infinite;
+}
+
+.dark .aurora-3 {
+  background: radial-gradient(ellipse, oklch(0.58 0.15 290) 0%, oklch(0.52 0.18 260) 50%, transparent 70%);
+  opacity: 0.15;
+  animation: aurora-3 22s ease-in-out infinite;
+}
+
+/* Dark mode particles - glowing */
+.dark .particle {
+  background: oklch(0.65 0.15 250);
+  box-shadow: 0 0 12px oklch(0.65 0.15 250), 0 0 25px oklch(0.60 0.12 250);
+  opacity: 0.40;
+}
+
+/* ==========================================================================
+   BACKGROUND CONTAINERS - Add to any page/section
+   ========================================================================== */
+
+/* Full page animated background */
+.page-background {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-section);
+  z-index: -2;
+}
+
+.page-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
+  background-size: 32px 32px;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+/* Section with aurora background */
+.section-aurora {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-aurora .aurora-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.section-aurora .aurora-container .aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+}
+
+.section-aurora .aurora-container .aurora-1 {
+  width: 60vmax;
+  height: 60vmax;
+  left: -20%;
+  top: 10%;
+}
+
+.section-aurora .aurora-container .aurora-2 {
+  width: 50vmax;
+  height: 50vmax;
+  right: -15%;
+  bottom: 20%;
+}
+
+.section-aurora .aurora-container .aurora-3 {
+  width: 40vmax;
+  height: 40vmax;
+  left: 30%;
+  top: 50%;
+}
+
+/* Particles container */
+.particles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particles-container .particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   PREMIUM ANIMATIONS - Smooth, not distracting
+   ========================================================================== */
+
+/* Aurora animations */
+@keyframes aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.18; }
+  25% { transform: translate(5%, -3%) scale(1.05); opacity: 0.22; }
+  50% { transform: translate(-3%, 5%) scale(1.1); opacity: 0.20; }
+  75% { transform: translate(-5%, -2%) scale(1.02); opacity: 0.19; }
+}
+
+@keyframes aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.16; }
+  33% { transform: translate(-4%, 4%) scale(1.08); opacity: 0.20; }
+  66% { transform: translate(3%, -3%) scale(1.05); opacity: 0.18; }
+}
+
+@keyframes aurora-3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.14; }
+  50% { transform: translate(2%, 2%) rotate(5deg); opacity: 0.17; }
+}
+
+/* Particle float animation */
+@keyframes particle-float {
+  0%, 100% { 
+    transform: translateY(0) translateX(0); 
+    opacity: inherit;
+  }
+  20% { 
+    transform: translateY(-25px) translateX(10px); 
+    opacity: calc(inherit * 1.3);
+  }
+  40% { 
+    transform: translateY(-15px) translateX(-8px); 
+    opacity: inherit;
+  }
+  60% { 
+    transform: translateY(-35px) translateX(5px); 
+    opacity: calc(inherit * 1.2);
+  }
+  80% { 
+    transform: translateY(-10px) translateX(-12px); 
+    opacity: inherit;
+  }
+}
+
+/* Breathing glow */
+@keyframes breathe {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.15; transform: scale(1.05); }
+}
+
+/* Fade in up - for content */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scale in - for cards/modals */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Shimmer for loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Slow rotate */
+@keyframes slowRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Gentle pulse */
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* Animation utility classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.animate-gentle-pulse {
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+.animate-slow-rotate {
+  animation: slowRotate 60s linear infinite;
+}
+
+/* Animation delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-1000 { animation-delay: 1000ms; }
+
+/* ==========================================================================
+   SHARED UTILITIES
+   ========================================================================== */
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-cool) 0%, var(--accent-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, var(--accent-cool) 0%, var(--accent-rose) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effects */
+.glow-primary {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-hover:hover {
+  box-shadow: var(--shadow-glow);
+}
+
+/* Glass effect */
+.glass {
+  background: oklch(1 0 0 / 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid oklch(0 0 0 / 0.05);
+}
+
+.dark .glass {
+  background: oklch(0 0 0 / 0.3);
+  border: 1px solid oklch(1 0 0 / 0.1);
+}
+
+/* Constrain content width */
+.content-constrain {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Center single items */
+.center-single {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .center-single:only-child {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ==========================================================================
    Light Mode - Warm Cream Aesthetic
    ========================================================================== */
 

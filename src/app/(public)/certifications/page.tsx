@@ -34,10 +34,12 @@ export default async function CertificationsPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Background decoration */}
+      {/* Premium animated background */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute left-1/3 top-1/4 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-orange-500/10 blur-[100px]" />
-        <div className="absolute right-1/4 bottom-1/3 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-yellow-500/10 to-amber-500/10 blur-[80px]" />
+        <div className="absolute inset-0 bg-gradient-section" />
+        <div className="aurora aurora-1" />
+        <div className="aurora aurora-2" />
+        <div className="aurora aurora-3" />
       </div>
 
       <div className="container mx-auto px-4 py-24 md:py-32">

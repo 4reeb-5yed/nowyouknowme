@@ -10,6 +10,7 @@ import { Hero } from "@/components/public/hero";
 import { ProjectCard } from "@/components/public/project-card";
 import { ScrollReveal } from "@/components/public/scroll-reveal";
 import { BackToTop } from "@/components/public/back-to-top";
+import { AnimatedBackground } from "@/components/public/animated-background";
 import { db } from "@/server/db";
 import { siteConfig } from "@/server/db/schema";
 import { clientEnv } from "@/config/env";
@@ -154,6 +155,10 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
+      {/* Full page animated background */}
+      <AnimatedBackground enableParticles={false} className="min-h-screen">
+      
 
       {/* Hero Section with Social Links */}
       <Hero 
@@ -397,6 +402,7 @@ export default async function HomePage() {
 
       {/* Back to Top Button */}
       <BackToTop />
+      </AnimatedBackground>
     </main>
   );
 }
