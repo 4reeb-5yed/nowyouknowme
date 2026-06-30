@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeInjector } from "@/components/theme-injector";
 import { Analytics } from "@/components/analytics";
@@ -10,22 +10,33 @@ import "./globals.css";
 import "@/styles/themes.css";
 
 /**
- * Font Preloading Strategy:
- * - next/font/google automatically preloads font files via <link rel="preload">
- * - display: "swap" prevents FOIT by rendering fallback text immediately
- * - subsets: ["latin"] reduces payload by loading only required character sets
- * - No external @import or @font-face declarations — all fonts self-hosted by Next.js
+ * V3 Typography System:
+ * - Fraunces: Display/headline typeface (warm, slightly idiosyncratic serif)
+ * - Inter: Body/UI typeface (neutral, readable)
+ * - JetBrains Mono: Code/monospace typeface (precision signature)
  */
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+// Inter for body text
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+// Fraunces for headlines (variable optical sizing)
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// JetBrains Mono for code
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500"],
 });
 
 const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
@@ -66,13 +77,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const config = await getConfig();
-  const defaultTheme = resolveDefaultTheme(config?.theme);
+  let defaultTheme = "system";
+  
+  try {
+    const config = await getConfig();
+    defaultTheme = resolveDefaultTheme(config?.theme);
+  } catch {
+    // Database not available, use system default
+    defaultTheme = "system";
+  }
 
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

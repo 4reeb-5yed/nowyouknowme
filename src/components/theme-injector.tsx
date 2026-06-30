@@ -50,12 +50,19 @@ function hexToOklchCompatible(hex: string): string {
  * in the CMS, ISR regenerates the page with the new value (no rebuild needed).
  */
 export async function ThemeInjector() {
-  const config = await getConfig();
+  // Default accent color for the V3 design system (terracotta)
+  let accentColor = "#B5481F";
+  
+  try {
+    const config = await getConfig();
+    if (config?.accentColor) {
+      accentColor = config.accentColor;
+    }
+  } catch {
+    // Database not available, use default accent color
+  }
 
-  // Fall back to the default accent if no config exists yet
-  const accentColor = config?.accentColor ?? "#2563eb";
   const foregroundColor = getAccentForeground(accentColor);
-
   const accentCss = hexToOklchCompatible(accentColor);
   const foregroundCss = hexToOklchCompatible(foregroundColor);
 
