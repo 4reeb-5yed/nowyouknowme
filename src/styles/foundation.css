@@ -813,12 +813,16 @@ input, textarea, select {
   z-index: 1;
 }
 
-/* Hero Watermark - Static background element */
+/* Hero Watermark - Vertical text behind content */
 .hero__watermark {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   pointer-events: none;
   z-index: 2;
   overflow: hidden;
@@ -826,22 +830,27 @@ input, textarea, select {
 
 .hero__watermark span {
   display: block;
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 4vw, 4rem);
+  font-weight: 500;
   color: var(--ink-primary);
-  opacity: 0.05;
+  opacity: 0.06;
   white-space: nowrap;
   user-select: none;
-  text-align: center;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  letter-spacing: 0.1em;
+  padding-right: 1rem;
 }
 
 @media (max-width: 768px) {
+  .hero__watermark {
+    width: 25%;
+  }
   .hero__watermark span {
-    font-size: clamp(2.5rem, 12vw, 5rem);
-    opacity: 0.04;
+    font-size: clamp(1rem, 3vw, 2rem);
+    opacity: 0.05;
   }
 }
 
