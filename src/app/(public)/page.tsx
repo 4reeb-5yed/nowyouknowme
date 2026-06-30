@@ -173,13 +173,13 @@ export default async function HomePage() {
       <section className="relative -mt-8 z-10" aria-label="Statistics">
         <div className="container mx-auto px-4">
           <ScrollReveal direction="up">
-            <div className="mx-auto max-w-3xl rounded-2xl border border-border/50 bg-card/80 backdrop-blur-xl shadow-xl">
+            <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-card shadow-lg backdrop-blur-sm transition-shadow hover:shadow-xl">
               <div className="grid grid-cols-3 divide-x divide-border">
                 {stats.map((stat, index) => (
                   <div key={stat.label} className="flex flex-col items-center px-4 py-5">
                     <stat.icon className="mb-2 h-5 w-5 text-primary" />
-                    <span className="text-2xl font-bold tracking-tight">{stat.value}</span>
-                    <span className="mt-0.5 text-xs text-muted-foreground">{stat.label}</span>
+                    <span className="text-2xl font-semibold tracking-tight">{stat.value}</span>
+                    <span className="mt-1 text-xs text-muted-foreground">{stat.label}</span>
                   </div>
                 ))}
               </div>
@@ -191,25 +191,25 @@ export default async function HomePage() {
       {/* About Preview Section */}
       <section className="relative overflow-hidden" aria-label="About preview">
         <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <div className="absolute left-1/4 top-1/2 h-[40vmin] w-[40vmin] -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/15 via-purple-500/10 to-blue-500/15 blur-[80px]" />
+          <div className="absolute left-1/4 top-1/2 h-[40vmin] w-[40vmin] -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 blur-[80px]" />
         </div>
         
-        <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="container mx-auto px-4 py-20 md:py-32">
           <ScrollReveal direction="up">
             <div className="mx-auto max-w-2xl text-center">
-              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-primary/15 to-primary/5 shadow-lg shadow-primary/5">
-                <BookOpen className="h-7 w-7 text-primary" />
+              <div className="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
+                <BookOpen className="h-8 w-8 text-primary" />
               </div>
               
-              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                 About Me
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              <p className="mt-6 text-base leading-relaxed text-muted-foreground">
                 {aboutPreview || "Cybersecurity professional, cloud architect, and web developer passionate about building secure, scalable solutions."}
               </p>
               <Link
                 href="/about"
-                className="group mt-8 inline-flex items-center gap-2 rounded-full border border-border/50 bg-card/80 px-6 py-2.5 text-sm font-medium shadow backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-7 py-3 text-sm font-medium shadow-sm transition-all hover:border-primary/30 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Read my story
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -222,7 +222,7 @@ export default async function HomePage() {
       {/* Skills Section */}
       <section className="relative overflow-hidden" aria-label="Skills">
         <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <div className="absolute right-1/4 top-1/2 h-[30vmin] w-[30vmin] -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/15 blur-[80px]" />
+          <div className="absolute right-1/4 top-1/2 h-[30vmin] w-[30vmin] -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 blur-[80px]" />
         </div>
 
         <div className="container mx-auto px-4 py-12 md:py-16">
@@ -256,17 +256,17 @@ export default async function HomePage() {
       {/* Featured Projects Section */}
       <section className="relative overflow-hidden" aria-label="Featured projects">
         <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <div className="absolute right-1/4 top-1/3 h-[35vmin] w-[35vmin] rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-primary/15 blur-[80px]" />
+          <div className="absolute right-1/4 top-1/3 h-[35vmin] w-[35vmin] rounded-full bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 blur-[80px]" />
         </div>
 
-        <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="container mx-auto px-4 py-20 md:py-32">
           <ScrollReveal direction="up">
             <div className="mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
               <div>
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-purple-500/15 to-pink-500/5 shadow-lg shadow-purple-500/5">
                   <FolderKanban className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                   Featured Work
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
@@ -324,17 +324,17 @@ export default async function HomePage() {
       {experiences.length > 0 && (
         <section className="relative overflow-hidden" aria-label="Experience preview">
           <div className="absolute inset-0 -z-10" aria-hidden="true">
-            <div className="absolute left-1/4 top-1/2 h-[30vmin] w-[30vmin] -translate-y-1/2 rounded-full bg-gradient-to-r from-blue-500/15 to-indigo-500/10 blur-[80px]" />
+            <div className="absolute left-1/4 top-1/2 h-[30vmin] w-[30vmin] -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 blur-[80px]" />
           </div>
 
-          <div className="container mx-auto px-4 py-16 md:py-24">
+          <div className="container mx-auto px-4 py-20 md:py-32">
             <ScrollReveal direction="up">
               <div className="mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
                   <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-blue-500/15 to-indigo-500/5 shadow-lg shadow-blue-500/5">
                     <Briefcase className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                  <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                     Experience
                   </h2>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -404,7 +404,7 @@ export default async function HomePage() {
       )}
 
       {/* Simple Contact CTA - minimal, not redundant */}
-      <section className="py-16 md:py-24" aria-label="Contact">
+      <section className="py-20 md:py-32" aria-label="Contact">
         <div className="container mx-auto px-4 text-center">
           <p className="text-muted-foreground">
             Interested in working together?{" "}

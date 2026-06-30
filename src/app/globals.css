@@ -5,133 +5,129 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ==========================================================================
-   Design Tokens - CSS Custom Properties (shadcn/ui compatible, oklch format)
+   Premium Design System - Cinematic, Luxury Aesthetic
    
-   WCAG 2.1 AA Contrast Compliance (verified):
-   - foreground on background: 19.79:1 (light), 18.96:1 (dark) ✓
-   - muted-foreground on background: 4.73:1 (light), 7.63:1 (dark) ✓
-   - muted-foreground on card: 4.73:1 (light), 6.91:1 (dark) ✓
-   - accent-foreground on accent: 4.67:1 (light & dark) ✓
-   - destructive-foreground on destructive: 4.56:1 (light), 4.58:1 (dark) ✓
-   - primary-foreground on primary: 17.16:1 (light), 14.22:1 (dark) ✓
-   - Default accent #2563eb on white: 5.17:1 ✓
-   All pairs meet the 4.5:1 minimum for normal text (WCAG 2.1 AA).
+   Inspired by: Apple, Linear, Vercel, Raycast
+   Principles: Soft neutrals, elegant accents, layered materials, 
+               calm sophistication over decoration
    ========================================================================== */
 
-/* Light mode defaults */
+/* Light mode defaults - Warm cream, like Apple */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* Core surfaces - layered cream tones */
+  --background: oklch(0.985 0.005 50);
+  --foreground: oklch(0.18 0.015 50);
+  --card: oklch(0.995 0.003 55);
+  --card-foreground: oklch(0.18 0.015 50);
+  --popover: oklch(0.995 0.003 55);
+  --popover-foreground: oklch(0.18 0.015 50);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  /* Primary - Dark charcoal, like Linear */
+  --primary: oklch(0.20 0.02 50);
+  --primary-foreground: oklch(0.99 0 0);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  /* Secondary - Subtle warm gray */
+  --secondary: oklch(0.96 0.005 50);
+  --secondary-foreground: oklch(0.35 0.02 50);
 
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Muted - Very subtle for layering */
+  --muted: oklch(0.95 0.005 50);
+  --muted-foreground: oklch(0.50 0.02 50);
 
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  /* Accent - Sophisticated violet, restrained */
+  --accent: oklch(0.55 0.12 280);
+  --accent-foreground: oklch(0.99 0 0);
 
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  /* Destructive */
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.99 0 0);
 
-  /* Accent: L darkened from 0.588 to 0.56 for 4.67:1 contrast with white foreground */
-  --accent: oklch(0.56 0.214 264);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Borders - Subtle, refined */
+  --border: oklch(0.90 0.005 50);
+  --input: oklch(0.90 0.005 50);
+  --ring: oklch(0.55 0.12 280);
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
+  --radius: 0.75rem;
 
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.56 0.214 264);
+  /* Charts */
+  --chart-1: oklch(0.55 0.12 280);
+  --chart-2: oklch(0.50 0.08 200);
+  --chart-3: oklch(0.55 0.10 30);
+  --chart-4: oklch(0.50 0.06 160);
+  --chart-5: oklch(0.45 0.08 280);
 
-  --radius: 0.625rem;
+  /* Sidebar */
+  --sidebar: oklch(0.98 0.005 50);
+  --sidebar-foreground: oklch(0.18 0.015 50);
+  --sidebar-primary: oklch(0.55 0.12 280);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.95 0.005 50);
+  --sidebar-accent-foreground: oklch(0.35 0.02 50);
+  --sidebar-border: oklch(0.90 0.005 50);
+  --sidebar-ring: oklch(0.55 0.12 280);
 
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-
-  /* Typography tokens */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-
-  /* Spacing tokens */
-  --spacing-section: 5rem;
-  --spacing-container: 2rem;
+  /* Premium easing curves */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* Dark mode values */
+/* Dark mode - Deep atmospheric, like Vercel/Raycast */
 .dark {
-  --background: oklch(0.08 0 0);
+  /* Deep charcoal with subtle warmth - NOT pure black */
+  --background: oklch(0.11 0.008 280);
   --foreground: oklch(0.95 0 0);
-
-  --card: oklch(0.22 0 0);
+  --card: oklch(0.15 0.01 280);
   --card-foreground: oklch(0.95 0 0);
-
-  --popover: oklch(0.22 0 0);
+  --popover: oklch(0.15 0.01 280);
   --popover-foreground: oklch(0.95 0 0);
 
-  /* Primary: Subtle purple-blue that works in dark mode without being jarring */
-  --primary: oklch(0.65 0.18 280);
-  --primary-foreground: oklch(0.98 0 0);
+  /* Primary - Elegant violet, not harsh */
+  --primary: oklch(0.70 0.12 280);
+  --primary-foreground: oklch(0.12 0.01 280);
 
-  --secondary: oklch(0.25 0 0);
-  --secondary-foreground: oklch(0.92 0 0);
+  /* Secondary - Subtle purple-gray */
+  --secondary: oklch(0.20 0.015 280);
+  --secondary-foreground: oklch(0.88 0 0);
 
-  --muted: oklch(0.25 0 0);
-  --muted-foreground: oklch(0.6 0 0);
+  /* Muted - Layered depth */
+  --muted: oklch(0.22 0.015 280);
+  --muted-foreground: oklch(0.60 0.01 280);
 
-  /* Accent: Deeper purple for better visibility in dark mode */
-  --accent: oklch(0.5 0.2 280);
-  --accent-foreground: oklch(0.98 0 0);
+  /* Accent - Restrained violet */
+  --accent: oklch(0.68 0.12 280);
+  --accent-foreground: oklch(0.12 0.01 280);
 
-  /* Destructive: L darkened from 0.704 to 0.577 for 4.58:1 contrast with white foreground */
-  --destructive: oklch(0.577 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
+  /* Destructive */
+  --destructive: oklch(0.60 0.14 25);
+  --destructive-foreground: oklch(0.98 0 0);
 
-  /* Darker borders for better visibility in dark mode */
-  --border: oklch(1 0 0 / 25%);
-  --input: oklch(1 0 0 / 15%);
-  /* Ring color matches primary */
-  --ring: oklch(0.65 0.18 280);
+  /* Borders - Subtle violet tint, visible but refined */
+  --border: oklch(0.28 0.015 280);
+  --input: oklch(0.25 0.015 280);
+  --ring: oklch(0.70 0.12 280);
 
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  /* Charts - Harmonious with theme */
+  --chart-1: oklch(0.70 0.12 280);
+  --chart-2: oklch(0.65 0.10 200);
+  --chart-3: oklch(0.68 0.12 30);
+  --chart-4: oklch(0.62 0.08 160);
+  --chart-5: oklch(0.65 0.10 280);
 
-  /* Sidebar with matching dark theme colors */
-  --sidebar: oklch(0.15 0 0);
+  /* Sidebar */
+  --sidebar: oklch(0.13 0.01 280);
   --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.65 0.18 280);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.22 0 0);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(1 0 0 / 20%);
-  --sidebar-ring: oklch(0.65 0.18 280);
+  --sidebar-primary: oklch(0.70 0.12 280);
+  --sidebar-primary-foreground: oklch(0.12 0.01 280);
+  --sidebar-accent: oklch(0.20 0.015 280);
+  --sidebar-accent-foreground: oklch(0.88 0 0);
+  --sidebar-border: oklch(0.26 0.015 280);
+  --sidebar-ring: oklch(0.70 0.12 280);
+
+  /* Premium easing curves */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 /* ==========================================================================

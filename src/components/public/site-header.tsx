@@ -80,24 +80,24 @@ export function SiteHeader() {
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300",
         isScrolled
-          ? "border-b bg-background/80 backdrop-blur-xl shadow-sm"
-          : "bg-background/50"
+          ? "border-b border-border/50 bg-background/80 backdrop-blur-xl shadow-sm"
+          : "bg-background/30"
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link
           href="/"
-          className="group flex items-center gap-2.5 text-base font-semibold tracking-tight transition-all hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
+          className="group flex items-center gap-2.5 text-base font-medium tracking-tight transition-all hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/10 transition-all group-hover:from-primary/30 group-hover:to-primary/10">
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-card shadow-sm transition-all group-hover:shadow-md">
             <Sparkles className="h-4 w-4 text-primary" />
           </span>
           <span className="hidden sm:inline">NowYouKnowMe</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
           {navLinks.map(({ href, label }) => {
             const isActive =
               href === "/"
@@ -109,7 +109,7 @@ export function SiteHeader() {
                 key={href}
                 href={href}
                 className={cn(
-                  "relative px-3 py-2 text-sm font-medium transition-all rounded-md",
+                  "relative px-3.5 py-2 text-sm font-medium transition-all rounded-lg",
                   "hover:text-foreground",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                   isActive
@@ -119,7 +119,7 @@ export function SiteHeader() {
               >
                 {label}
                 {isActive && (
-                  <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary" />
+                  <span className="absolute bottom-1 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-primary" />
                 )}
               </Link>
             );
@@ -133,7 +133,7 @@ export function SiteHeader() {
           <button
             ref={menuButtonRef}
             type="button"
-            className="inline-flex items-center justify-center rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+            className="inline-flex items-center justify-center rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"

@@ -41,10 +41,10 @@ export default async function ContactPage() {
       <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
         <header className="mx-auto mb-16 max-w-2xl text-center">
-          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
+          <div className="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
             <Mail className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             Get in touch
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
@@ -55,14 +55,14 @@ export default async function ContactPage() {
         <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-2 lg:gap-10">
           {/* Contact Form */}
           <section aria-label="Contact form">
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
+            <div className="rounded-2xl border border-border bg-card p-8 shadow-lg transition-shadow hover:shadow-xl">
               <ContactForm />
             </div>
           </section>
 
           {/* Social Links */}
           <section aria-label="Social links">
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
+            <div className="rounded-2xl border border-border bg-card p-8 shadow-lg transition-shadow hover:shadow-xl">
               <h2 className="text-lg font-semibold">
                 Or find me online
               </h2>

@@ -39,10 +39,10 @@ export default async function AboutPage() {
       <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
         <header className="mx-auto max-w-2xl text-center">
-          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
+          <div className="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
             <User className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             About Me
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
@@ -51,10 +51,10 @@ export default async function AboutPage() {
         </header>
 
         {/* Content */}
-        <div className="mx-auto mt-12 max-w-2xl">
+        <div className="mx-auto mt-16 max-w-2xl">
           {section?.content ? (
             <article
-              className="rounded-2xl border border-border bg-card p-8 shadow-lg"
+              className="rounded-2xl border border-border bg-card p-8 shadow-lg transition-shadow hover:shadow-xl"
               dangerouslySetInnerHTML={{ __html: section.content }}
             />
           ) : (
