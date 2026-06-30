@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft, Award } from "lucide-react";
+import { Award } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { CertificationCard } from "@/components/public/certification-card";
@@ -34,39 +33,37 @@ export default async function CertificationsPage() {
   const certifications = await trpc.certifications.listVisible();
 
   return (
-    <main className="min-h-screen pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        {/* Back link */}
-        <Link
-          href="/"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to home
-        </Link>
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
+        <div className="absolute left-1/3 top-1/4 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-orange-500/10 blur-[100px]" />
+        <div className="absolute right-1/4 bottom-1/3 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-yellow-500/10 to-amber-500/10 blur-[80px]" />
+      </div>
 
+      <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
-        <header className="mb-12 max-w-2xl">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
-            <Award className="h-6 w-6 text-primary" />
+        <header className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-amber-500/10 to-yellow-500/5 shadow-lg shadow-amber-500/5">
+            <Award className="h-8 w-8 text-amber-600 dark:text-amber-400" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Certifications
           </h1>
-          <p className="mt-3 text-muted-foreground">
+          <p className="mt-4 text-lg text-muted-foreground">
             Professional credentials validating expertise across domains.
           </p>
         </header>
 
         {/* Certifications grid */}
-        <section aria-labelledby="certifications-list-heading">
+        <section aria-labelledby="certifications-list-heading" className="mx-auto max-w-5xl">
           <h2 id="certifications-list-heading" className="sr-only">
             Credentials
           </h2>
           {certifications.length === 0 ? (
-            <p className="text-muted-foreground py-12 text-center">
-              No certifications to display at this time.
-            </p>
+            <div className="rounded-2xl border border-dashed border-border p-12 text-center">
+              <Award className="mx-auto h-12 w-12 text-muted-foreground/30" />
+              <p className="mt-4 text-muted-foreground">No certifications to display at this time.</p>
+            </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {certifications.map((certification) => (

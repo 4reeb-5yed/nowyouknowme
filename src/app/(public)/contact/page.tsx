@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { ContactForm } from "@/components/public/contact-form";
@@ -35,48 +34,45 @@ export default async function ContactPage() {
   const socialLinks = await trpc.socialLinks.listVisible();
 
   return (
-    <main className="min-h-screen pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        {/* Back link */}
-        <Link
-          href="/"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to home
-        </Link>
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
+        <div className="absolute left-1/4 top-1/3 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-primary/10 via-emerald-500/5 to-teal-500/10 blur-[100px]" />
+        <div className="absolute right-1/4 bottom-1/3 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-teal-500/10 to-primary/10 blur-[80px]" />
+      </div>
 
+      <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
-        <header className="mb-12 max-w-2xl">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
-            <Mail className="h-6 w-6 text-primary" />
+        <header className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/10 to-emerald-500/5 shadow-lg shadow-primary/5">
+            <Mail className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Get in touch
           </h1>
-          <p className="mt-3 text-muted-foreground">
+          <p className="mt-4 text-lg text-muted-foreground">
             Have a question or want to work together? Send me a message and I&apos;ll get back to you.
           </p>
         </header>
 
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
+        <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-2 lg:gap-10">
           {/* Contact Form */}
           <section aria-label="Contact form">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm">
               <ContactForm />
             </div>
           </section>
 
           {/* Social Links */}
           <section aria-label="Social links">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm">
               <h2 className="text-lg font-semibold">
                 Or find me online
               </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-2 text-sm text-muted-foreground">
                 Connect with me on these platforms.
               </p>
-              <div className="mt-4">
+              <div className="mt-6">
                 <SocialLinks links={socialLinks} />
               </div>
             </div>

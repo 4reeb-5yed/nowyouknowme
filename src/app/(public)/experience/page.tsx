@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft, Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { ExperienceTimeline } from "@/components/public/experience-timeline";
@@ -39,33 +38,32 @@ export default async function ExperiencePage() {
   }));
 
   return (
-    <main className="min-h-screen pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        {/* Back link */}
-        <Link
-          href="/"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to home
-        </Link>
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
+        <div className="absolute right-1/4 top-1/3 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-blue-500/10 via-indigo-500/5 to-purple-500/10 blur-[100px]" />
+        <div className="absolute left-1/4 bottom-1/3 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 blur-[80px]" />
+      </div>
 
+      <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
-        <header className="mb-12 max-w-2xl">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
-            <Briefcase className="h-6 w-6 text-primary" />
+        <header className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 shadow-lg shadow-blue-500/5">
+            <Briefcase className="h-8 w-8 text-blue-600 dark:text-blue-400" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Experience
           </h1>
-          <p className="mt-3 text-muted-foreground">
+          <p className="mt-4 text-lg text-muted-foreground">
             My professional journey building solutions across cybersecurity, cloud infrastructure, and web development.
           </p>
         </header>
 
         {/* Timeline */}
-        <section aria-labelledby="experience-timeline-heading" className="max-w-2xl">
-          <ExperienceTimeline experiences={experiences} />
+        <section aria-labelledby="experience-timeline-heading" className="mx-auto max-w-2xl">
+          <div className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm">
+            <ExperienceTimeline experiences={experiences} />
+          </div>
         </section>
       </div>
     </main>

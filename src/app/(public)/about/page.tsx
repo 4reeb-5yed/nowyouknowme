@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft, User } from "lucide-react";
+import { User } from "lucide-react";
 
 import { createServerClient } from "@/lib/trpc/server";
 import { clientEnv } from "@/config/env";
@@ -33,41 +32,40 @@ export default async function AboutPage() {
   const section = await trpc.pages.getSection({ key: "about" });
 
   return (
-    <main className="min-h-screen pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        {/* Back link */}
-        <Link
-          href="/"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to home
-        </Link>
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
+        <div className="absolute left-1/4 top-1/4 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-primary/10 via-purple-500/5 to-blue-500/10 blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 blur-[80px]" />
+      </div>
 
+      <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
-        <header className="mb-12 max-w-2xl">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
-            <User className="h-6 w-6 text-primary" />
+        <header className="mx-auto max-w-2xl text-center">
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg shadow-primary/5">
+            <User className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             About Me
           </h1>
-          <p className="mt-3 text-muted-foreground">
+          <p className="mt-4 text-lg text-muted-foreground">
             Background, skills, and what drives me as a professional.
           </p>
         </header>
 
         {/* Content */}
-        {section?.content ? (
-          <article
-            className="prose prose-neutral dark:prose-invert max-w-2xl"
-            dangerouslySetInnerHTML={{ __html: section.content }}
-          />
-        ) : (
-          <p className="text-muted-foreground">
-            About content is not available at this time.
-          </p>
-        )}
+        <div className="mx-auto mt-12 max-w-2xl">
+          {section?.content ? (
+            <article
+              className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm"
+              dangerouslySetInnerHTML={{ __html: section.content }}
+            />
+          ) : (
+            <div className="rounded-2xl border border-dashed border-border p-12 text-center">
+              <p className="text-muted-foreground">About content is not available at this time.</p>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );

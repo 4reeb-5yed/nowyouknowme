@@ -108,24 +108,29 @@ export default async function HomePage() {
       <Hero tagline={tagline} resumeUrl={resumeUrl} />
 
       {/* About Preview Section */}
-      <section className="relative section-gradient-border" aria-label="About preview">
-        <div className="container mx-auto px-4 py-20 md:py-28">
+      <section className="relative overflow-hidden" aria-label="About preview">
+        {/* Background */}
+        <div className="absolute inset-0 -z-10" aria-hidden="true">
+          <div className="absolute left-1/4 top-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-primary/15 via-purple-500/10 to-blue-500/15 blur-[120px]" />
+        </div>
+        
+        <div className="container mx-auto px-4 py-24 md:py-32">
           <ScrollReveal direction="up">
             <div className="mx-auto max-w-2xl text-center">
               {/* Section icon */}
-              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
-                <BookOpen className="h-6 w-6 text-primary" />
+              <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/20 to-primary/5 shadow-xl shadow-primary/10">
+                <BookOpen className="h-10 w-10 text-primary" />
               </div>
               
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 About Me
               </h2>
-              <p className="mt-4 leading-relaxed text-muted-foreground">
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
                 {aboutPreview || "Cybersecurity professional, cloud architect, and web developer passionate about building secure, scalable solutions."}
               </p>
               <Link
                 href="/about"
-                className="group mt-8 inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-border/50 bg-card/80 px-7 py-3 text-sm font-medium shadow-lg backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Read my story
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -136,80 +141,93 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Projects Section */}
-      <section className="container mx-auto px-4 py-20 md:py-28" aria-label="Featured projects">
-        <ScrollReveal direction="up">
-          <div className="mb-10 flex items-end justify-between">
-            <div>
-              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10">
-                <FolderKanban className="h-5 w-5 text-primary" />
+      <section className="relative overflow-hidden" aria-label="Featured projects">
+        {/* Background */}
+        <div className="absolute inset-0 -z-10" aria-hidden="true">
+          <div className="absolute right-1/4 top-1/3 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-primary/15 blur-[100px]" />
+        </div>
+
+        <div className="container mx-auto px-4 py-24 md:py-32">
+          <ScrollReveal direction="up">
+            <div className="mb-12 flex items-end justify-between">
+              <div>
+                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-purple-500/20 to-pink-500/5 shadow-lg shadow-purple-500/10">
+                  <FolderKanban className="h-7 w-7 text-purple-600 dark:text-purple-400" />
+                </div>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  Featured Work
+                </h2>
+                <p className="mt-2 text-muted-foreground">
+                  Selected projects showcasing my expertise
+                </p>
               </div>
-              <h2 className="text-2xl font-semibold tracking-tight">
-                Featured Work
-              </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Selected projects showcasing my expertise
-              </p>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {featuredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project, index) => (
-              <ScrollReveal key={project.id} direction="up" delay={index * 75}>
-                <ProjectCard project={project} />
-              </ScrollReveal>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-xl border border-dashed border-border p-12 text-center">
-            <FolderKanban className="mx-auto h-8 w-8 text-muted-foreground/50" />
-            <p className="mt-3 text-muted-foreground">No featured projects yet.</p>
-          </div>
-        )}
-
-        {featuredProjects.length > 0 && (
-          <ScrollReveal direction="up" delay={featuredProjects.length * 75}>
-            <div className="mt-10 flex justify-center">
-              <Link
-                href="/projects"
-                className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                View all projects
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
             </div>
           </ScrollReveal>
-        )}
+
+          {featuredProjects.length > 0 ? (
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredProjects.map((project, index) => (
+                <ScrollReveal key={project.id} direction="up" delay={index * 100}>
+                  <ProjectCard project={project} />
+                </ScrollReveal>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-border/50 bg-card/30 p-16 text-center backdrop-blur-sm">
+              <FolderKanban className="mx-auto h-12 w-12 text-muted-foreground/30" />
+              <p className="mt-4 text-muted-foreground">No featured projects yet.</p>
+            </div>
+          )}
+
+          {featuredProjects.length > 0 && (
+            <ScrollReveal direction="up" delay={featuredProjects.length * 100}>
+              <div className="mt-14 flex justify-center">
+                <Link
+                  href="/projects"
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-border/50 bg-card/50 px-6 py-2.5 text-sm font-medium shadow backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  View all projects
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </ScrollReveal>
+          )}
+        </div>
       </section>
 
       {/* Contact CTA Section */}
-      <section className="relative section-gradient-border" aria-label="Contact">
-        <div className="container mx-auto px-4 py-20 md:py-28">
+      <section className="relative overflow-hidden" aria-label="Contact">
+        {/* Background */}
+        <div className="absolute inset-0 -z-10" aria-hidden="true">
+          <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/20 via-emerald-500/10 to-teal-500/20 blur-[120px]" />
+        </div>
+
+        <div className="container mx-auto px-4 py-24 md:py-32">
           <ScrollReveal direction="up">
-            <div className="relative mx-auto max-w-xl overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-muted/50 to-muted/20 p-8 md:p-12">
-              {/* Decorative gradient orb */}
-              <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
-              <div className="absolute -left-20 -bottom-20 h-40 w-40 rounded-full bg-primary/5 blur-3xl" />
+            <div className="relative mx-auto max-w-xl overflow-hidden rounded-3xl border border-border/50 bg-card/60 backdrop-blur-xl p-10 md:p-14 shadow-2xl shadow-primary/5">
+              {/* Decorative gradient orbs */}
+              <div className="absolute -right-24 -top-24 h-60 w-60 rounded-full bg-primary/20 blur-3xl" />
+              <div className="absolute -left-24 -bottom-24 h-60 w-60 rounded-full bg-emerald-500/10 blur-3xl" />
+              <div className="absolute right-1/4 top-0 h-1 w-1/2 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
               
               <div className="relative text-center">
-                <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-background shadow-sm">
-                  <MessageCircle className="h-6 w-6 text-primary" />
+                <div className="mb-8 inline-flex h-18 w-18 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/20 to-primary/5 shadow-xl shadow-primary/10">
+                  <MessageCircle className="h-9 w-9 text-primary" />
                 </div>
                 
-                <h2 className="text-xl font-semibold tracking-tight">
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                   Let&apos;s work together
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                   Have a project in mind or want to collaborate? I&apos;d love to hear from you.
                 </p>
                 
                 <Link
                   href="/contact"
-                  className="group mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="group mt-10 inline-flex items-center gap-2.5 rounded-full bg-primary px-10 py-4 text-base font-medium text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Get in touch
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
