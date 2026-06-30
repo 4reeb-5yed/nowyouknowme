@@ -84,23 +84,23 @@
 
 /* Dark mode values */
 .dark {
-  --background: oklch(0.11 0 0);
+  --background: oklch(0.08 0 0);
   --foreground: oklch(0.95 0 0);
 
-  --card: oklch(0.17 0 0);
+  --card: oklch(0.22 0 0);
   --card-foreground: oklch(0.95 0 0);
 
-  --popover: oklch(0.17 0 0);
+  --popover: oklch(0.22 0 0);
   --popover-foreground: oklch(0.95 0 0);
 
   /* Primary: Subtle purple-blue that works in dark mode without being jarring */
   --primary: oklch(0.65 0.18 280);
   --primary-foreground: oklch(0.98 0 0);
 
-  --secondary: oklch(0.22 0 0);
+  --secondary: oklch(0.25 0 0);
   --secondary-foreground: oklch(0.92 0 0);
 
-  --muted: oklch(0.22 0 0);
+  --muted: oklch(0.25 0 0);
   --muted-foreground: oklch(0.6 0 0);
 
   /* Accent: Deeper purple for better visibility in dark mode */
@@ -112,7 +112,7 @@
   --destructive-foreground: oklch(0.985 0 0);
 
   /* Darker borders for better visibility in dark mode */
-  --border: oklch(1 0 0 / 20%);
+  --border: oklch(1 0 0 / 25%);
   --input: oklch(1 0 0 / 15%);
   /* Ring color matches primary */
   --ring: oklch(0.65 0.18 280);

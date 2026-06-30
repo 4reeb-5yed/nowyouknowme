@@ -736,15 +736,15 @@ button:disabled {
 
 .dark {
   /* Core Background - Deep atmospheric */
-  --background: oklch(0.12 0.015 265);
+  --background: oklch(0.09 0 0);
   --foreground: oklch(0.95 0 0);
   
   /* Card - Slightly elevated */
-  --card: oklch(0.15 0.015 265);
+  --card: oklch(0.21 0 0);
   --card-foreground: oklch(0.95 0 0);
   
   /* Popover */
-  --popover: oklch(0.15 0.015 265);
+  --popover: oklch(0.21 0 0);
   --popover-foreground: oklch(0.95 0 0);
   
   /* Primary - Subtle purple-blue, refined */
@@ -752,12 +752,12 @@ button:disabled {
   --primary-foreground: oklch(0.98 0 0);
   
   /* Secondary - Deep purple tint */
-  --secondary: oklch(0.18 0.02 280);
-  --secondary-foreground: oklch(0.90 0.01 265);
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(0.92 0 0);
   
   /* Muted - Subtle purple gray */
-  --muted: oklch(0.20 0.02 265);
-  --muted-foreground: oklch(0.65 0.02 265);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.6 0 0);
   
   /* Accent - Vibrant purple */
   --accent: oklch(0.65 0.18 290);
@@ -779,9 +779,9 @@ button:disabled {
   --shadow-glow: 0 0 40px -5px oklch(0.65 0.18 280);
   
   /* Background gradients */
-  --gradient-hero: linear-gradient(135deg, oklch(0.15 0.02 280) 0%, oklch(0.12 0.015 265) 100%);
-  --gradient-section: linear-gradient(180deg, oklch(0.12 0.015 265) 0%, oklch(0.10 0.012 265) 100%);
-  --gradient-card: linear-gradient(180deg, oklch(0.16 0.015 265) 0%, oklch(0.14 0.015 265) 100%);
+  --gradient-hero: linear-gradient(135deg, oklch(0.14 0.015 280) 0%, oklch(0.09 0 0) 100%);
+  --gradient-section: linear-gradient(180deg, oklch(0.09 0 0) 0%, oklch(0.08 0 0) 100%);
+  --gradient-card: linear-gradient(180deg, oklch(0.22 0 0) 0%, oklch(0.19 0 0) 100%);
   
   /* Accent colors - vibrant and glowing */
   --accent-warm: oklch(0.70 0.15 35);
