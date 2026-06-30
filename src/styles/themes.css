@@ -627,3 +627,211 @@ button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+/* ==========================================================================
+   Light Mode - Warm Cream Aesthetic
+   ========================================================================== */
+
+:root {
+  /* Warm cream background instead of harsh white */
+  --background: oklch(0.985 0.01 60);
+  
+  /* Warm muted/secondary backgrounds */
+  --muted: oklch(0.96 0.01 60);
+  --secondary: oklch(0.97 0.008 60);
+  
+  /* Warm borders */
+  --border: oklch(0.9 0.01 60);
+  
+  /* Cards with subtle warm tint */
+  --card: oklch(0.99 0.005 60);
+  
+  /* Premium warm shadows */
+  --shadow-soft: 0 2px 8px -2px rgb(40 20 0 / 0.08);
+  --shadow-warm: 0 4px 16px -4px rgb(40 20 0 / 0.12);
+  --shadow-lifted: 0 8px 24px -8px rgb(40 20 0 / 0.16);
+  
+  /* Warm gradients */
+  --gradient-warm: linear-gradient(135deg, oklch(0.97 0.02 60) 0%, oklch(0.95 0.03 40) 100%);
+  --gradient-cream: linear-gradient(180deg, oklch(0.99 0.01 60) 0%, oklch(0.96 0.015 60) 100%);
+  
+  /* Warm accent colors */
+  --accent-warm: oklch(0.65 0.15 25);
+  --accent-cool: oklch(0.55 0.12 250);
+  --accent-rose: oklch(0.6 0.12 15);
+  
+  /* Subtle glows */
+  --glow-warm: 0 0 40px -10px oklch(0.7 0.1 40);
+  --glow-soft: 0 0 30px -5px oklch(0.6 0.15 270);
+}
+
+/* Light mode cards */
+:root .premium-card,
+:root article[class*="card"] {
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+:root .premium-card:hover,
+:root article[class*="card"]:hover {
+  box-shadow: var(--shadow-warm);
+  transform: translateY(-2px);
+}
+
+/* Light mode orb effects - subtle and warm */
+:root .orb-light {
+  background: radial-gradient(circle, oklch(0.75 0.05 60) 0%, transparent 70%);
+  opacity: 0.15;
+  filter: blur(60px);
+}
+
+:root .orb-warm {
+  background: radial-gradient(circle, oklch(0.7 0.08 35) 0%, transparent 70%);
+  opacity: 0.12;
+  filter: blur(80px);
+}
+
+:root .orb-cool {
+  background: radial-gradient(circle, oklch(0.65 0.1 250) 0%, transparent 70%);
+  opacity: 0.1;
+  filter: blur(70px);
+}
+
+/* ==========================================================================
+   Dark Mode - Atmospheric & Dramatic
+   ========================================================================== */
+
+.dark {
+  /* Deep atmospheric background */
+  --background: oklch(0.13 0.015 260);
+  
+  /* Dark muted backgrounds */
+  --muted: oklch(0.17 0.02 260);
+  --secondary: oklch(0.15 0.015 260);
+  
+  /* Dark borders */
+  --border: oklch(0.25 0.02 260);
+  
+  /* Dark cards */
+  --card: oklch(0.16 0.015 260);
+  
+  /* Deep shadows */
+  --shadow-soft: 0 2px 8px -2px rgb(0 0 0 / 0.3);
+  --shadow-warm: 0 4px 16px -4px rgb(0 0 0 / 0.4);
+  --shadow-lifted: 0 8px 24px -8px rgb(0 0 0 / 0.5);
+  
+  /* Dark gradients */
+  --gradient-warm: linear-gradient(135deg, oklch(0.18 0.03 280) 0%, oklch(0.14 0.025 260) 100%);
+  --gradient-cream: linear-gradient(180deg, oklch(0.14 0.02 260) 0%, oklch(0.12 0.015 260) 100%);
+  
+  /* Vibrant glowing accents */
+  --accent-warm: oklch(0.65 0.18 35);
+  --accent-cool: oklch(0.6 0.2 250);
+  --accent-rose: oklch(0.6 0.18 15);
+  
+  /* Dramatic glows */
+  --glow-warm: 0 0 60px -10px oklch(0.65 0.2 35);
+  --glow-soft: 0 0 50px -5px oklch(0.6 0.25 280);
+}
+
+/* Dark mode cards with glow effect */
+.dark .premium-card,
+.dark article[class*="card"] {
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.dark .premium-card:hover,
+.dark article[class*="card"]:hover {
+  box-shadow: var(--shadow-lifted);
+  transform: translateY(-2px);
+}
+
+/* Dark mode animated orb effects */
+.dark .orb-light {
+  background: radial-gradient(circle, oklch(0.5 0.1 280) 0%, transparent 70%);
+  opacity: 0.35;
+  filter: blur(80px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.dark .orb-warm {
+  background: radial-gradient(circle, oklch(0.55 0.15 35) 0%, transparent 70%);
+  opacity: 0.3;
+  filter: blur(100px);
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.dark .orb-cool {
+  background: radial-gradient(circle, oklch(0.55 0.18 250) 0%, transparent 70%);
+  opacity: 0.4;
+  filter: blur(90px);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Premium Animations
+   ========================================================================== */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-10px) translateX(-5px); }
+  75% { transform: translateY(-25px) translateX(5px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.2); }
+}
+
+/* Animation utility classes */
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, oklch(1 0 0 / 0.1) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .shimmer {
+  background: linear-gradient(90deg, transparent 0%, oklch(1 0 0 / 0.05) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
