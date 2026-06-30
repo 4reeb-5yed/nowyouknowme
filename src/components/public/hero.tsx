@@ -4,18 +4,17 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ResumeButton } from "@/components/public/resume-button";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Sparkles, Shield, Cloud, Code } from "lucide-react";
+import { ChevronDown, Sparkles, Shield, Cloud, Code, Globe, Mail, User } from "lucide-react";
 
 export interface HeroProps {
   tagline: string;
   resumeUrl: string | null;
+  githubUrl?: string | null;
+  linkedinUrl?: string | null;
+  email?: string | null;
 }
 
-/**
- * Premium Hero section with typing animation, floating icons, and animated background.
- * Performance-optimized with CSS animations and will-change hints.
- */
-export function Hero({ tagline, resumeUrl }: HeroProps) {
+export function Hero({ tagline, resumeUrl, githubUrl, linkedinUrl, email }: HeroProps) {
   const [typedText, setTypedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const fullText = tagline;
@@ -46,13 +45,6 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
       if (typingRef.current) clearTimeout(typingRef.current);
     };
   }, [fullText]);
-
-  const scrollToContent = () => {
-    window.scrollTo({
-      top: window.innerHeight - 100,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <section
@@ -118,11 +110,48 @@ export function Hero({ tagline, resumeUrl }: HeroProps) {
             <span className="transition-transform group-hover:translate-x-0.5">→</span>
           </Link>
         </div>
+
+        {/* Social Links */}
+        {(githubUrl || linkedinUrl || email) && (
+          <div className="mt-8 flex items-center justify-center gap-2 animate-fade-in-up" style={{ animationDelay: '450ms' }}>
+            {githubUrl && (
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-border/50 bg-card/50 px-4 py-2 text-sm font-medium backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5"
+              >
+                <Globe className="h-4 w-4" />
+                <span className="hidden sm:inline">GitHub</span>
+              </a>
+            )}
+            {linkedinUrl && (
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-border/50 bg-card/50 px-4 py-2 text-sm font-medium backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5"
+              >
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">LinkedIn</span>
+              </a>
+            )}
+            {email && (
+              <a
+                href={`mailto:${email}`}
+                className="inline-flex items-center gap-2 rounded-lg border border-border/50 bg-card/50 px-4 py-2 text-sm font-medium backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-primary/5"
+              >
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">Email</span>
+              </a>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Scroll indicator */}
       <button
-        onClick={scrollToContent}
+        onClick={() => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground/50 hover:text-muted-foreground transition-colors animate-bounce-slow"
         aria-label="Scroll to content"
       >
