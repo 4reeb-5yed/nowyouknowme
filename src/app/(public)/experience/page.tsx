@@ -38,20 +38,15 @@ export default async function ExperiencePage() {
   }));
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
-      </div>
+    <main className="min-h-screen">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background to-muted/20" />
 
       <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
         <header className="mx-auto mb-16 max-w-2xl text-center">
-          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 shadow-lg shadow-blue-500/5">
-            <Briefcase className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
+            <Briefcase className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Experience
@@ -63,7 +58,7 @@ export default async function ExperiencePage() {
 
         {/* Timeline */}
         <section aria-labelledby="experience-timeline-heading" className="mx-auto max-w-2xl">
-          <div className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm">
+          <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
             <ExperienceTimeline experiences={experiences} />
           </div>
         </section>

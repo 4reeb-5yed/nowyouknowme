@@ -32,19 +32,14 @@ export default async function AboutPage() {
   const section = await trpc.pages.getSection({ key: "about" });
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
-      </div>
+    <main className="min-h-screen">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background to-muted/20" />
 
       <div className="container mx-auto px-4 py-24 md:py-32">
         {/* Page header */}
         <header className="mx-auto max-w-2xl text-center">
-          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg shadow-primary/5">
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card shadow-lg">
             <User className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
@@ -59,7 +54,7 @@ export default async function AboutPage() {
         <div className="mx-auto mt-12 max-w-2xl">
           {section?.content ? (
             <article
-              className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur-sm"
+              className="rounded-2xl border border-border bg-card p-8 shadow-lg"
               dangerouslySetInnerHTML={{ __html: section.content }}
             />
           ) : (
