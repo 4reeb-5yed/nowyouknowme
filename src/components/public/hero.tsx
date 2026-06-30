@@ -75,14 +75,11 @@ export function Hero({ tagline, resumeUrl, githubUrl, linkedinUrl, email }: Hero
         </div>
 
         {/* Main headline with typing effect */}
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl min-h-[1.1em]">
+        <h1 className="min-h-[1.5em] sm:min-h-[1.3em] md:min-h-[1.2em] lg:min-h-[1.1em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
             {typedText}
           </span>
-          <span className={cn(
-            "inline-block w-[3px] h-[0.9em] ml-1 bg-primary align-middle",
-            isTyping ? "animate-pulse" : "opacity-0"
-          )} />
+          <span className="inline-block w-[3px] h-[0.8em] ml-1 bg-primary align-middle animate-pulse" />
         </h1>
 
         {/* Subheadline */}
