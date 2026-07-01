@@ -1,6 +1,6 @@
 # NowYouKnowMe — Portfolio Web App
 
-A full-stack portfolio web application with a built-in CMS dashboard. Manage projects, experience, certifications, social links, resume, and site configuration — all from a single admin interface. The public site renders content with ISR for fast, SEO-friendly pages.
+A full-stack portfolio web application with a built-in CMS dashboard. Manage projects, experience, certifications, social links, resume, and site configuration — all from a single admin interface. The public site renders content dynamically based on CMS configuration.
 
 ## Table of Contents
 
@@ -14,18 +14,11 @@ A full-stack portfolio web application with a built-in CMS dashboard. Manage pro
 - [Database Management](#database-management)
 - [Scripts](#scripts)
 - [Project Structure](#project-structure)
-  - [App Routes](#app-routes)
-  - [Components](#components)
-  - [Server Layer](#server-layer)
-  - [Lib & Utils](#lib--utils)
 - [API Reference](#api-reference)
-  - [Public Routers](#public-routers)
-  - [Protected Routers](#protected-routers)
 - [Database Schema](#database-schema)
 - [Authentication](#authentication)
 - [Deployment](#deployment)
 - [Additional Documentation](#additional-documentation)
-- [Future Features](#future-features)
 
 ---
 
@@ -37,19 +30,19 @@ The public-facing portfolio with multi-page navigation:
 
 | Page | Route | Features |
 |------|-------|----------|
-| Home | `/` | Hero section, featured projects preview, experience, skills, about, contact |
+| Home | `/` | Hero, sections (configurable visibility + order via CMS) |
 | Projects | `/projects` | Filterable project grid by category (Cybersecurity, Cloud, Web, Other) |
 | Project Detail | `/projects/[slug]` | Full project info, tech stack, links, JSON-LD SEO |
 | Experience | `/experience` | Timeline view of professional experience |
 | Certifications | `/certifications` | Credential cards with verification links |
 | About | `/about` | CMS-driven about content |
 | Contact | `/contact` | Contact form + social links |
-| Writing | `/writing` | Coming soon (blog placeholder) |
+| Writing | `/writing` | Blog placeholder |
 
 **Key Features:**
-- **Theme Configurator** — Runtime accent color, light/dark mode, WCAG contrast checking
+- **CMS-Driven Homepage** — Sections show/hide and reorder via `/admin/site-settings`
+- **Theme Configurator** — Runtime accent color, light/dark mode
 - **SEO Optimized** — Dynamic metadata, Open Graph, JSON-LD structured data, sitemap, robots.txt
-- **ISR + On-Demand Revalidation** — Near-instant content updates after CMS edits
 - **Responsive Design** — Mobile-first with premium animations and transitions
 
 ### CMS Dashboard
@@ -59,24 +52,22 @@ Admin-only interface at `/admin/login` with full content management:
 | Section | Route | Features |
 |---------|-------|----------|
 | Dashboard | `/admin/dashboard` | Stats overview, recent activity, quick actions |
-| Site Settings | `/admin/site-settings` | Hero, homepage sections, SEO, footer configuration |
+| **Site Settings** | `/admin/site-settings` | **Hero content, homepage sections visibility & order, SEO, footer** |
 | Projects | `/admin/projects` | CRUD, drag-and-drop reordering, featured toggle, category management |
 | Experience | `/admin/experience` | Timeline CRUD with tech stack tags |
 | Certifications | `/admin/certifications` | Credential management with verification links |
 | Pages | `/admin/pages` | Section content editor (About, Skills) |
 | Social Links | `/admin/social-links` | Social platform link management |
 | Resume | `/admin/resume` | PDF upload via R2, activate/deactivate |
-| Media | `/admin/media` | File management (images, documents) |
+| Media | `/admin/media` | File manager placeholder |
 | Site Config | `/admin/site-config` | Theme colors, advanced settings |
-| Revisions | `/admin/revisions` | Version history with restore capability |
+| Revisions | `/admin/revisions` | Version history viewer |
 
 **Admin Features:**
-- **Command Palette** — Quick navigation with `Cmd/Ctrl+K`
-- **Global Search** — Search across all content types
 - **Activity Log** — Track all content changes with timestamps
-- **Revision History** — Full version control with restore
-- **Live Preview** — Real-time preview in multiple device sizes
-- **Keyboard Shortcuts** — `Cmd+S` to save, `Cmd+/` for help
+- **Revision History** — View previous versions
+- **Global Search** — Search across all content types (via Cmd+K command palette)
+- **Keyboard Shortcuts** — `Cmd+S` to save
 
 ---
 
@@ -284,16 +275,18 @@ src/app/
 ├── admin/                         # CMS Dashboard (auth-protected)
 │   ├── login/page.tsx             # Login page
 │   ├── dashboard/page.tsx         # Dashboard home
+│   ├── site-settings/page.tsx      # Site config (hero, sections, SEO, footer)
 │   ├── projects/page.tsx          # Projects CRUD
+│   ├── site-settings/page.tsx      # Site config (hero, sections, SEO, footer)
 │   ├── experience/page.tsx        # Experience CRUD
 │   ├── certifications/page.tsx    # Certifications CRUD
-│   ├── pages/page.tsx             # Section content editor
+│   ├── pages/page.tsx             # Section content editor (About, Skills)
 │   ├── social-links/page.tsx      # Social links manager
 │   ├── resume/page.tsx            # Resume manager
 │   ├── media/page.tsx             # Media library
-│   ├── site-config/page.tsx       # Theme & SEO config
+│   ├── site-config/page.tsx       # Theme colors, advanced settings
 │   ├── revisions/page.tsx        # Version history
-│   └── layout.tsx                 # Admin layout
+│   └── layout.tsx                 # Admin layout with sidebar navigation
 │
 └── api/                           # API Routes
     ├── trpc/[trpc]/route.ts       # tRPC HTTP handler
@@ -474,8 +467,8 @@ Require authentication (used by CMS dashboard):
 | `resume` | `upload`, `getAll`, `getActive`, `setActive`, `delete` | Resume management |
 | `siteConfig` | `update` | Update site settings |
 | `search` | `search` | Global search across content |
-| `activityLog` | `getRecent`, `create` | Activity tracking |
-| `revisions` | `getByEntity`, `restore` | Version history |
+| `activityLog` | `list`, `stats`, `search`, `getEntityHistory` | Activity tracking |
+| `revisions` | `getEntityRevisions`, `getById`, `getRecent`, `stats`, `compare`, `getSnapshot` | Version history |
 
 ---
 

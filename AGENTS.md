@@ -26,7 +26,7 @@ A full-stack portfolio web application with a built-in CMS dashboard built with:
 - The public layout (`src/app/(public)/layout.tsx`) wraps content in `<TRPCProvider>`
 
 ### 2. API Router Structure
-- **Public routers**: `projects.list`, `projects.getBySlug`, `projects.getFeatured`, `experience.listVisible`, `certifications.listVisible`, `pages.getSection`, `socialLinks.listVisible`, `siteConfig.get`
+- **Public routers**: `projects.list`, `projects.getBySlug`, `projects.getFeatured`, `experience.listVisible`, `certifications.listVisible`, `pages.getSection`, `socialLinks.listVisible`, `siteConfig.get`, `resume.getActive`
 - **Protected routers** (require auth): Full CRUD for all entities, plus `search`, `activityLog`, `revisions`
 
 ### 3. Database Schema Key Fields
