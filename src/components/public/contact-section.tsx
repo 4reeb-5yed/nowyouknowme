@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 
 function useScrollReveal(threshold = 0.25) {
   const [isVisible, setIsVisible] = useState(false);
@@ -138,6 +139,12 @@ export function ContactSection() {
           >
             {submitted ? "Sent — Thank you!" : "Send Message"}
           </button>
+
+          <div className="mt-6 text-center">
+            <Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              or visit the contact page →
+            </Link>
+          </div>
 
           <div className="form-alternative">
             <p className="form-alternative__text">Prefer email?</p>

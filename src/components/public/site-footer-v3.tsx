@@ -4,11 +4,12 @@ import Link from "next/link";
 import { trpc } from "@/lib/trpc/client";
 
 const navLinks = [
-  { href: "/#work", label: "Work" },
-  { href: "/#experience", label: "Experience" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/#about", label: "About" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Work" },
+  { href: "/experience", label: "Experience" },
+  { href: "/certifications", label: "Certifications" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 // Platform to icon mapping

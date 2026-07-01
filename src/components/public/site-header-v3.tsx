@@ -8,21 +8,21 @@ interface NavLink {
   href: string;
   label: string;
   sectionId?: string;
+  isPage?: boolean;
 }
 
 const navLinks: NavLink[] = [
-  { href: "/#work", label: "Work", sectionId: "work" },
-  { href: "/#experience", label: "Experience", sectionId: "experience" },
-  { href: "/#skills", label: "Skills", sectionId: "skills" },
-  { href: "/#about", label: "About", sectionId: "about" },
-  { href: "/#contact", label: "Contact", sectionId: "contact" },
+  { href: "/", label: "Home", sectionId: undefined, isPage: true },
+  { href: "/projects", label: "Work", sectionId: undefined, isPage: true },
+  { href: "/experience", label: "Experience", sectionId: undefined, isPage: true },
+  { href: "/certifications", label: "Certifications", sectionId: undefined, isPage: true },
+  { href: "/about", label: "About", sectionId: undefined, isPage: true },
 ];
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -37,40 +37,13 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Intersection Observer for active section tracking
-  useEffect(() => {
-    const sectionIds = navLinks
-      .map((link) => link.sectionId)
-      .filter((id): id is string => id !== undefined);
-
-    const observers: IntersectionObserver[] = [];
-
-    sectionIds.forEach((id) => {
-      const element = document.getElementById(id);
-      if (!element) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveSection(id);
-            }
-          });
-        },
-        {
-          rootMargin: "-50% 0px -50% 0px",
-          threshold: 0,
-        }
-      );
-
-      observer.observe(element);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
-  }, []);
+  // Helper to determine if a link is active
+  const isLinkActive = (href: string): boolean => {
+    if (href === "/") {
+      return pathname === "/" || pathname === "";
+    }
+    return pathname.startsWith(href);
+  };
 
   // Focus trap for mobile menu
   useEffect(() => {
@@ -132,8 +105,8 @@ export function SiteHeader() {
           {/* Desktop Navigation */}
           <nav className="site-header__nav" aria-label="Primary navigation">
             <ul className="site-header__nav-list">
-              {navLinks.map(({ href, label, sectionId }) => {
-                const isActive = sectionId && activeSection === sectionId;
+              {navLinks.map(({ href, label }) => {
+                const isActive = isLinkActive(href);
                 return (
                   <li key={href}>
                     <Link
@@ -150,7 +123,7 @@ export function SiteHeader() {
           </nav>
 
           {/* CTA */}
-          <Link href="/#contact" className="site-header__cta">
+          <Link href="/contact" className="site-header__cta">
             Let&apos;s Talk
           </Link>
 
@@ -191,8 +164,8 @@ export function SiteHeader() {
         >
           <nav aria-label="Mobile navigation">
             <ul className="mobile-nav__list">
-              {navLinks.map(({ href, label, sectionId }) => {
-                const isActive = sectionId && activeSection === sectionId;
+              {navLinks.map(({ href, label }) => {
+                const isActive = isLinkActive(href);
                 return (
                   <li key={href}>
                     <Link
@@ -207,7 +180,7 @@ export function SiteHeader() {
               })}
               <li>
                 <Link
-                  href="/#contact"
+                  href="/contact"
                   onClick={() => setMobileMenuOpen(false)}
                   className="mobile-nav__cta"
                 >

@@ -167,7 +167,7 @@ export function Hero({
 
           {/* Actions */}
           <div className={`hero__actions ${mounted ? "animate-fade-in-up" : "will-animate"} stagger-4`}>
-            <Link href="/#work" className="btn btn--primary">
+            <Link href="/projects" className="btn btn--primary">
               View Projects
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -179,7 +179,7 @@ export function Hero({
                 Download Résumé
               </a>
             ) : (
-              <Link href="/#contact" className="btn btn--secondary">
+              <Link href="/contact" className="btn btn--secondary">
                 Get in Touch
               </Link>
             )}
