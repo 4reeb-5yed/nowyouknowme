@@ -13,14 +13,37 @@ import * as siteConfigService from "@/server/services/site-config.service";
  * All fields are optional — only provided fields are updated.
  */
 const siteConfigUpdateSchema = z.object({
+  // Theme
   theme: z.string().max(20).optional(),
   accentColor: z
     .string()
     .regex(/^#[0-9a-fA-F]{6}$/, "Must be a valid hex color (e.g. #2563eb)")
     .optional(),
+  
+  // Hero Section
   heroTagline: z.string().optional(),
+  heroHeadline: z.string().optional(),
+  heroEmphasisWord: z.string().max(50).optional(),
+  heroSubhead: z.string().optional(),
+  heroShowResume: z.boolean().optional(),
+  
+  // Homepage Sections Visibility
+  showFeaturedProjects: z.boolean().optional(),
+  showExperience: z.boolean().optional(),
+  showSkills: z.boolean().optional(),
+  showAbout: z.boolean().optional(),
+  showContact: z.boolean().optional(),
+  
+  // SEO
   metaDescription: z.string().optional(),
-  ogImageUrl: z.string().url().nullish(),
+  ogImageUrl: z.string().url().nullish().optional(),
+  
+  // Footer
+  footerCopyright: z.string().optional(),
+  footerTagline: z.string().optional(),
+  
+  // Section Order
+  sectionOrder: z.array(z.string()).optional(),
 });
 
 export const siteConfigRouter = createTRPCRouter({

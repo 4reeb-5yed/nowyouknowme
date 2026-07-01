@@ -5,17 +5,13 @@ import Link from "next/link";
 import { trpc } from "@/lib/trpc/client";
 
 interface HeroProps {
-  tagline?: string;
-  headline?: string;
-  subhead?: string;
   resumeUrl?: string | null;
-  emphasisWord?: string;
 }
 
-const defaultTagline = "SOFTWARE ENGINEER — SYSTEMS & PRODUCT";
-const defaultHeadline = "I build software that <em>disappears</em> into the right answer.";
-const defaultSubhead = "Currently focused on systems that stay quiet when they're working and loud when they shouldn't.";
-const defaultEmphasisWord = "disappears";
+const defaultTagline = "SOFTWARE ENGINEER";
+const defaultHeadline = "I build software that works.";
+const defaultEmphasisWord = "works";
+const defaultSubhead = "";
 
 export function Hero({
   resumeUrl,
@@ -31,11 +27,10 @@ export function Hero({
 
   // Use site config values or defaults
   const tagline = siteConfig?.heroTagline || defaultTagline;
-  const subhead = siteConfig?.metaDescription || defaultSubhead;
-  const emphasisWord = defaultEmphasisWord;
-  
-  // Headline - use default for now, could be made editable in the future
-  const headline = defaultHeadline;
+  const heroHeadline = siteConfig?.heroHeadline || defaultHeadline;
+  const emphasisWord = siteConfig?.heroEmphasisWord || defaultEmphasisWord;
+  const subhead = siteConfig?.heroSubhead || defaultSubhead;
+  const showResume = siteConfig?.heroShowResume ?? true;
 
   useEffect(() => {
     setMounted(true);
@@ -157,7 +152,7 @@ export function Hero({
             id="hero-headline"
             className={`hero__headline ${mounted ? "animate-fade-in-up" : "will-animate"} stagger-2`}
           >
-            {formatHeadline(headline, emphasisWord)}
+            {formatHeadline(heroHeadline, emphasisWord)}
           </h1>
 
           {/* Subhead */}
@@ -174,14 +169,10 @@ export function Hero({
               </svg>
             </Link>
             
-            {resumeUrl ? (
+            {showResume && resumeUrl && (
               <a href={resumeUrl} className="btn btn--secondary" download>
                 Download Résumé
               </a>
-            ) : (
-              <Link href="/contact" className="btn btn--secondary">
-                Get in Touch
-              </Link>
             )}
           </div>
         </div>

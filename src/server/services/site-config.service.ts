@@ -6,11 +6,34 @@ import { siteConfig } from "@/server/db/schema";
 type SiteConfigSelect = typeof siteConfig.$inferSelect;
 
 export type SiteConfigUpdateInput = Partial<{
+  // Theme
   theme: string;
   accentColor: string;
+  
+  // Hero Section
   heroTagline: string;
+  heroHeadline: string;
+  heroEmphasisWord: string;
+  heroSubhead: string;
+  heroShowResume: boolean;
+  
+  // Homepage Sections Visibility
+  showFeaturedProjects: boolean;
+  showExperience: boolean;
+  showSkills: boolean;
+  showAbout: boolean;
+  showContact: boolean;
+  
+  // SEO
   metaDescription: string;
   ogImageUrl: string | null;
+  
+  // Footer
+  footerCopyright: string;
+  footerTagline: string;
+  
+  // Section Order
+  sectionOrder: string[];
 }>;
 
 /**
