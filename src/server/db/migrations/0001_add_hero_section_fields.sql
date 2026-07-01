@@ -1,6 +1,7 @@
 -- Migration: Add new columns to site_config for enhanced CMS functionality
 -- Run this migration to extend the site_config table with hero, visibility, and footer fields
 
+-- Add new columns if they don't exist
 ALTER TABLE "site_config" ADD COLUMN IF NOT EXISTS "hero_headline" text DEFAULT 'I build software that works.' NOT NULL;
 ALTER TABLE "site_config" ADD COLUMN IF NOT EXISTS "hero_emphasis_word" varchar(50) DEFAULT 'works';
 ALTER TABLE "site_config" ADD COLUMN IF NOT EXISTS "hero_subhead" text DEFAULT '' NOT NULL;

@@ -51,32 +51,7 @@ export const siteConfigRouter = createTRPCRouter({
    * Get site configuration (public).
    */
   get: publicProcedure.query(async () => {
-    try {
-      return await siteConfigService.getConfig();
-    } catch (error) {
-      console.error("[site-config.get] Error:", error);
-      // Return defaults on error
-      return {
-        id: "error",
-        theme: "system",
-        accentColor: "#2563eb",
-        heroTagline: "SOFTWARE ENGINEER",
-        metaDescription: "",
-        ogImageUrl: null,
-        heroHeadline: "I build software that works.",
-        heroEmphasisWord: "works",
-        heroSubhead: "",
-        heroShowResume: true,
-        showFeaturedProjects: true,
-        showExperience: true,
-        showSkills: true,
-        showAbout: true,
-        showContact: true,
-        footerCopyright: "",
-        footerTagline: "Built with passion.",
-        sectionOrder: ["hero", "featured-projects", "experience", "skills", "about", "contact"],
-      };
-    }
+    return siteConfigService.getConfig();
   }),
 
   /**
