@@ -52,6 +52,11 @@ function getSocialIcon(platform: string) {
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
   const { data: socialLinks } = trpc.socialLinks.listVisible.useQuery();
+  const { data: siteConfig } = trpc.siteConfig.get.useQuery();
+
+  // Use siteConfig values or defaults
+  const footerTagline = siteConfig?.footerTagline || "Built with passion.";
+  const footerCopyright = siteConfig?.footerCopyright || `© ${currentYear}`;
 
   return (
     <footer className="site-footer">
@@ -61,7 +66,7 @@ export function SiteFooter() {
           <div className="site-footer__brand">
             <p className="site-footer__wordmark">NowYouKnowMe</p>
             <p className="site-footer__tagline">
-              Software engineer building systems that work.
+              {footerTagline}
             </p>
           </div>
 
@@ -130,7 +135,7 @@ export function SiteFooter() {
         {/* Bottom row */}
         <div className="site-footer__bottom">
           <p className="site-footer__copyright">
-            © {currentYear} NowYouKnowMe
+            {footerCopyright}
           </p>
           <p className="site-footer__credits">
             Built with Next.js. Set in Fraunces & Inter.
