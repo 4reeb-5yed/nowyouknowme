@@ -92,12 +92,12 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
                 )}
 
                 {/* Tech stack */}
-                {experience.techStack.length > 0 && (
+                {(experience.techStack ?? []).length > 0 && (
                   <div
                     className="mt-3 flex flex-wrap gap-1.5"
                     aria-label={`Technologies used at ${experience.companyName}`}
                   >
-                    {experience.techStack.map((tech) => (
+                    {(experience.techStack ?? []).map((tech) => (
                       <Badge key={tech} variant="secondary" className="text-xs">
                         {tech}
                       </Badge>
