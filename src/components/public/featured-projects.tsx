@@ -92,7 +92,7 @@ export function FeaturedProjects() {
                 <h3 className="projects-spread__title">{project.title}</h3>
                 <p className="projects-spread__description">{project.description}</p>
                 <div className="projects-spread__tags">
-                  {project.techStack.map((tech: string) => (
+                  {(project.techStack ?? []).map((tech: string) => (
                     <span key={tech} className="projects-spread__tag">{tech}</span>
                   ))}
                 </div>

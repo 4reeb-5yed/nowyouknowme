@@ -163,9 +163,9 @@ export function PremiumProjectCard({ project, index = 0, featured = false }: Pre
             </p>
 
             {/* Tech Stack */}
-            {project.techStack.length > 0 && (
+            {(project.techStack ?? []).length > 0 && (
               <div className="flex flex-wrap gap-2 pt-2">
-                {project.techStack.slice(0, 4).map((tech) => (
+                {(project.techStack ?? []).slice(0, 4).map((tech) => (
                   <span
                     key={tech}
                     className="px-2.5 py-1 rounded-full bg-muted/50 text-xs font-medium text-muted-foreground backdrop-blur-sm"
@@ -173,9 +173,9 @@ export function PremiumProjectCard({ project, index = 0, featured = false }: Pre
                     {tech}
                   </span>
                 ))}
-                {project.techStack.length > 4 && (
+                {(project.techStack ?? []).length > 4 && (
                   <span className="px-2.5 py-1 rounded-full bg-muted/50 text-xs font-medium text-muted-foreground">
-                    +{project.techStack.length - 4}
+                    +{(project.techStack ?? []).length - 4}
                   </span>
                 )}
               </div>
