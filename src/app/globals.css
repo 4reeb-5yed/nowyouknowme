@@ -39,6 +39,16 @@
   --input: var(--line-hairline);
   --ring: var(--accent);
   --radius: var(--radius-soft);
+  
+  /* Sidebar colors - clean and minimalist */
+  --sidebar: var(--bg-surface);
+  --sidebar-foreground: var(--ink-primary);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: var(--bg-canvas);
+  --sidebar-accent: oklch(0.92 0.01 264);
+  --sidebar-accent-foreground: var(--ink-primary);
+  --sidebar-border: var(--line-hairline);
+  --sidebar-ring: var(--accent);
 }
 
 .dark {
@@ -61,6 +71,16 @@
   --input: var(--line-hairline);
   --ring: var(--accent);
   --radius: var(--radius-soft);
+  
+  /* Sidebar colors - dark mode */
+  --sidebar: oklch(0.15 0.01 264);
+  --sidebar-foreground: oklch(0.95 0.01 264);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: var(--bg-canvas);
+  --sidebar-accent: oklch(0.2 0.02 264);
+  --sidebar-accent-foreground: oklch(0.95 0.01 264);
+  --sidebar-border: oklch(0.25 0.02 264);
+  --sidebar-ring: var(--accent);
 }
 
 /* ==========================================================================
@@ -141,6 +161,33 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ==========================================================================
+   Admin Panel - Clean Minimalist Styling
+   ========================================================================== */
+
+/* Admin sidebar visibility */
+.sidebar {
+  background: var(--sidebar) !important;
+  border-color: var(--sidebar-border) !important;
+}
+
+/* Admin buttons - ensure visibility */
+button, .btn, [role="button"], .button {
+  font-weight: 500 !important;
+  opacity: 1 !important;
+}
+
+/* Admin inputs */
+input, textarea, select {
+  border: 1px solid var(--border) !important;
+}
+
+/* Admin cards */
+.card, .admin-card {
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 
 /* ==========================================================================
