@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { trpc } from "@/lib/trpc/client";
 
 interface HeroProps {
   tagline?: string;
@@ -11,18 +12,30 @@ interface HeroProps {
   emphasisWord?: string;
 }
 
+const defaultTagline = "SOFTWARE ENGINEER — SYSTEMS & PRODUCT";
+const defaultHeadline = "I build software that <em>disappears</em> into the right answer.";
+const defaultSubhead = "Currently focused on systems that stay quiet when they're working and loud when they shouldn't.";
+const defaultEmphasisWord = "disappears";
+
 export function Hero({
-  tagline = "SOFTWARE ENGINEER — SYSTEMS & PRODUCT",
-  headline = "I build software that <em>disappears</em> into the right answer.",
-  subhead = "Currently focused on systems that stay quiet when they're working and loud when they shouldn't.",
   resumeUrl,
-  emphasisWord = "disappears",
 }: HeroProps) {
   const [mounted, setMounted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const watermarkRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  // Fetch site config for hero content
+  const { data: siteConfig } = trpc.siteConfig.get.useQuery();
+
+  // Use site config values or defaults
+  const tagline = siteConfig?.heroTagline || defaultTagline;
+  const subhead = siteConfig?.metaDescription || defaultSubhead;
+  const emphasisWord = defaultEmphasisWord;
+  
+  // Headline - use default for now, could be made editable in the future
+  const headline = defaultHeadline;
 
   useEffect(() => {
     setMounted(true);
@@ -94,7 +107,6 @@ export function Hero({
     const content = contentRef.current;
     const opacity = Math.max(0, 1 - scrollProgress * 1.67);
     const translateY = scrollProgress * 67; // -40px at 60%
-    const progress60 = Math.min(scrollProgress / 0.6, 1);
     
     content.style.opacity = String(opacity);
     content.style.transform = `translateY(-${translateY}px)`;

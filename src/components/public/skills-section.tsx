@@ -1,30 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trpc } from "@/lib/trpc/client";
 
 interface SkillCluster {
   name: string;
   skills: string[];
 }
-
-const skillClusters: SkillCluster[] = [
-  {
-    name: "Languages",
-    skills: ["Go", "Rust", "TypeScript", "Python", "SQL"],
-  },
-  {
-    name: "Infrastructure",
-    skills: ["Kubernetes", "Docker", "Terraform", "AWS", "GCP"],
-  },
-  {
-    name: "Data",
-    skills: ["PostgreSQL", "Redis", "Kafka", "ClickHouse"],
-  },
-  {
-    name: "Craft",
-    skills: ["System Design", "API Design", "Observability", "Testing"],
-  },
-];
 
 function useScrollReveal(threshold = 0.25) {
   const [isVisible, setIsVisible] = useState(false);
@@ -51,8 +33,42 @@ function useScrollReveal(threshold = 0.25) {
   return { ref, isVisible };
 }
 
+const defaultSkills: SkillCluster[] = [
+  {
+    name: "Languages",
+    skills: ["Go", "Rust", "TypeScript", "Python", "SQL"],
+  },
+  {
+    name: "Infrastructure",
+    skills: ["Kubernetes", "Docker", "Terraform", "AWS", "GCP"],
+  },
+  {
+    name: "Data",
+    skills: ["PostgreSQL", "Redis", "Kafka", "ClickHouse"],
+  },
+  {
+    name: "Craft",
+    skills: ["System Design", "API Design", "Observability", "Testing"],
+  },
+];
+
 export function SkillsSection() {
   const { ref, isVisible } = useScrollReveal();
+  const { data: skillsSection } = trpc.pages.getSection.useQuery({ key: "skills" });
+
+  // Parse skills from section content (expects JSON format)
+  let skillClusters: SkillCluster[] = defaultSkills;
+  if (skillsSection?.content) {
+    try {
+      const parsed = JSON.parse(skillsSection.content);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        skillClusters = parsed;
+      }
+    } catch {
+      // Use default skills if parsing fails
+      skillClusters = defaultSkills;
+    }
+  }
 
   return (
     <section id="skills" className="section section--canvas">

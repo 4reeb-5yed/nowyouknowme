@@ -1,7 +1,10 @@
+"use client";
+
 import { SiteHeader } from "@/components/public/site-header-v3";
 import { SiteFooter } from "@/components/public/site-footer-v3";
 import { ScrollProgress } from "@/components/public/scroll-progress";
 import { GrainOverlay } from "@/components/public/grain-overlay";
+import { TRPCProvider } from "@/lib/trpc/provider";
 
 export default function PublicLayout({
   children,
@@ -9,7 +12,7 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <TRPCProvider>
       <ScrollProgress />
       <GrainOverlay />
       <div className="flex min-h-screen flex-col">
@@ -26,6 +29,6 @@ export default function PublicLayout({
         </main>
         <SiteFooter />
       </div>
-    </>
+    </TRPCProvider>
   );
 }

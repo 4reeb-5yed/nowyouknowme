@@ -1,46 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-interface Experience {
-  id: string;
-  role: string;
-  company: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  isCurrent: boolean;
-}
-
-const experiences: Experience[] = [
-  {
-    id: "1",
-    role: "Senior Software Engineer",
-    company: "Acme Systems",
-    startDate: "2022",
-    endDate: "Present",
-    description: "Leading the platform team, focusing on developer experience and system reliability. Reduced p99 latency by 60% through targeted optimization work.",
-    isCurrent: true,
-  },
-  {
-    id: "2",
-    role: "Software Engineer",
-    company: "TechCorp",
-    startDate: "2019",
-    endDate: "2022",
-    description: "Built and maintained core backend services processing millions of daily transactions. Introduced automated testing practices that cut production incidents by 40%.",
-    isCurrent: false,
-  },
-  {
-    id: "3",
-    role: "Junior Developer",
-    company: "StartupXYZ",
-    startDate: "2017",
-    endDate: "2019",
-    description: "Full-stack development on a rapidly growing e-commerce platform. Wrote the inventory sync system that became the foundation for future scaling efforts.",
-    isCurrent: false,
-  },
-];
+import { trpc } from "@/lib/trpc/client";
 
 function useScrollReveal(threshold = 0.25) {
   const [isVisible, setIsVisible] = useState(false);
@@ -67,8 +28,15 @@ function useScrollReveal(threshold = 0.25) {
   return { ref, isVisible };
 }
 
+function formatDate(date: Date | string | null): string {
+  if (!date) return "Present";
+  const d = new Date(date);
+  return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
+
 export function ExperienceSection() {
   const { ref, isVisible } = useScrollReveal();
+  const { data: experiences, isLoading } = trpc.experience.listVisible.useQuery();
 
   return (
     <section id="experience" className="section section--surface">
@@ -85,24 +53,54 @@ export function ExperienceSection() {
           </p>
         </div>
 
-        <div 
-          className={`experience-timeline reveal ${isVisible ? "visible" : ""}`}
-          style={{ maxWidth: "calc(8/12 * 100%)", margin: "0 auto" }}
-        >
-          {experiences.map((exp) => (
-            <div
-              key={exp.id}
-              className={`experience-entry ${exp.isCurrent ? "experience-entry--current" : ""}`}
-            >
-              <div className="experience-entry__header">
-                <span className="experience-entry__date">{exp.startDate} — {exp.endDate}</span>
+        {isLoading ? (
+          <div 
+            className="experience-timeline"
+            style={{ maxWidth: "calc(8/12 * 100%)", margin: "0 auto" }}
+          >
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="experience-entry animate-pulse">
+                <div className="experience-entry__header">
+                  <div className="h-4 w-32 rounded bg-muted" />
+                </div>
+                <div className="h-6 w-48 rounded bg-muted mt-2" />
+                <div className="h-5 w-32 rounded bg-muted mt-1" />
+                <div className="space-y-2 mt-3">
+                  <div className="h-4 w-full rounded bg-muted" />
+                  <div className="h-4 w-3/4 rounded bg-muted" />
+                </div>
               </div>
-              <h3 className="experience-entry__role">{exp.role}</h3>
-              <p className="experience-entry__company">{exp.company}</p>
-              <p className="experience-entry__description">{exp.description}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : experiences && experiences.length > 0 ? (
+          <div 
+            className={`experience-timeline reveal ${isVisible ? "visible" : ""}`}
+            style={{ maxWidth: "calc(8/12 * 100%)", margin: "0 auto" }}
+          >
+            {experiences.map((exp) => (
+              <div
+                key={exp.id}
+                className={`experience-entry ${exp.isCurrent ? "experience-entry--current" : ""}`}
+              >
+                <div className="experience-entry__header">
+                  <span className="experience-entry__date">
+                    {formatDate(exp.startDate)} — {formatDate(exp.endDate)}
+                  </span>
+                </div>
+                <h3 className="experience-entry__role">{exp.roleTitle}</h3>
+                <p className="experience-entry__company">{exp.companyName}</p>
+                <p className="experience-entry__description">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16" style={{ maxWidth: "calc(8/12 * 100%)", margin: "0 auto" }}>
+            <p className="text-muted-foreground">No experience entries yet.</p>
+            <p className="text-sm text-muted-foreground/70 mt-1">
+              Add your work history in the CMS dashboard.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
