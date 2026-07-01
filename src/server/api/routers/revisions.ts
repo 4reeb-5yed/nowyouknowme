@@ -13,10 +13,15 @@ export const revisionsRouter = createTRPCRouter({
       limit: z.number().min(1).max(100).optional().default(50),
     }))
     .query(async ({ input }) => {
-      return revisionService.getEntityRevisions(input.entityId, {
-        entityType: input.entityType,
-        limit: input.limit,
-      });
+      try {
+        return await revisionService.getEntityRevisions(input.entityId, {
+          entityType: input.entityType,
+          limit: input.limit,
+        });
+      } catch (error) {
+        console.error("[revisions.getEntityRevisions] Error:", error);
+        return [];
+      }
     }),
 
   /**
@@ -27,7 +32,12 @@ export const revisionsRouter = createTRPCRouter({
       revisionId: z.string(),
     }))
     .query(async ({ input }) => {
-      return revisionService.getRevisionById(input.revisionId);
+      try {
+        return await revisionService.getRevisionById(input.revisionId);
+      } catch (error) {
+        console.error("[revisions.getById] Error:", error);
+        return null;
+      }
     }),
 
   /**
@@ -38,7 +48,12 @@ export const revisionsRouter = createTRPCRouter({
       limit: z.number().min(1).max(100).optional().default(20),
     }).optional())
     .query(async ({ input }) => {
-      return revisionService.getRecentRevisions(input?.limit ?? 20);
+      try {
+        return await revisionService.getRecentRevisions(input?.limit ?? 20);
+      } catch (error) {
+        console.error("[revisions.getRecent] Error:", error);
+        return [];
+      }
     }),
 
   /**
@@ -49,7 +64,12 @@ export const revisionsRouter = createTRPCRouter({
       days: z.number().min(1).max(365).optional().default(30),
     }).optional())
     .query(async ({ input }) => {
-      return revisionService.getRevisionStats(input?.days ?? 30);
+      try {
+        return await revisionService.getRevisionStats(input?.days ?? 30);
+      } catch (error) {
+        console.error("[revisions.stats] Error:", error);
+        return { totalRevisions: 0, byType: {} };
+      }
     }),
 
   /**
@@ -61,14 +81,19 @@ export const revisionsRouter = createTRPCRouter({
       newRevisionId: z.string(),
     }))
     .query(async ({ input }) => {
-      const oldRevision = await revisionService.getRevisionById(input.oldRevisionId);
-      const newRevision = await revisionService.getRevisionById(input.newRevisionId);
-      
-      if (!oldRevision || !newRevision) {
-        throw new Error("One or both revisions not found");
+      try {
+        const oldRevision = await revisionService.getRevisionById(input.oldRevisionId);
+        const newRevision = await revisionService.getRevisionById(input.newRevisionId);
+        
+        if (!oldRevision || !newRevision) {
+          throw new Error("One or both revisions not found");
+        }
+        
+        return revisionService.compareRevisions(oldRevision, newRevision);
+      } catch (error) {
+        console.error("[revisions.compare] Error:", error);
+        throw error;
       }
-      
-      return revisionService.compareRevisions(oldRevision, newRevision);
     }),
 
   /**
@@ -79,10 +104,15 @@ export const revisionsRouter = createTRPCRouter({
       revisionId: z.string(),
     }))
     .query(async ({ input }) => {
-      const revision = await revisionService.getRevisionById(input.revisionId);
-      if (!revision) {
-        throw new Error("Revision not found");
+      try {
+        const revision = await revisionService.getRevisionById(input.revisionId);
+        if (!revision) {
+          throw new Error("Revision not found");
+        }
+        return revision.snapshot;
+      } catch (error) {
+        console.error("[revisions.getSnapshot] Error:", error);
+        throw error;
       }
-      return revision.snapshot;
     }),
 });

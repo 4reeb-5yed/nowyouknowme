@@ -9,13 +9,8 @@ import { clientEnv } from "@/config/env";
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const trpc = await createServerClient();
-  const config = await trpc.siteConfig.get();
   const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
-
-  const description =
-    config?.metaDescription ||
-    "Get in touch. Send a message or reach out via social media.";
+  const description = "Get in touch. Send a message or reach out via social media.";
 
   return {
     title: "Contact",
@@ -29,9 +24,23 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+type SocialLink = {
+  id: string;
+  platform: string;
+  url: string;
+  displayOrder: number;
+  isVisible: boolean;
+};
+
 export default async function ContactPage() {
-  const trpc = await createServerClient();
-  const socialLinks = await trpc.socialLinks.listVisible();
+  let socialLinks: SocialLink[] = [];
+
+  try {
+    const trpc = await createServerClient();
+    socialLinks = await trpc.socialLinks.listVisible();
+  } catch {
+    // Return empty array if DB unavailable
+  }
 
   return (
     <main className="min-h-screen">

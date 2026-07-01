@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trpc } from "@/lib/trpc/client";
 
 function useScrollReveal(threshold = 0.25) {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,8 +28,20 @@ function useScrollReveal(threshold = 0.25) {
   return { ref, isVisible };
 }
 
+const defaultAboutContent = `I'm a software engineer who finds genuine satisfaction in building systems that work so reliably you forget they're there. My background spans distributed systems, developer tooling, and the unglamorous but essential work of making complex things simple to operate.
+
+Before engineering, I studied architecture — which explains a lot about how I approach software: the importance of structure, the discipline of restraint, and the belief that good design is mostly about knowing what to leave out.
+
+When I'm not at a keyboard, I'm usually restoring a 1970s motorcycle, reading about soil composition for my garden, or trying to convince my sourdough starter to forgive me for the weekend I forgot to feed it.`;
+
 export function AboutSection() {
   const { ref, isVisible } = useScrollReveal();
+  const { data: aboutSection } = trpc.pages.getSection.useQuery({ key: "about" });
+
+  // Parse paragraphs from section content (expects plain text with newlines)
+  const paragraphs = aboutSection?.content 
+    ? aboutSection.content.split('\n\n').filter(p => p.trim())
+    : defaultAboutContent.split('\n\n').filter(p => p.trim());
 
   return (
     <section id="about" className="section section--surface">
@@ -47,15 +60,9 @@ export function AboutSection() {
           <div className="about-text">
             <p className="section-kicker">// 04 — About</p>
             <h2 className="section-title" style={{ marginBottom: "var(--space-8)" }}>A Little Background</h2>
-            <p>
-              I&apos;m a software engineer who finds genuine satisfaction in building systems that work so reliably you forget they&apos;re there. My background spans distributed systems, developer tooling, and the unglamorous but essential work of making complex things simple to operate.
-            </p>
-            <p>
-              Before engineering, I studied architecture — which explains a lot about how I approach software: the importance of structure, the discipline of restraint, and the belief that good design is mostly about knowing what to leave out.
-            </p>
-            <p>
-              When I&apos;m not at a keyboard, I&apos;m usually restoring a 1970s motorcycle, reading about soil composition for my garden, or trying to convince my sourdough starter to forgive me for the weekend I forgot to feed it.
-            </p>
+            {paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </div>

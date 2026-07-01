@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import "@/styles/admin.css";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -17,12 +18,17 @@ import {
   Menu,
   X,
   Search,
-  Command,
   Keyboard,
   ChevronDown,
   Image,
   History,
   Eye,
+  Globe,
+  Layers,
+  Code2,
+  Mail,
+  User,
+  Star,
 } from "lucide-react";
 
 import { TRPCProvider } from "@/lib/trpc/provider";
@@ -32,18 +38,36 @@ import { CommandPalette } from "@/components/admin/command-palette";
 import { KeyboardShortcutsHelp } from "@/components/admin/keyboard-shortcuts-help";
 import { LivePreview } from "@/components/admin/live-preview";
 
-const navItems = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/projects", label: "Projects", icon: FolderKanban },
-  { href: "/admin/pages", label: "Pages", icon: FileText },
-  { href: "/admin/social-links", label: "Social Links", icon: Link2 },
-  { href: "/admin/experience", label: "Experience", icon: Briefcase },
-  { href: "/admin/certifications", label: "Certifications", icon: Award },
-  { href: "/admin/resume", label: "Resume", icon: FileDown },
-  { href: "/admin/media", label: "Media", icon: Image },
-  { href: "/admin/revisions", label: "Revisions", icon: History },
-  { href: "/admin/site-config", label: "Site Config", icon: Settings },
+// Frequent items - commonly used content management
+const frequentNavItems = [
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, description: "Overview & quick actions" },
+  { href: "/admin/site-settings", label: "Site Settings", icon: Settings, description: "Homepage, Hero, SEO, Footer" },
+  { href: "/admin/projects", label: "Projects", icon: FolderKanban, description: "Portfolio projects" },
+  { href: "/admin/experience", label: "Experience", icon: Briefcase, description: "Work history" },
+  { href: "/admin/certifications", label: "Certifications", icon: Award, description: "Credentials & badges" },
 ];
+
+// Content items - section-specific content
+const contentNavItems = [
+  { href: "/admin/pages", label: "Sections Content", icon: FileText, description: "About, Skills, Contact text" },
+  { href: "/admin/social-links", label: "Social Links", icon: Link2, description: "Social profiles" },
+];
+
+// Advanced items - niche configuration
+const advancedNavItems = [
+  { href: "/admin/site-config", label: "Advanced Config", icon: Settings, description: "Theme, colors, advanced" },
+  { href: "/admin/media", label: "Media Library", icon: Image, description: "Images & files" },
+  { href: "/admin/resume", label: "Resume", icon: FileDown, description: "Downloadable CV" },
+  { href: "/admin/revisions", label: "Revisions", icon: History, description: "Change history" },
+];
+
+// All nav items combined for breadcrumb lookup
+const allNavItems = [...frequentNavItems, ...contentNavItems, ...advancedNavItems];
+
+function getPageTitle(pathname: string): string {
+  const item = allNavItems.find(nav => nav.href === pathname);
+  return item?.label ?? "Page";
+}
 
 export default function AdminLayout({
   children,
@@ -130,27 +154,93 @@ export default function AdminLayout({
           </div>
 
           {/* Navigation links */}
-          <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4" aria-label="CMS navigation">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setSidebarOpen(false)}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    isActive
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                  )}
-                >
-                  <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                  {item.label}
-                </Link>
-              );
-            })}
+          <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="CMS navigation">
+            {/* Frequent Section */}
+            <div className="mb-6">
+              <h3 className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/50">
+                Frequent
+              </h3>
+              <div className="space-y-1">
+                {frequentNavItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={cn(
+                        "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                        isActive
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      )}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="mb-6">
+              <h3 className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/50">
+                Content
+              </h3>
+              <div className="space-y-1">
+                {contentNavItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={cn(
+                        "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                        isActive
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      )}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Advanced Section */}
+            <div>
+              <h3 className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/50">
+                Advanced
+              </h3>
+              <div className="space-y-1">
+                {advancedNavItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={cn(
+                        "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                        isActive
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      )}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </nav>
 
           {/* Keyboard shortcuts hint */}
@@ -193,7 +283,7 @@ export default function AdminLayout({
               <span className="text-muted-foreground">Admin</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground rotate-90" aria-hidden="true" />
               <span className="font-medium">
-                {navItems.find(item => item.href === pathname)?.label ?? "Page"}
+                {getPageTitle(pathname)}
               </span>
             </div>
 

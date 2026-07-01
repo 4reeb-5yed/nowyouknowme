@@ -8,13 +8,18 @@ import { clientEnv } from "@/config/env";
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const trpc = await createServerClient();
-  const config = await trpc.siteConfig.get();
   const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
+  let description = "Career history and professional experience in cybersecurity, cloud infrastructure, and web development.";
 
-  const description =
-    config?.metaDescription ||
-    "Career history and professional experience in cybersecurity, cloud infrastructure, and web development.";
+  try {
+    const trpc = await createServerClient();
+    const config = await trpc.siteConfig.get();
+    if (config?.metaDescription) {
+      description = config.metaDescription;
+    }
+  } catch {
+    // Use default description if DB unavailable
+  }
 
   return {
     title: "Experience",
@@ -29,13 +34,19 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ExperiencePage() {
-  const trpc = await createServerClient();
-  const rawExperiences = await trpc.experience.listVisible();
+  let experiences: Array<{ id: string; companyName: string; roleTitle: string; startDate: Date; endDate: Date | null; description: string | null; techStack: string[]; isVisible: boolean; isCurrent: boolean }> = [];
 
-  const experiences = rawExperiences.map((exp) => ({
-    ...exp,
-    techStack: exp.techStack ?? [],
-  }));
+  try {
+    const trpc = await createServerClient();
+    const rawExperiences = await trpc.experience.listVisible();
+    experiences = rawExperiences.map((exp) => ({
+      ...exp,
+      techStack: exp.techStack ?? [],
+      isCurrent: !exp.endDate,
+    }));
+  } catch {
+    // Return empty experiences array if DB unavailable
+  }
 
   return (
     <main className="min-h-screen">

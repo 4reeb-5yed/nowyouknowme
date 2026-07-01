@@ -7,13 +7,18 @@ import { clientEnv } from "@/config/env";
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const trpc = await createServerClient();
-  const config = await trpc.siteConfig.get();
   const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
+  let description = "Learn more about my background, skills, and what drives me as a professional.";
 
-  const description =
-    config?.metaDescription ||
-    "Learn more about my background, skills, and what drives me as a professional.";
+  try {
+    const trpc = await createServerClient();
+    const config = await trpc.siteConfig.get();
+    if (config?.metaDescription) {
+      description = config.metaDescription;
+    }
+  } catch {
+    // Use default description if DB unavailable
+  }
 
   return {
     title: "About",
@@ -27,9 +32,22 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+type Section = {
+  id: string;
+  key: string;
+  title: string;
+  content: string | null;
+};
+
 export default async function AboutPage() {
-  const trpc = await createServerClient();
-  const section = await trpc.pages.getSection({ key: "about" });
+  let section: Section | null = null;
+
+  try {
+    const trpc = await createServerClient();
+    section = await trpc.pages.getSection({ key: "about" });
+  } catch {
+    // Return null if DB unavailable
+  }
 
   return (
     <main className="min-h-screen">

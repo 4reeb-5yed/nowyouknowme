@@ -15,45 +15,72 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const api = await createServerClient();
-  const [project, config] = await Promise.all([
-    api.projects.getBySlug({ slug }),
-    api.siteConfig.get(),
-  ]);
-
-  if (!project) {
-    return {
-      title: "Project Not Found",
-      description: "The requested project could not be found.",
-    };
-  }
-
-  const ogImage = project.thumbnailUrl || config?.ogImageUrl;
   const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
 
-  return {
-    title: project.title,
-    description: project.description,
-    openGraph: {
+  try {
+    const api = await createServerClient();
+    const [project, config] = await Promise.all([
+      api.projects.getBySlug({ slug }),
+      api.siteConfig.get(),
+    ]);
+
+    if (!project) {
+      return {
+        title: "Project Not Found",
+        description: "The requested project could not be found.",
+      };
+    }
+
+    const ogImage = project.thumbnailUrl || config?.ogImageUrl;
+
+    return {
       title: project.title,
       description: project.description,
-      url: `${siteUrl}/projects/${slug}`,
-      type: "article",
-      ...(ogImage && { images: [{ url: ogImage }] }),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: project.title,
-      description: project.description,
-      ...(ogImage && { images: [ogImage] }),
-    },
-  };
+      openGraph: {
+        title: project.title,
+        description: project.description,
+        url: `${siteUrl}/projects/${slug}`,
+        type: "article",
+        ...(ogImage && { images: [{ url: ogImage }] }),
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: project.title,
+        description: project.description,
+        ...(ogImage && { images: [ogImage] }),
+      },
+    };
+  } catch {
+    return {
+      title: "Projects",
+      description: "Browse portfolio projects.",
+    };
+  }
 }
+
+type Project = {
+  id: string;
+  title: string;
+  description: string;
+  longDescription: string | null;
+  techStack: string[] | null;
+  category: string;
+  githubUrl: string | null;
+  liveUrl: string | null;
+  thumbnailUrl: string | null;
+  status: string;
+};
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
-  const api = await createServerClient();
-  const project = await api.projects.getBySlug({ slug });
+  let project: Project | null = null;
+
+  try {
+    const api = await createServerClient();
+    project = await api.projects.getBySlug({ slug });
+  } catch {
+    // Continue to notFound()
+  }
 
   if (!project) {
     notFound();
@@ -89,12 +116,9 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
+      {/* Clean background */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
       </div>
 
       <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16 lg:py-20">

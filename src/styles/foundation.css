@@ -790,33 +790,51 @@ input, textarea, select {
 .hero__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--bg-canvas) 0%,
-    color-mix(in srgb, var(--bg-canvas) 96%, var(--bg-surface)) 100%
-  );
+  background: var(--bg-canvas);
   pointer-events: none;
 }
 
-/* Hero Watermark */
-.hero__watermark {
+/* Subtle smooth design background */
+.hero__design {
   position: absolute;
-  right: -5%;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  font-family: var(--font-mono);
-  font-size: clamp(8rem, 20vw, 18rem);
-  font-weight: 500;
-  color: var(--ink-primary);
-  opacity: 0.04;
-  white-space: nowrap;
+  inset: 0;
   pointer-events: none;
-  z-index: var(--z-watermark);
-  will-change: transform;
 }
 
-.hero__watermark span {
-  display: inline-block;
+/* Soft radial gradient from corner */
+.hero__design::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse 80% 60% at 100% 0%,
+    var(--bg-surface) 0%,
+    transparent 70%
+  );
+}
+
+/* Subtle bottom gradient */
+.hero__design::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 40%;
+  background: radial-gradient(
+    ellipse 60% 100% at 0% 100%,
+    color-mix(in srgb, var(--bg-surface) 50%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* Hero Watermark (removed - replaced with decorations) */
+/* Keeping class for backwards compatibility */
+.hero__watermark {
+  display: none;
 }
 
 /* Hero Content */

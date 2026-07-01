@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { Loader2, CheckCircle2, AlertCircle, Send } from "lucide-react";
 
 function useScrollReveal(threshold = 0.25) {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,8 +39,10 @@ export function ContactSection() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -55,15 +59,36 @@ export function ContactSection() {
       return;
     }
 
-    // In production, this would submit to an API
-    setSubmitted(true);
-    setFormState({ name: "", email: "", message: "" });
-    
-    // Reset after 3 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-      setErrors({});
-    }, 3000);
+    setErrors({});
+    setStatus("submitting");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setStatus("success");
+      setSubmitted(true);
+      setFormState({ name: "", email: "", message: "" });
+
+      // Reset after 5 seconds
+      setTimeout(() => {
+        setStatus("idle");
+        setSubmitted(false);
+        setErrorMessage("");
+      }, 5000);
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -92,6 +117,7 @@ export function ContactSection() {
               placeholder=" "
               value={formState.name}
               onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+              disabled={status === "submitting"}
               aria-describedby={errors.name ? "name-error" : undefined}
               aria-required="true"
             />
@@ -108,6 +134,7 @@ export function ContactSection() {
               placeholder=" "
               value={formState.email}
               onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+              disabled={status === "submitting"}
               aria-describedby={errors.email ? "email-error" : undefined}
               aria-required="true"
             />
@@ -124,6 +151,7 @@ export function ContactSection() {
               rows={5}
               value={formState.message}
               onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+              disabled={status === "submitting"}
               aria-describedby={errors.message ? "message-error" : undefined}
               aria-required="true"
             />
@@ -131,13 +159,49 @@ export function ContactSection() {
             {errors.message && <p id="message-error" className="form-error">{errors.message}</p>}
           </div>
 
+          {/* Status Messages */}
+          {status === "success" && (
+            <div className="flex items-center gap-2 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 mb-4">
+              <CheckCircle2 className="h-5 w-5 shrink-0" />
+              <p>Message sent successfully! I&apos;ll get back to you soon.</p>
+            </div>
+          )}
+
+          {status === "error" && (
+            <div className="flex items-center gap-2 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 mb-4">
+              <AlertCircle className="h-5 w-5 shrink-0" />
+              <p>{errorMessage}</p>
+            </div>
+          )}
+
           <button
             type="submit"
-            className={`btn btn--primary form-submit`}
-            style={submitted ? { backgroundColor: "var(--signal-success)" } : undefined}
+            className={`btn btn--primary form-submit flex items-center justify-center gap-2`}
+            disabled={status === "submitting"}
           >
-            {submitted ? "Sent — Thank you!" : "Send Message"}
+            {status === "submitting" ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Sending...
+              </>
+            ) : status === "success" ? (
+              <>
+                <CheckCircle2 className="h-4 w-4" />
+                Sent!
+              </>
+            ) : (
+              <>
+                <Send className="h-4 w-4" />
+                Send Message
+              </>
+            )}
           </button>
+
+          <div className="mt-6 text-center">
+            <Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              or visit the contact page →
+            </Link>
+          </div>
 
           <div className="form-alternative">
             <p className="form-alternative__text">Prefer email?</p>

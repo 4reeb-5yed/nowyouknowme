@@ -5,9 +5,8 @@ import { serverEnv } from "@/config/env";
 import * as schema from "./schema";
 
 /**
- * Lazy-initialized database connection.
- * Uses a Proxy to defer connection creation until the first query,
- * preventing build-time errors when DATABASE_URL is not available.
+ * Database connection using Neon serverless driver.
+ * Drizzle ORM handles all query formatting and parameter binding.
  */
 function createDb() {
   const sql = neon(serverEnv.DATABASE_URL);

@@ -164,9 +164,9 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
         </p>
 
         {/* Tech Stack */}
-        {project.techStack.length > 0 && (
+        {(project.techStack ?? []).length > 0 && (
           <div className="mt-auto flex flex-wrap gap-1.5">
-            {project.techStack.slice(0, 3).map((tech) => (
+            {(project.techStack ?? []).slice(0, 3).map((tech) => (
               <span
                 key={tech}
                 className="rounded-full bg-muted/80 px-2.5 py-1 text-xs font-medium text-muted-foreground backdrop-blur-sm"
@@ -174,9 +174,9 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
                 {tech}
               </span>
             ))}
-            {project.techStack.length > 3 && (
+            {(project.techStack ?? []).length > 3 && (
               <span className="rounded-full bg-muted/80 px-2.5 py-1 text-xs font-medium text-muted-foreground backdrop-blur-sm">
-                +{project.techStack.length - 3}
+                +{(project.techStack ?? []).length - 3}
               </span>
             )}
           </div>

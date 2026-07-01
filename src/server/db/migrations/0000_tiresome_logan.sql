@@ -84,6 +84,29 @@ CREATE TABLE "site_config" (
 	"og_image_url" varchar(500)
 );
 --> statement-breakpoint
+CREATE TABLE "activity_logs" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid,
+	"user_email" text NOT NULL,
+	"action" text NOT NULL,
+	"entity_type" text NOT NULL,
+	"entity_id" uuid,
+	"entity_name" text,
+	"changes" jsonb,
+	"ip_address" text,
+	"user_agent" text,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "revisions" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"entity_type" text NOT NULL,
+	"entity_id" uuid NOT NULL,
+	"user_id" uuid,
+	"changes" jsonb NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "social_links" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" uuid NOT NULL,

@@ -4,9 +4,8 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // eslint config removed - ESLint is now configured via eslint.config.js
+  // Run `npm run lint` to lint the project
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

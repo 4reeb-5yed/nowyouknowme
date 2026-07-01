@@ -1,30 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trpc } from "@/lib/trpc/client";
 
 interface SkillCluster {
   name: string;
   skills: string[];
 }
-
-const skillClusters: SkillCluster[] = [
-  {
-    name: "Languages",
-    skills: ["Go", "Rust", "TypeScript", "Python", "SQL"],
-  },
-  {
-    name: "Infrastructure",
-    skills: ["Kubernetes", "Docker", "Terraform", "AWS", "GCP"],
-  },
-  {
-    name: "Data",
-    skills: ["PostgreSQL", "Redis", "Kafka", "ClickHouse"],
-  },
-  {
-    name: "Craft",
-    skills: ["System Design", "API Design", "Observability", "Testing"],
-  },
-];
 
 function useScrollReveal(threshold = 0.25) {
   const [isVisible, setIsVisible] = useState(false);
@@ -51,8 +33,58 @@ function useScrollReveal(threshold = 0.25) {
   return { ref, isVisible };
 }
 
+const defaultSkills: SkillCluster[] = [
+  {
+    name: "Languages",
+    skills: ["Go", "Rust", "TypeScript", "Python", "SQL"],
+  },
+  {
+    name: "Infrastructure",
+    skills: ["Kubernetes", "Docker", "Terraform", "AWS", "GCP"],
+  },
+  {
+    name: "Data",
+    skills: ["PostgreSQL", "Redis", "Kafka", "ClickHouse"],
+  },
+  {
+    name: "Craft",
+    skills: ["System Design", "API Design", "Observability", "Testing"],
+  },
+];
+
 export function SkillsSection() {
   const { ref, isVisible } = useScrollReveal();
+  const { data: skillsSection } = trpc.pages.getSection.useQuery({ key: "skills" });
+
+  // Parse skills from section content (expects JSON format)
+  let skillClusters: SkillCluster[] = defaultSkills;
+  if (skillsSection?.content) {
+    try {
+      const parsed = JSON.parse(skillsSection.content);
+      // Validate that parsed data is an array with proper structure
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        skillClusters = parsed
+          .filter((cluster): cluster is SkillCluster => 
+            cluster !== null && 
+            typeof cluster === 'object' && 
+            typeof cluster.name === 'string' &&
+            Array.isArray(cluster.skills)
+          )
+          .map(cluster => ({
+            name: cluster.name,
+            skills: cluster.skills ?? []
+          }));
+        
+        // Fall back to defaults if no valid clusters after filtering
+        if (skillClusters.length === 0) {
+          skillClusters = defaultSkills;
+        }
+      }
+    } catch {
+      // Use default skills if parsing fails
+      skillClusters = defaultSkills;
+    }
+  }
 
   return (
     <section id="skills" className="section section--canvas">
@@ -70,7 +102,7 @@ export function SkillsSection() {
             <div key={cluster.name} className="skills-cluster">
               <p className="skills-cluster__label">{cluster.name}</p>
               <ul className="skills-cluster__list">
-                {cluster.skills.map((skill) => (
+                {(cluster.skills ?? []).map((skill) => (
                   <li key={skill}>
                     <span className="skill-pill">{skill}</span>
                   </li>
