@@ -8,13 +8,18 @@ import { clientEnv } from "@/config/env";
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const trpc = await createServerClient();
-  const config = await trpc.siteConfig.get();
   const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
+  let description = "Professional certifications and credentials validating expertise across cybersecurity, cloud infrastructure, and web development.";
 
-  const description =
-    config?.metaDescription ||
-    "Professional certifications and credentials validating expertise across cybersecurity, cloud infrastructure, and web development.";
+  try {
+    const trpc = await createServerClient();
+    const config = await trpc.siteConfig.get();
+    if (config?.metaDescription) {
+      description = config.metaDescription;
+    }
+  } catch {
+    // Use default description if DB unavailable
+  }
 
   return {
     title: "Certifications",
@@ -28,9 +33,28 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+type Certification = {
+  id: string;
+  name: string;
+  issuer: string;
+  issueDate: Date;
+  expirationDate: Date | null;
+  credentialId: string | null;
+  verificationUrl: string | null;
+  badgeUrl: string | null;
+  displayOrder: number;
+  isVisible: boolean;
+};
+
 export default async function CertificationsPage() {
-  const trpc = await createServerClient();
-  const certifications = await trpc.certifications.listVisible();
+  let certifications: Certification[] = [];
+
+  try {
+    const trpc = await createServerClient();
+    certifications = await trpc.certifications.listVisible();
+  } catch {
+    // Return empty array if DB unavailable
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden">

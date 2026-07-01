@@ -8,13 +8,18 @@ import { clientEnv } from "@/config/env";
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const trpc = await createServerClient();
-  const config = await trpc.siteConfig.get();
   const siteUrl = clientEnv.NEXT_PUBLIC_APP_URL;
+  let description = "Browse portfolio projects spanning cybersecurity, cloud infrastructure, and web development.";
 
-  const description =
-    config?.metaDescription ||
-    "Browse portfolio projects spanning cybersecurity, cloud infrastructure, and web development.";
+  try {
+    const trpc = await createServerClient();
+    const config = await trpc.siteConfig.get();
+    if (config?.metaDescription) {
+      description = config.metaDescription;
+    }
+  } catch {
+    // Use default description if DB unavailable
+  }
 
   return {
     title: "Projects",
@@ -29,13 +34,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ProjectsPage() {
-  const trpc = await createServerClient();
-  const rawProjects = await trpc.projects.list();
+  let projects: Array<{ id: string; title: string; description: string; techStack: string[]; category: string; slug: string; thumbnailUrl: string | null; githubUrl: string | null; liveUrl: string | null; isFeatured: boolean; status: string }> = [];
 
-  const projects = rawProjects.map((p) => ({
-    ...p,
-    techStack: p.techStack ?? [],
-  }));
+  try {
+    const trpc = await createServerClient();
+    const rawProjects = await trpc.projects.list();
+    projects = rawProjects.map((p) => ({
+      ...p,
+      techStack: p.techStack ?? [],
+    }));
+  } catch {
+    // Return empty projects array if DB unavailable
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden">
