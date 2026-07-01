@@ -47,16 +47,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // Fetch all published projects for dynamic URLs
-  const publishedProjects = await listPublished();
-
-  const projectPages: MetadataRoute.Sitemap = publishedProjects.map(
-    (project) => ({
-      url: `${BASE_URL}/projects/${project.slug}`,
-      lastModified: project.updatedAt,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })
-  );
+  // Return only static pages if DB is unavailable
+  let projectPages: MetadataRoute.Sitemap = [];
+  try {
+    const publishedProjects = await listPublished();
+    if (Array.isArray(publishedProjects)) {
+      projectPages = publishedProjects.map(
+        (project) => ({
+          url: `${BASE_URL}/projects/${project.slug}`,
+          lastModified: project.updatedAt,
+          changeFrequency: "monthly" as const,
+          priority: 0.7,
+        })
+      );
+    }
+  } catch (error) {
+    // Database unavailable - return only static pages
+    console.error("[Sitemap] Failed to fetch projects:", error);
+  }
 
   return [...staticPages, ...projectPages];
 }
