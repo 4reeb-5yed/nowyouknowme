@@ -58,6 +58,7 @@ src/
 │   ├── admin/                 # CMS Dashboard (auth-protected)
 │   │   ├── login/            # Authentication
 │   │   ├── dashboard/        # Overview & stats
+│   │   ├── site-settings/    # Site configuration (hero, sections, SEO, footer)
 │   │   ├── projects/         # Projects CRUD
 │   │   ├── experience/       # Experience CRUD
 │   │   ├── certifications/   # Certifications CRUD
@@ -65,7 +66,7 @@ src/
 │   │   ├── social-links/     # Social links manager
 │   │   ├── resume/          # Resume management
 │   │   ├── media/           # File manager
-│   │   ├── site-config/     # Theme & SEO settings
+│   │   ├── site-config/     # Theme & advanced settings
 │   │   └── revisions/       # Version history
 │   │
 │   └── api/                   # API Routes
@@ -177,12 +178,18 @@ appRouter
 │   └── search            (protected) - Global search
 │
 ├── activityLog
-│   ├── getRecent         (protected)
-│   └── create            (internal)
+│   ├── list              (protected) - List recent activity logs
+│   ├── stats             (protected) - Activity statistics
+│   ├── search            (protected) - Search activity logs
+│   └── getEntityHistory  (protected) - Get history for entity
 │
 └── revisions
-    ├── getByEntity       (protected)
-    └── restore           (protected)
+    ├── getEntityRevisions (protected) - Get revisions for entity
+    ├── getById           (protected) - Get revision by ID
+    ├── getRecent         (protected) - Get recent revisions
+    ├── stats             (protected) - Revision statistics
+    ├── compare           (protected) - Compare two revisions
+    └── getSnapshot       (protected) - Get snapshot for restore
 ```
 
 ### Procedure Types
@@ -330,12 +337,28 @@ export class ProjectService {
 // siteConfig table (single row)
 {
   id: uuid PK
+  theme: string             // 'light', 'dark', 'system'
+  accentColor: string       // Hex color (#2563eb)
+  // Hero Section
   heroTagline: string
+  heroHeadline: string
+  heroEmphasisWord: string
+  heroSubhead: string
+  heroShowResume: boolean
+  // Section Visibility
+  showFeaturedProjects: boolean
+  showExperience: boolean
+  showSkills: boolean
+  showAbout: boolean
+  showContact: boolean
+  // SEO
   metaDescription: string
   ogImageUrl: string nullable
-  accentColor: string
-  resumeUrl: string nullable
-  updatedAt: timestamp
+  // Footer
+  footerCopyright: string
+  footerTagline: string
+  // Section Order
+  sectionOrder: jsonb       // Array of section keys
 }
 
 // users table

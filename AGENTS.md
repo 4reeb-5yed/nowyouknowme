@@ -34,6 +34,7 @@ A full-stack portfolio web application with a built-in CMS dashboard built with:
 - **Experiences**: `id`, `companyName`, `roleTitle`, `startDate`, `endDate`, `description`, `techStack`, `displayOrder`, `isVisible`
 - **Sections**: `id`, `key` (e.g., 'about', 'skills'), `title`, `content`
 - **SocialLinks**: `id`, `platform`, `url`, `displayOrder`, `isVisible`
+- **SiteConfig**: `id`, `theme`, `accentColor`, `heroTagline`, `heroHeadline`, `heroEmphasisWord`, `heroSubhead`, `heroShowResume`, `showFeaturedProjects`, `showExperience`, `showSkills`, `showAbout`, `showContact`, `metaDescription`, `ogImageUrl`, `footerCopyright`, `footerTagline`, `sectionOrder`
 
 ### 4. Service Layer Pattern
 All business logic lives in services at `src/server/services/`:

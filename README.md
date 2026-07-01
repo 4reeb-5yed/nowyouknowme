@@ -59,14 +59,15 @@ Admin-only interface at `/admin/login` with full content management:
 | Section | Route | Features |
 |---------|-------|----------|
 | Dashboard | `/admin/dashboard` | Stats overview, recent activity, quick actions |
+| Site Settings | `/admin/site-settings` | Hero, homepage sections, SEO, footer configuration |
 | Projects | `/admin/projects` | CRUD, drag-and-drop reordering, featured toggle, category management |
 | Experience | `/admin/experience` | Timeline CRUD with tech stack tags |
 | Certifications | `/admin/certifications` | Credential management with verification links |
-| Pages | `/admin/pages` | Section content editor (About, Skills, Hero tagline) |
+| Pages | `/admin/pages` | Section content editor (About, Skills) |
 | Social Links | `/admin/social-links` | Social platform link management |
 | Resume | `/admin/resume` | PDF upload via R2, activate/deactivate |
 | Media | `/admin/media` | File management (images, documents) |
-| Site Config | `/admin/site-config` | Theme colors, SEO metadata, site branding |
+| Site Config | `/admin/site-config` | Theme colors, advanced settings |
 | Revisions | `/admin/revisions` | Version history with restore capability |
 
 **Admin Features:**
@@ -491,14 +492,9 @@ Require authentication (used by CMS dashboard):
 | `sections` | CMS content sections (key, title, content) |
 | `socialLinks` | Social media links (platform, url, displayOrder, isVisible) |
 | `resumes` | Resume files (title, fileUrl, isActive) |
-| `siteConfig` | Single-row site settings (metaDescription, accentColor, etc.) |
-
-### Audit Tables
-
-| Table | Description |
-|-------|-------------|
-| `activityLog` | Tracks all content changes |
-| `revisions` | Stores previous versions for restore |
+| `siteConfig` | Single-row site settings (hero, section visibility, SEO, footer, section order) |
+| `activity_logs` | Change tracking for all content modifications |
+| `revisions` | Version history for content restore |
 
 ---
 
