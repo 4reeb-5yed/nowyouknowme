@@ -116,12 +116,9 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
+      {/* Clean background */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
       </div>
 
       <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16 lg:py-20">

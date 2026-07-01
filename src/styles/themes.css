@@ -738,59 +738,24 @@ button:disabled {
   z-index: -1;
 }
 
-/* Section with aurora background */
+/* Section with aurora background - DISABLED */
 .section-aurora {
   position: relative;
   overflow: hidden;
 }
 
-.section-aurora .aurora-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+.section-aurora .aurora-container,
+.section-aurora .aurora,
+.section-aurora .aurora-1,
+.section-aurora .aurora-2,
+.section-aurora .aurora-3 {
+  display: none;
 }
 
-.section-aurora .aurora-container .aurora {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-}
-
-.section-aurora .aurora-container .aurora-1 {
-  width: 60vmax;
-  height: 60vmax;
-  left: -20%;
-  top: 10%;
-}
-
-.section-aurora .aurora-container .aurora-2 {
-  width: 50vmax;
-  height: 50vmax;
-  right: -15%;
-  bottom: 20%;
-}
-
-.section-aurora .aurora-container .aurora-3 {
-  width: 40vmax;
-  height: 40vmax;
-  left: 30%;
-  top: 50%;
-}
-
-/* Particles container */
-.particles-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
+/* Particles container - DISABLED */
+.particles-container,
 .particles-container .particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
+  display: none;
 }
 
 /* ==========================================================================

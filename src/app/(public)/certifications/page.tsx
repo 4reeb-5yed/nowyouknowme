@@ -58,12 +58,9 @@ export default async function CertificationsPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Premium animated background */}
+      {/* Clean background */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-section" />
-        <div className="aurora aurora-1" />
-        <div className="aurora aurora-2" />
-        <div className="aurora aurora-3" />
       </div>
 
       <div className="container mx-auto px-4 py-24 md:py-32">
