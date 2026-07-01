@@ -12,10 +12,15 @@ export const activityLogRouter = createTRPCRouter({
       entityType: z.string().optional(),
     }).optional())
     .query(async ({ input }) => {
-      return activityLogService.getRecentActivity({
-        limit: input?.limit,
-        entityType: input?.entityType,
-      });
+      try {
+        return await activityLogService.getRecentActivity({
+          limit: input?.limit,
+          entityType: input?.entityType,
+        });
+      } catch (error) {
+        console.error("[activity-log.list] Error:", error);
+        return []; // Return empty array on error instead of crashing
+      }
     }),
 
   /**
@@ -26,7 +31,12 @@ export const activityLogRouter = createTRPCRouter({
       days: z.number().min(1).max(365).optional().default(7),
     }).optional())
     .query(async ({ input }) => {
-      return activityLogService.getActivityStats(input?.days);
+      try {
+        return await activityLogService.getActivityStats(input?.days);
+      } catch (error) {
+        console.error("[activity-log.stats] Error:", error);
+        return { totalChanges: 0, byDay: {}, byType: {}, byAction: {} };
+      }
     }),
 
   /**
@@ -37,7 +47,12 @@ export const activityLogRouter = createTRPCRouter({
       query: z.string().min(1),
     }))
     .query(async ({ input }) => {
-      return activityLogService.searchActivityLogs(input.query);
+      try {
+        return await activityLogService.searchActivityLogs(input.query);
+      } catch (error) {
+        console.error("[activity-log.search] Error:", error);
+        return [];
+      }
     }),
 
   /**
@@ -48,6 +63,11 @@ export const activityLogRouter = createTRPCRouter({
       entityId: z.string(),
     }))
     .query(async ({ input }) => {
-      return activityLogService.getEntityHistory(input.entityId);
+      try {
+        return await activityLogService.getEntityHistory(input.entityId);
+      } catch (error) {
+        console.error("[activity-log.getEntityHistory] Error:", error);
+        return [];
+      }
     }),
 });
