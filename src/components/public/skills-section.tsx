@@ -61,8 +61,24 @@ export function SkillsSection() {
   if (skillsSection?.content) {
     try {
       const parsed = JSON.parse(skillsSection.content);
+      // Validate that parsed data is an array with proper structure
       if (Array.isArray(parsed) && parsed.length > 0) {
-        skillClusters = parsed;
+        skillClusters = parsed
+          .filter((cluster): cluster is SkillCluster => 
+            cluster !== null && 
+            typeof cluster === 'object' && 
+            typeof cluster.name === 'string' &&
+            Array.isArray(cluster.skills)
+          )
+          .map(cluster => ({
+            name: cluster.name,
+            skills: cluster.skills ?? []
+          }));
+        
+        // Fall back to defaults if no valid clusters after filtering
+        if (skillClusters.length === 0) {
+          skillClusters = defaultSkills;
+        }
       }
     } catch {
       // Use default skills if parsing fails
@@ -86,7 +102,7 @@ export function SkillsSection() {
             <div key={cluster.name} className="skills-cluster">
               <p className="skills-cluster__label">{cluster.name}</p>
               <ul className="skills-cluster__list">
-                {cluster.skills.map((skill) => (
+                {(cluster.skills ?? []).map((skill) => (
                   <li key={skill}>
                     <span className="skill-pill">{skill}</span>
                   </li>
