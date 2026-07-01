@@ -82,11 +82,11 @@ export function Hero({
       {/* Background gradient */}
       <div className="hero__gradient" aria-hidden="true" />
 
-      {/* Subtle geometric decoration */}
+      {/* Subtle watermark-style decoration */}
       <div className="hero__decoration" aria-hidden="true">
-        <div className="hero__decoration-circle hero__decoration-circle--1" />
-        <div className="hero__decoration-circle hero__decoration-circle--2" />
-        <div className="hero__decoration-grid" />
+        <div className="hero__watermark-text">Portfolio</div>
+        <div className="hero__watermark-gradient" />
+        <div className="hero__grid-overlay" />
       </div>
 
       {/* Content */}

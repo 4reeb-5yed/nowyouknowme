@@ -502,47 +502,13 @@ input, textarea, select {
   }
 }
 
-/* Alternating backgrounds with subtle accents */
+/* Alternating backgrounds */
 .section--canvas {
-  position: relative;
   background-color: var(--bg-canvas);
 }
 
-/* Subtle accent gradient overlay for canvas sections */
-.section--canvas::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 200px;
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--accent) 3%, transparent) 0%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
 .section--surface {
-  position: relative;
   background-color: var(--bg-surface);
-}
-
-/* Subtle accent gradient overlay for surface sections */
-.section--surface::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 200px;
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--accent) 4%, transparent) 0%,
-    transparent 100%
-  );
-  pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -833,7 +799,7 @@ input, textarea, select {
   pointer-events: none;
 }
 
-/* Subtle geometric decorations */
+/* Subtle watermark-style decoration */
 .hero__decoration {
   position: absolute;
   inset: 0;
@@ -841,62 +807,44 @@ input, textarea, select {
   pointer-events: none;
 }
 
-/* Soft gradient circles */
-.hero__decoration-circle {
+/* Soft watermark text */
+.hero__watermark-text {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
-  animation: float 20s ease-in-out infinite;
+  right: -5%;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  font-family: var(--font-mono);
+  font-size: clamp(6rem, 15vw, 12rem);
+  font-weight: 400;
+  color: var(--ink-tertiary);
+  opacity: 0.04;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  user-select: none;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-30px) scale(1.05);
-  }
-}
-
-.hero__decoration-circle--1 {
-  width: 600px;
-  height: 600px;
-  top: -200px;
-  right: -100px;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-  animation-delay: 0s;
-}
-
-.hero__decoration-circle--2 {
-  width: 400px;
-  height: 400px;
-  bottom: -100px;
-  left: -100px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 60%, transparent) 0%, transparent 70%);
-  animation-delay: -10s;
-}
-
-/* Subtle dot grid pattern */
-.hero__decoration-grid {
+/* Subtle diagonal gradient */
+.hero__watermark-gradient {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    color-mix(in srgb, var(--ink-tertiary) 12%, transparent) 1px,
-    transparent 1px
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    color-mix(in srgb, var(--accent) 2%, transparent) 30%,
+    transparent 60%,
+    color-mix(in srgb, var(--accent) 3%, transparent) 100%
   );
-  background-size: 48px 48px;
-  mask-image: radial-gradient(
-    ellipse 80% 80% at 50% 50%,
-    black 0%,
-    transparent 70%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 80% at 50% 50%,
-    black 0%,
-    transparent 70%
-  );
+}
+
+/* Faint grid overlay */
+.hero__grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--line-hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-hairline) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.03;
 }
 
 /* Hero Watermark (removed - replaced with decorations) */
