@@ -79,15 +79,8 @@ export function Hero({
 
   return (
     <section className="hero" aria-labelledby="hero-headline">
-      {/* Background gradient */}
-      <div className="hero__gradient" aria-hidden="true" />
-
-      {/* Subtle watermark-style decoration */}
-      <div className="hero__decoration" aria-hidden="true">
-        <div className="hero__watermark-text">Portfolio</div>
-        <div className="hero__watermark-gradient" />
-        <div className="hero__grid-overlay" />
-      </div>
+      {/* Subtle design background */}
+      <div className="hero__design" aria-hidden="true" />
 
       {/* Content */}
       <div ref={contentRef} className="hero__content container">

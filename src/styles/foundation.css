@@ -790,61 +790,45 @@ input, textarea, select {
 .hero__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    var(--bg-canvas) 0%,
-    color-mix(in srgb, var(--bg-canvas) 95%, var(--accent) 5%) 50%,
-    var(--bg-canvas) 100%
-  );
+  background: var(--bg-canvas);
   pointer-events: none;
 }
 
-/* Subtle watermark-style decoration */
-.hero__decoration {
+/* Subtle smooth design background */
+.hero__design {
   position: absolute;
   inset: 0;
-  overflow: hidden;
   pointer-events: none;
 }
 
-/* Soft watermark text */
-.hero__watermark-text {
+/* Soft radial gradient from corner */
+.hero__design::before {
+  content: "";
   position: absolute;
-  right: -5%;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  font-family: var(--font-mono);
-  font-size: clamp(6rem, 15vw, 12rem);
-  font-weight: 400;
-  color: var(--ink-tertiary);
-  opacity: 0.04;
-  white-space: nowrap;
-  letter-spacing: 0.1em;
-  user-select: none;
-}
-
-/* Subtle diagonal gradient */
-.hero__watermark-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    color-mix(in srgb, var(--accent) 2%, transparent) 30%,
-    transparent 60%,
-    color-mix(in srgb, var(--accent) 3%, transparent) 100%
+  top: 0;
+  right: 0;
+  width: 70%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse 80% 60% at 100% 0%,
+    var(--bg-surface) 0%,
+    transparent 70%
   );
 }
 
-/* Faint grid overlay */
-.hero__grid-overlay {
+/* Subtle bottom gradient */
+.hero__design::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(var(--line-hairline) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-hairline) 1px, transparent 1px);
-  background-size: 80px 80px;
-  opacity: 0.03;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 40%;
+  background: radial-gradient(
+    ellipse 60% 100% at 0% 100%,
+    color-mix(in srgb, var(--bg-surface) 50%, transparent) 0%,
+    transparent 70%
+  );
 }
 
 /* Hero Watermark (removed - replaced with decorations) */
