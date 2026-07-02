@@ -58,11 +58,16 @@ export default function AdminLayout({
   // Live preview state
   const [previewKey, setPreviewKey] = useState(0);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("/");
+
+  // Set preview URL on client side
+  useEffect(() => {
+    setPreviewUrl(`${window.location.protocol}//${window.location.host}/`);
+  }, []);
 
   const openPreview = useCallback(() => setIsPreviewOpen(true), []);
   const closePreview = useCallback(() => setIsPreviewOpen(false), []);
   const refreshPreview = useCallback(() => setPreviewKey((k) => k + 1), []);
-  const generatePreviewUrl = useCallback(() => "/", []);
 
   // Don't render the sidebar shell for the login page
   if (pathname === "/admin/login") {
@@ -251,7 +256,7 @@ export default function AdminLayout({
 
         {/* Live Preview Modal */}
         <LivePreview
-          url={generatePreviewUrl()}
+          url={previewUrl}
           isActive={isPreviewOpen}
           onClose={closePreview}
           onRefresh={refreshPreview}

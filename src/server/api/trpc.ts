@@ -11,12 +11,15 @@ import { ZodError } from "zod";
 
 import { auth } from "@/lib/auth";
 import { db } from "@/server/db";
+import type { NextRequest } from "next/server";
 
 /**
  * Context available to all tRPC procedures.
  * Provides session (from NextAuth `auth()`) and the Drizzle database client.
  */
-export const createTRPCContext = async (opts: { headers: Headers }) => {
+export const createTRPCContext = async (opts: { headers: Headers; req?: NextRequest }) => {
+  // For Next.js App Router, we need to pass the request to auth()
+  // This allows NextAuth v5 to properly read cookies
   const session = await auth();
 
   return {
@@ -64,7 +67,10 @@ export const publicProcedure = t.procedure;
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session?.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ 
+      code: "UNAUTHORIZED",
+      message: "You must be logged in to perform this action"
+    });
   }
   return next({
     ctx: {
